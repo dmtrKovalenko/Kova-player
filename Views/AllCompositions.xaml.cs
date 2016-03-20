@@ -27,8 +27,8 @@ namespace Kova.Views
          public AllCompositions()
         {
             InitializeComponent();
-            Composititons.SelectionChanged += Composititons_Selected;
-            Composititons.Loaded += Loded;
+      //      Composititons.SelectionChanged += Composititons_Selected;
+    //        Composititons.Loaded += Loded;
         }
 
         private void Loded(object sender, RoutedEventArgs e)

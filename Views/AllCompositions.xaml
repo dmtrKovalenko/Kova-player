@@ -5,10 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kova.Views"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             mc:Ignorable="d"  d:DesignWidth="774" d:DesignHeight="334">
+             mc:Ignorable="d"  d:DesignWidth="774" d:DesignHeight="334"
+             DataContext="{Binding AllCompositions, Source={StaticResource Locator}}">
+    
     <Grid Margin="0,0,0,0">
         <ListView x:Name="Composititons" Margin="38,8,28,5"
                           BorderThickness="0" FontSize="15"
+                          ItemsSource="{Binding Songs}"
                           Style="{StaticResource VirtualisedMetroListView}">
             <ListView.View>
                 <GridView>
@@ -20,9 +23,9 @@
             </ListView.View>
         </ListView>
         <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
-                 Margin="0,0,741,293" Click="Button_Click"
-                 Height="33" VerticalAlignment="Bottom" 
-                 HorizontalAlignment="Right" Width="33">
+                 Margin="0,-40,737,337" Command="{Binding AddMusicFolderCommand}"
+                 Height="37" VerticalAlignment="Bottom" 
+                 HorizontalAlignment="Right" Width="37">
             <Rectangle Width="20"
                                Height="20"
                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GalaSoft.MvvmLight;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Kova
 {
-    public class Song : IEquatable<Song>
-    {
+    public class Song : IEquatable<Song> 
+    { 
         public string OriginalPath { get; protected set; }
 
         public string Album { get; set; }

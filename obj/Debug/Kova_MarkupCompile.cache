@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-D:\Proj\Kova\obj\Debug\
+D:\KovaPlayer\obj\Debug\
 Kova
 none
 false
 CODE_ANALYSIS;DEBUG;TRACE
-D:\Proj\Kova\App.xaml
+D:\KovaPlayer\App.xaml
 8-1873724963
 
-231565761244
-74518016589
+24-671622576
+741287950966
 MainWindow.xaml;NAudioCore\Visualisation\ExpressionLight.xaml;Views\Albums.xaml;Views\AllCompositions.xaml;Views\MediaControl.xaml;Views\NowPlaying.xaml;Resources\Icons.xaml;Skins\MainSkin.xaml;
 
 False

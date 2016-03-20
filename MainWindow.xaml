@@ -12,7 +12,7 @@
         Height="527.072"
         Width="783.978"
         Title="Kova"
-        DataContext="{Binding Main, Source={StaticResource Locator}}">
+        DataContext="{Binding AllCompositions, Source={StaticResource Locator}}">
 
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
