@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Persons xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Person>
+  <Id>1</Id>
+    <Name>Shaun Deeb</Name>
+    <PokerStars>shaundeeb</PokerStars>
+    <FullTiltPoker>tedsfishfry</FullTiltPoker>
+    <LinkPF>http://www.pocketfives.com/profiles/shaundeeb</LinkPF>
+ </Person>
+ <Person>
+    <Id>2</Id>
+    <Name>Chris Moorman</Name>
+    <PokerStars>Moorman1</PokerStars>
+    <FullTiltPoker>MoormanI</FullTiltPoker>
+    <LinkPF>http://www.pocketfives.com/profiles/moorman1</LinkPF>
+ </Person>
+ <Person>
+    <Id>3</Id>
+    <Name>David Sands</Name>
+    <PokerStars>SexSeen</PokerStars>
+    <FullTiltPoker>Doc Sands</FullTiltPoker>
+    <LinkPF>http://www.pocketfives.com/profiles/Doc+Sands</LinkPF>
+</Person>
+</Persons>

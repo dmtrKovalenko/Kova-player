@@ -1,0 +1,73 @@
+﻿<Controls:MetroWindow x:Class="Kova.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:Views ="clr-namespace:Kova.Views"
+        Icon="animals (3).png"
+        GlowBrush="{DynamicResource AccentColorBrush}"       
+        mc:Ignorable="d ignore"     
+        xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        Height="527.072"
+        Width="783.978"
+        Title="Kova"
+        DataContext="{Binding Main, Source={StaticResource Locator}}">
+
+    <Controls:MetroWindow.LeftWindowCommands>
+        <Controls:WindowCommands>
+            <Button>
+                <Rectangle Width="22"
+                           Height="22"
+                           Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_github}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.LeftWindowCommands>
+
+    <Controls:MetroWindow.RightWindowCommands>
+        <Controls:WindowCommands>
+            <Button Content="settings" />
+            <Button>
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <VisualBrush Visual="{StaticResource appbar_add}" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <TextBox Width="123"></TextBox>
+                </StackPanel>
+            </Button>
+        </Controls:WindowCommands>
+    </Controls:MetroWindow.RightWindowCommands>
+
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="101*"/>
+            <RowDefinition Height="23*"/>
+        </Grid.RowDefinitions>
+        <Controls:MetroAnimatedSingleRowTabControl x:Name="MainTabControl" SelectedItem="AllComposition" Grid.RowSpan="2">
+            <TabItem Header="NowPlaying" RenderTransformOrigin="0.573,1.39" Height="44" Width="155">
+                <Views:NowPlaying DataContext="{Binding}" Margin="0,0,11,76" />
+            </TabItem>
+            <TabItem x:Name="AllComposition" Header="All compositions" RenderTransformOrigin="0.573,1.39" Height="44" Width="206">
+                <Views:AllCompositions DataContext="{Binding}" Margin="42,10,156,96" />
+            </TabItem>
+            <TabItem Header="Albums" RenderTransformOrigin="0.573,1.39" Height="44" Width="103">
+                <Views:Albums DataContext="{Binding}" Margin="0,0,0,97" />
+            </TabItem>
+            <TabItem Header="Artisits" RenderTransformOrigin="0.573,1.39" Height="44" Width="93">
+                <Views:Albums DataContext="{Binding}" Margin="0,0,0,97" />
+            </TabItem>
+        </Controls:MetroAnimatedSingleRowTabControl>
+
+        <Views:MediaControl
+            Grid.Row="1" 
+            Height="78"
+            VerticalAlignment="Bottom"/>
+    </Grid>
+</Controls:MetroWindow>
+    

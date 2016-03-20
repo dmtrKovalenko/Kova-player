@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Kova.Views.AllCompositions"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Kova.Views"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" Width="564.607" Height="345.506">
+    <Grid Margin="0,0,-96,-49">
+        <ListView x:Name="Composititons" Margin="0,0,50,51"
+                          BorderThickness="0"
+                          Style="{StaticResource VirtualisedMetroListView}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding ArtistId}" Header="ID" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="artist" />
+                    <GridViewColumn DisplayMemberBinding="{Binding}" Width="100" Header="name"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding}" Header="genre"/>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button Width="50"
+                        Height="50"
+                        Style="{DynamicResource MetroCircleButtonStyle}" Margin="611,-15,0,360" VerticalAlignment="Bottom" Click="Button_Click">
+        <Rectangle Width="20"
+                               Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+            <Rectangle.OpacityMask>
+                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
+            </Rectangle.OpacityMask>
+        </Rectangle>
+        </Button>
+    </Grid>
+</UserControl>
