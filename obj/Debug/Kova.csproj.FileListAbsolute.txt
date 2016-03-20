@@ -50,3 +50,6 @@ D:\Proj\Kova\obj\Debug\Views\MediaControl.baml
 D:\Proj\Kova\obj\Debug\Views\NowPlaying.baml
 D:\Proj\Kova\obj\Debug\Views\AllCompositions.g.cs
 D:\Proj\Kova\obj\Debug\Views\AllCompositions.baml
+D:\KovaPlayer\bin\Debug\Kova.exe.config
+D:\KovaPlayer\obj\Debug\Kova.exe
+D:\KovaPlayer\obj\Debug\Kova.pdb

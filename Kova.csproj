@@ -106,6 +106,8 @@
     <Compile Include="NAudioCore\SpectrumAnalyzer.cs" />
     <Compile Include="NAudioCore\Visualisation\ReflectionControl.cs" />
     <Compile Include="NAudioCore\Visualisation\UIHelper.cs" />
+    <Compile Include="Song.cs" />
+    <Compile Include="UserSettings.cs" />
     <Compile Include="Views\Albums.xaml.cs">
       <DependentUpon>Albums.xaml</DependentUpon>
     </Compile>
@@ -198,11 +200,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="animals %283%29.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Persons.xml">
-      <Generator>MSBuild:Compile</Generator>
-    </Resource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

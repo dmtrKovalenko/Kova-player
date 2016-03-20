@@ -53,8 +53,8 @@
             <TabItem Header="NowPlaying" RenderTransformOrigin="0.573,1.39" Height="44" Width="155">
                 <Views:NowPlaying DataContext="{Binding}" Margin="0,0,11,76" />
             </TabItem>
-            <TabItem x:Name="AllComposition" Header="All compositions" RenderTransformOrigin="0.573,1.39" Height="44" Width="206">
-                <Views:AllCompositions DataContext="{Binding}" Margin="42,10,156,96" />
+            <TabItem x:Name="AllComposition" Header="All compositions" >
+                <Views:AllCompositions DataContext="{Binding}" Margin="3,3,-1,74" RenderTransformOrigin="0.5,0.5" />
             </TabItem>
             <TabItem Header="Albums" RenderTransformOrigin="0.573,1.39" Height="44" Width="103">
                 <Views:Albums DataContext="{Binding}" Margin="0,0,0,97" />

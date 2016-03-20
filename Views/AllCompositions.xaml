@@ -5,31 +5,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kova.Views"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             mc:Ignorable="d" Width="564.607" Height="345.506">
-    <Grid Margin="0,0,-96,-49">
-        <ListView x:Name="Composititons" Margin="0,0,50,51"
-                          BorderThickness="0"
+             mc:Ignorable="d"  d:DesignWidth="774" d:DesignHeight="334">
+    <Grid Margin="0,0,0,0">
+        <ListView x:Name="Composititons" Margin="38,8,28,5"
+                          BorderThickness="0" FontSize="15"
                           Style="{StaticResource VirtualisedMetroListView}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding ArtistId}" Header="ID" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Name}" Header="artist" />
-                    <GridViewColumn DisplayMemberBinding="{Binding}" Width="100" Header="name"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding}" Header="genre"/>
-
+                    <GridViewColumn DisplayMemberBinding="{Binding Artist}" Header="artist" />
+                    <GridViewColumn DisplayMemberBinding="{Binding Title}"  Header="name"/>
+                    <GridViewColumn DisplayMemberBinding="{Binding Genre}" Header="genre"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Width="50"
-                        Height="50"
-                        Style="{DynamicResource MetroCircleButtonStyle}" Margin="611,-15,0,360" VerticalAlignment="Bottom" Click="Button_Click">
-        <Rectangle Width="20"
+        <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
+                 Margin="0,0,741,293" Click="Button_Click"
+                 Height="33" VerticalAlignment="Bottom" 
+                 HorizontalAlignment="Right" Width="33">
+            <Rectangle Width="20"
                                Height="20"
                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-            <Rectangle.OpacityMask>
-                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
-            </Rectangle.OpacityMask>
-        </Rectangle>
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
         </Button>
     </Grid>
 </UserControl>

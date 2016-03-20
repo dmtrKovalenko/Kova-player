@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Kova.NAudioCore;
+using Kova;
 
 namespace Kova.Views
 {
@@ -22,11 +23,23 @@ namespace Kova.Views
     /// </summary>
     public partial class AllCompositions : UserControl
     {
-        string[] fullfilesPat;
-        public AllCompositions()
+         List<Song> FullDataPath1;
+         public AllCompositions()
         {
             InitializeComponent();
             Composititons.SelectionChanged += Composititons_Selected;
+            Composititons.Loaded += Loded;
+        }
+
+        private void Loded(object sender, RoutedEventArgs e)
+        {
+            string[] FullDataPath = Directory.GetFiles(Properties.Settings.Default.MusicFolderPath, "*.mp3*", SearchOption.AllDirectories);
+            FullDataPath1 = new List<Song>(FullDataPath.Length);
+            for (int i = 0; i < FullDataPath.Length; i++)
+            {
+                FullDataPath1.Add(new Song(FullDataPath[i]));
+            }
+            Composititons.ItemsSource = FullDataPath1;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -35,14 +48,21 @@ namespace Kova.Views
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
-                fullfilesPat = Directory.GetFiles(dialog.SelectedPath, "*.mp3*", SearchOption.AllDirectories);
-                Composititons.ItemsSource = fullfilesPat;
+                Properties.Settings.Default.MusicFolderPath = dialog.SelectedPath;
+                Properties.Settings.Default.Save();
+                string []FullDataPath = Directory.GetFiles(dialog.SelectedPath, "*.mp3*", SearchOption.AllDirectories);
+                FullDataPath1 = new List<Song>(FullDataPath.Length);
+                for(int i=0; i<FullDataPath.Length; i++)
+                {
+                    FullDataPath1.Add(new Song(FullDataPath[i]));
+                }
+                Composititons.ItemsSource = FullDataPath1;
             }
         }
 
         private void Composititons_Selected(object sender, RoutedEventArgs e)
         {
-            NAudioEngine.Instance.OpenFile(fullfilesPat[Composititons.SelectedIndex]);
+            NAudioEngine.Instance.OpenFile(FullDataPath1[Composititons.SelectedIndex].OriginalPath);
             NAudioEngine.Instance.Play();
         }
     }
