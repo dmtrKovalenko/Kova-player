@@ -4,18 +4,26 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kova.Views"
+              xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              mc:Ignorable="d"  d:DesignWidth="774" d:DesignHeight="334"
              DataContext="{Binding AllCompositions, Source={StaticResource Locator}}">
-    
     <Grid Margin="0,0,0,0">
         <ListView x:Name="Composititons" Margin="38,8,28,5"
                           BorderThickness="0" FontSize="15"
-                          ItemsSource="{Binding Songs}"
+                          ItemsSource="{Binding Songs}" 
+                          SelectedIndex="0"
+                          SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
                           Style="{StaticResource VirtualisedMetroListView}">
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <cmd:EventToCommand Command="{Binding CurrentSongChangedCommand, Mode=OneWay}"
+                                                MustToggleIsEnabledValue="True" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding ArtistId}" Header="ID" />
                     <GridViewColumn DisplayMemberBinding="{Binding Artist}" Header="artist" />
                     <GridViewColumn DisplayMemberBinding="{Binding Title}"  Header="name"/>
                     <GridViewColumn DisplayMemberBinding="{Binding Genre}" Header="genre"/>

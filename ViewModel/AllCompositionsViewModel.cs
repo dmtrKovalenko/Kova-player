@@ -10,17 +10,24 @@ using GalaSoft.MvvmLight.Messaging;
 using System.IO;
 using Kova;
 using System.Collections.ObjectModel;
+using Kova.NAudioCore;
 
 namespace Kova.ViewModel
 {
     public class AllCompositionsViewModel : ViewModelBase
     {
         private ObservableCollection<Song> _songs = new ObservableCollection<Song>();
+        private Song _currentSong;
+
         public RelayCommand AddMusicFolderCommand { get; private set; }
+        public RelayCommand LoadMusicPathCommand { get; private set; }
+        public RelayCommand CurrentSongChangedCommand { get; private set; }
 
         public AllCompositionsViewModel()
         {
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
+            LoadMusicPathCommand = new RelayCommand(LoadMusicPath);
+            CurrentSongChangedCommand = new RelayCommand(CurrentSongChanged);
         }
 
         public ObservableCollection<Song> Songs
@@ -33,6 +40,19 @@ namespace Kova.ViewModel
             {
                 _songs = value;
                 RaisePropertyChanged(nameof(Songs));
+            }
+        }
+
+        public Song CurrentSong
+        {
+            get
+            {
+                return _currentSong;
+            }
+            set
+            {
+                _currentSong = value;
+                RaisePropertyChanged(nameof(CurrentSong));
             }
         }
 
@@ -51,6 +71,22 @@ namespace Kova.ViewModel
                     Songs.Add(new Song(FullDataPath[i]));
                 }
             }
+        }
+        
+        private void LoadMusicPath()
+        {
+            string[] FullDataPath = Directory.GetFiles(Properties.Settings.Default.MusicFolderPath, "*.mp3*", SearchOption.AllDirectories);
+
+            for (int i = 0; i < FullDataPath.Length; i++)
+            {
+                Songs.Add(new Song(FullDataPath[i]));
+            }
+        }
+
+        private void CurrentSongChanged()
+        {
+            NAudioEngine.Instance.OpenFile(CurrentSong.OriginalPath);
+            NAudioEngine.Instance.Play();
         }
     }
 }

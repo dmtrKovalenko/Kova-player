@@ -4,6 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:ignore="http://www.galasoft.ch/ignore"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
         xmlns:Views ="clr-namespace:Kova.Views"
         Icon="animals (3).png"
         GlowBrush="{DynamicResource AccentColorBrush}"       
@@ -12,8 +14,15 @@
         Height="527.072"
         Width="783.978"
         Title="Kova"
+                      
         DataContext="{Binding AllCompositions, Source={StaticResource Locator}}">
 
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <cmd:EventToCommand Command="{Binding LoadMusicPathCommand, Mode=OneWay}"
+                                                MustToggleIsEnabledValue="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <Button>
@@ -51,7 +60,7 @@
         </Grid.RowDefinitions>
         <Controls:MetroAnimatedSingleRowTabControl x:Name="MainTabControl" SelectedItem="AllComposition" Grid.RowSpan="2">
             <TabItem Header="NowPlaying" RenderTransformOrigin="0.573,1.39" Height="44" Width="155">
-                <Views:NowPlaying DataContext="{Binding}" Margin="0,0,11,76" />
+                <Views:NowPlaying DataContext="{Binding}" Margin="10,0,1,76" />
             </TabItem>
             <TabItem x:Name="AllComposition" Header="All compositions" >
                 <Views:AllCompositions DataContext="{Binding}" Margin="3,3,-1,74" RenderTransformOrigin="0.5,0.5" />

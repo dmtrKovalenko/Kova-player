@@ -1,4 +1,4 @@
-using GalaSoft.MvvmLight;
+﻿using GalaSoft.MvvmLight;
 
 namespace Kova.ViewModel
 {
@@ -21,14 +21,7 @@ namespace Kova.ViewModel
         /// </summary>
         public MainViewModel()
         {
-            ////if (IsInDesignMode)
-            ////{
-            ////    // Code runs in Blend --> create design time data.
-            ////}
-            ////else
-            ////{
-            ////    // Code runs "for real"
-            ////}
+
         }
     }
 }
