@@ -22,12 +22,14 @@ namespace Kova.ViewModel
         public RelayCommand AddMusicFolderCommand { get; private set; }
         public RelayCommand LoadMusicPathCommand { get; private set; }
         public RelayCommand CurrentSongChangedCommand { get; private set; }
+        public RelayCommand SeekValueChangedCommand { get; private set; }
 
         public AllCompositionsViewModel()
         {
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
             LoadMusicPathCommand = new RelayCommand(LoadMusicPath);
             CurrentSongChangedCommand = new RelayCommand(CurrentSongChanged);
+            SeekValueChangedCommand = new RelayCommand(SeekValueChanged);
         }
 
         public ObservableCollection<Song> Songs
@@ -72,7 +74,11 @@ namespace Kova.ViewModel
                 }
             }
         }
-        
+
+        private void SeekValueChanged()
+        {
+        }
+
         private void LoadMusicPath()
         {
             string[] FullDataPath = Directory.GetFiles(Properties.Settings.Default.MusicFolderPath, "*.mp3*", SearchOption.AllDirectories);

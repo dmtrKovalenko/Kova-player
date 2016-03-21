@@ -118,7 +118,7 @@
     <Compile Include="NAudioCore\SpectrumAnalyzer.cs" />
     <Compile Include="NAudioCore\Visualisation\ReflectionControl.cs" />
     <Compile Include="NAudioCore\Visualisation\UIHelper.cs" />
-    <Compile Include="Song.cs" />
+    <Compile Include="Model\Song.cs" />
     <Compile Include="UserSettings.cs" />
     <Compile Include="ViewModel\AllCompositionsViewModel.cs" />
     <Compile Include="Views\Albums.xaml.cs">

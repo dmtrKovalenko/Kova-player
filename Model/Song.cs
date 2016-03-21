@@ -30,8 +30,16 @@ namespace Kova
             var audioFile = TagLib.File.Create(this.OriginalPath);
 
             this.Album = audioFile.Tag.Album;
-            this.Artist = audioFile.Tag.FirstPerformer;
             this.Genre = audioFile.Tag.FirstGenre;
+            if (audioFile.Tag.FirstPerformer != null)
+            {
+                this.Artist = audioFile.Tag.FirstPerformer;
+            }
+            else
+            {
+                this.Artist = "Unknown Artist";
+            }
+ 
             if (audioFile.Tag.Title != null)
             {
                 this.Title = audioFile.Tag.Title;
