@@ -25,31 +25,5 @@ namespace Kova.Views
         {
             InitializeComponent();
         }
-
-        private void play_Click(object sender, RoutedEventArgs e)
-        {
-            NAudioEngine.Instance.Play();
-        }
-
-        private void pause_Click(object sender, RoutedEventArgs e)
-        {
-            NAudioEngine.Instance.Pause();
-        }
-
-        private void browse_Click(object sender, RoutedEventArgs e)
-        {
-            Open();
-        }
-
-        private void Open()
-        {
-            Microsoft.Win32.OpenFileDialog openDialog = new Microsoft.Win32.OpenFileDialog();
-            openDialog.Filter = "(*.mp3)|*.mp3";
-            if (openDialog.ShowDialog() == true)
-            {
-                NAudioEngine.Instance.OpenFile(openDialog.FileName);
-                //   FileText.Text = openDialog.FileName;
-            }
-        }
     }
 }

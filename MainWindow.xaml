@@ -63,7 +63,7 @@
                 <Views:NowPlaying DataContext="{Binding}" Margin="10,0,1,76" />
             </TabItem>
             <TabItem x:Name="AllComposition" Header="All compositions" >
-                <Views:AllCompositions DataContext="{Binding}" Margin="3,3,-1,74" RenderTransformOrigin="0.5,0.5" />
+                <Views:AllCompositions DataContext="{Binding}" Margin="3,-3,-1,80" RenderTransformOrigin="0.5,0.5" />
             </TabItem>
             <TabItem Header="Albums" RenderTransformOrigin="0.573,1.39" Height="44" Width="103">
                 <Views:Albums DataContext="{Binding}" Margin="0,0,0,97" />

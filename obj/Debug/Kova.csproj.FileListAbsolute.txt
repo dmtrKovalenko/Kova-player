@@ -102,3 +102,6 @@ D:\KovaPlayer\obj\Debug\Views\NowPlaying.baml
 D:\KovaPlayer\obj\Debug\Kova.g.resources
 D:\KovaPlayer\obj\Debug\Kova.Properties.Resources.resources
 D:\KovaPlayer\obj\Debug\Kova.csproj.GenerateResource.Cache
+D:\KovaPlayer\bin\Debug\MaterialDesignColors.dll
+D:\KovaPlayer\bin\Debug\MaterialDesignThemes.MahApps.dll
+D:\KovaPlayer\bin\Debug\MaterialDesignThemes.Wpf.dll

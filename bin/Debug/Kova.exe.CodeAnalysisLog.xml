@@ -12,14 +12,14 @@
          <Members>
           <Member Name="#Dispose(System.Boolean)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="False">
            <Messages>
-            <Message Id="_waveformGenerateWorker" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2016-03-21 08:08:40Z" FixCategory="NonBreaking">
+            <Message Id="_waveformGenerateWorker" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2016-03-21 16:44:16Z" FixCategory="NonBreaking">
              <Issue Certainty="75" Level="Warning" Path="D:\KovaPlayer\NAudioCore" File="NAudioEngine.cs" Line="69">'NAudioEngine' содержит поле 'NAudioEngine._waveformGenerateWorker' типа IDisposable: 'BackgroundWorker'. Замените метод Dispose для 'NAudioEngine' на вызов Dispose или Close по этому полю.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#waveformGenerateWorker_DoWork(System.Object,System.ComponentModel.DoWorkEventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-21 08:08:40Z" FixCategory="DependsOnFix">
+            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-21 16:44:16Z" FixCategory="DependsOnFix">
              <Issue Certainty="75" Level="Warning" Path="D:\KovaPlayer\NAudioCore" File="NAudioEngine.cs" Line="295">Объект "'waveformInputStream'" можно удалять более одного раза в методе 'NAudioEngine.waveformGenerateWorker_DoWork(object, DoWorkEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 295</Issue>
              <Issue Certainty="75" Level="Warning" Path="D:\KovaPlayer\NAudioCore" File="NAudioEngine.cs" Line="295">Объект "'waveformMp3Stream'" можно удалять более одного раза в методе 'NAudioEngine.waveformGenerateWorker_DoWork(object, DoWorkEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 295, 297, 298</Issue>
             </Message>
@@ -35,7 +35,7 @@
          <Members>
           <Member Name="#NAudioEngine_PropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-21 08:08:40Z" FixCategory="DependsOnFix">
+            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-21 16:44:16Z" FixCategory="DependsOnFix">
              <Issue Certainty="75" Level="Warning" Path="D:\KovaPlayer\Views" File="NowPlaying.xaml.cs" Line="67">Объект "'albumArtworkMemStream'" можно удалять более одного раза в методе 'NowPlaying.NAudioEngine_PropertyChanged(object, PropertyChangedEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 67</Issue>
             </Message>
            </Messages>

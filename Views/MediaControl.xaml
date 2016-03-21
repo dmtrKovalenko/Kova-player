@@ -4,12 +4,63 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Kova.Views"
-      mc:Ignorable="d" 
-      d:DesignHeight="56" d:DesignWidth="783">
+      xmlns:materialDesign="MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml"
+      mc:Ignorable="d" d:DesignWidth="783" Height="80.116">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="AccentBackground"
+                     Color="{DynamicResource AccentColor}" />
 
-    <Grid Background= "{StaticResource SpectrumBarBrush}">
-        <Button x:Name="play" Content="Play" Height="23" Margin="102,18,574,13" Click="play_Click"></Button>
-        <Button x:Name="pause" Content="pause" Height="23" Margin="340,18,335,13" Click="pause_Click"></Button>
-        <Button x:Name="browse" Content="browse" Height="23" Margin="581,18,94,13" Click="browse_Click"></Button>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="{DynamicResource AccentBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20*"/>
+            <RowDefinition Height="61*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="37*"/>
+            <ColumnDefinition Width="586*"/>
+            <ColumnDefinition Width="44*"/>
+            <ColumnDefinition Width="61*"/>
+            <ColumnDefinition Width="56*"/>
+        </Grid.ColumnDefinitions>
+        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}"
+                Margin="0,18,1,0" Grid.Column="3" Grid.RowSpan="2">
+            <Rectangle  Width="21" Margin="4,0,0,0"
+                        Height="23"
+                        Fill="White" >
+
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_play}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" Margin="60,14.5,13,2" Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1">
+            <Rectangle  Width="18" Margin="2,0,0,0"
+                        Height="14"
+                        Fill="White" >
+
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_fastforward_variant}" />
+                </Rectangle.OpacityMask>
+
+            </Rectangle>
+        </Button>
+
+        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0,14.5,0,2" Grid.Column="2" Grid.Row="1">
+            <Rectangle Width="18" Margin="0,0,0,0"
+                       Height="14"
+                       Fill="White" >
+
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_rewind_variant}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+        <Slider Minimum="0" Maximum="100"
+                    Value="0" Foreground="White" HorizontalAlignment="Center"
+                    Margin="2,3,1,0" Height="20" VerticalAlignment="Top" Width="687" Grid.ColumnSpan="3" Grid.Column="1" Grid.RowSpan="2" />
     </Grid>
 </UserControl>
