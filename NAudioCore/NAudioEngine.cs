@@ -7,10 +7,11 @@ using WPFSoundVisualizationLib;
 
 namespace Kova.NAudioCore
 {
-    class NAudioEngine : INotifyPropertyChanged, Kova.NAudioCore.ISpectrumPlayer, IDisposable
+    public class NAudioEngine : INotifyPropertyChanged, Kova.NAudioCore.ISpectrumPlayer, IDisposable
     {
         #region Fields
         private static NAudioEngine instance;
+        private readonly DispatcherTimer positionTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle);
         private readonly BackgroundWorker waveformGenerateWorker = new BackgroundWorker();
         private readonly int fftDataSize = (int)FFTDataSize.FFT2048;
         private bool disposed;
@@ -18,15 +19,18 @@ namespace Kova.NAudioCore
         private bool canPause;
         private bool canStop;
         private bool isPlaying;
-        private WaveOut waveOutDevice;
+        private bool inChannelTimerUpdate;
+        private double channelLength;
+        private double channelPosition;
+        private IWavePlayer waveOutDevice;
         private WaveStream activeStream;
         private WaveChannel32 inputStream;
-        private Aggregator sampleAggregator;
+        public AudioFileReader _audioFileReader;
+        private Aggregator _aggregator;
         private Aggregator waveformAggregator;
         private string pendingWaveformPath;
         private float[] fullLevelData;
         private TagLib.File fileTag;
-
         #endregion
 
         #region Constants
@@ -49,12 +53,13 @@ namespace Kova.NAudioCore
         #region Constructor
         private NAudioEngine()
         {
+            positionTimer.Interval = TimeSpan.FromMilliseconds(20);
+            positionTimer.Tick += positionTimer_Tick;
+
             waveformGenerateWorker.DoWork += waveformGenerateWorker_DoWork;
             waveformGenerateWorker.RunWorkerCompleted += waveformGenerateWorker_RunWorkerCompleted;
             waveformGenerateWorker.WorkerSupportsCancellation = true;
         }
-        #endregion
-
         #region IDisposable
         public void Dispose()
         {
@@ -77,10 +82,18 @@ namespace Kova.NAudioCore
         #endregion
 
         #region ISpectrumPlayer
+  
+
+        public bool GetFFTData(float[] fftDataBuffer)
+        {
+            _aggregator.GetFFTResults(fftDataBuffer);
+            return IsPlaying;
+        }
+
         public bool GetFFTData1(float[] fftDataBuffer)
         {
-            sampleAggregator.GetFFTResults(fftDataBuffer);
-            return !IsPlaying;
+            _aggregator.GetFFTResults(fftDataBuffer);
+            return IsPlaying;
         }
 
         public int GetFFTFrequencyIndex(int frequency)
@@ -91,6 +104,37 @@ namespace Kova.NAudioCore
             else
                 maxFrequency = 22050; // Assume a default 44.1 kHz sample rate.
             return (int)((frequency / maxFrequency) * (fftDataSize / 2));
+        }
+        #endregion
+
+        #region IWaveformPlayer
+   
+
+        public double ChannelLength
+        {
+            get { return channelLength; }
+            protected set
+            {
+                double oldValue = channelLength;
+                channelLength = value;
+                if (oldValue != channelLength)
+                    NotifyPropertyChanged("ChannelLength");
+            }
+        }
+
+        public double ChannelPosition
+        {
+            get { return channelPosition; }
+            set
+            {
+                  double oldValue = channelPosition;
+                  double position = Math.Max(0, Math.Min(value, ChannelLength));
+                  if (!inChannelTimerUpdate && ActiveStream != null)
+                      ActiveStream.Position = (long)((position / 100) * ActiveStream.Length);
+                  channelPosition = position;
+                  if (oldValue != channelPosition)
+                    NotifyPropertyChanged("ChannelPosition");
+            }
         }
         #endregion
 
@@ -189,10 +233,7 @@ namespace Kova.NAudioCore
                 if (readCount % 3000 == 0)
                 {
                     float[] clonedData = (float[])waveformCompressedPoints.Clone();
-                    App.Current.Dispatcher.Invoke(new Action(() =>
-                    {
 
-                    }));
                 }
 
                 if (waveformGenerateWorker.CancellationPending)
@@ -228,8 +269,8 @@ namespace Kova.NAudioCore
             {
                 inputStream.Close();
                 inputStream = null;
-                ActiveStream.Close();
-                ActiveStream = null;
+          //      ActiveStream.Close();
+              //  ActiveStream = null;
             }
             if (waveOutDevice != null)
             {
@@ -279,21 +320,30 @@ namespace Kova.NAudioCore
         {
             Stop();
 
+            if (ActiveStream != null)
+            {
+                ChannelPosition = 0;
+            }
+
             StopAndCloseStream();
 
             if (System.IO.File.Exists(path))
             {
                 try
                 {
-                    waveOutDevice = new WaveOut()
+                    waveOutDevice = new WaveOutEvent()
                     {
-                        DesiredLatency = 100
+                        DesiredLatency = 65
                     };
-                    ActiveStream = new Mp3FileReader(path);
+                    
+                    ActiveStream = new AudioFileReader(path);
                     inputStream = new WaveChannel32(ActiveStream);
-                    sampleAggregator = new Aggregator(fftDataSize);
+                    _aggregator = new Aggregator(fftDataSize);
                     inputStream.Sample += inputStream_Sample;
                     waveOutDevice.Init(inputStream);
+       //             waveOutDevice.PlaybackStopped += (sender, evn) => { throw new Exception(); };
+ 
+                    ChannelLength = inputStream.TotalTime.TotalSeconds;
                     FileTag = TagLib.File.Create(path);
                     GenerateWaveformData(path);
                     CanPlay = true;
@@ -368,7 +418,6 @@ namespace Kova.NAudioCore
             }
         }
 
-
         public bool IsPlaying
         {
             get { return isPlaying; }
@@ -378,7 +427,7 @@ namespace Kova.NAudioCore
                 isPlaying = value;
                 if (oldValue != isPlaying)
                     NotifyPropertyChanged("IsPlaying");
-
+                positionTimer.IsEnabled = value;
             }
         }
         #endregion
@@ -386,7 +435,7 @@ namespace Kova.NAudioCore
         #region Event Handlers
         private void inputStream_Sample(object sender, SampleEventArgs e)
         {
-            sampleAggregator.Add(e.Left, e.Right);
+            _aggregator.Add(e.Left, e.Right);
         }
 
         void waveStream_Sample(object sender, SampleEventArgs e)
@@ -394,9 +443,15 @@ namespace Kova.NAudioCore
             waveformAggregator.Add(e.Left, e.Right);
         }
 
-
+        void positionTimer_Tick(object sender, EventArgs e)
+        {
+            inChannelTimerUpdate = true;
+            ChannelPosition = ((double)ActiveStream.Position / (double)ActiveStream.Length) * 100;
+            inChannelTimerUpdate = false;
+        }
         #endregion
-
     }
 }
 
+
+#endregion

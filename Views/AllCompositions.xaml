@@ -16,16 +16,9 @@
         </Grid.ColumnDefinitions>
         <ListView x:Name="Composititons" Margin="0,40,33,0"
                           BorderThickness="0" FontSize="13"
-                          ItemsSource="{Binding Songs}" 
-                   
+                          ItemsSource="{Binding Songs}"
                           SelectedItem="{Binding CurrentSong, Mode=TwoWay}"
-                          Style="{StaticResource VirtualisedMetroListView}" Grid.Column="1">
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="SelectionChanged">
-                    <cmd:EventToCommand Command="{Binding CurrentSongChangedCommand, Mode=OneWay}"
-                                                MustToggleIsEnabledValue="True" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+                          Style="{StaticResource VirtualisedMetroListView}" Grid.Column="1">          
             <ListView.View>
                 <GridView>
                     <GridViewColumn DisplayMemberBinding="{Binding Artist}" Header="artist" />

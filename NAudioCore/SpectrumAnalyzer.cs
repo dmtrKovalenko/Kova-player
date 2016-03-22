@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using WPFSoundVisualizationLib;
 
 namespace Kova.NAudioCore
 {
@@ -15,28 +16,38 @@ namespace Kova.NAudioCore
     [TemplatePart(Name = "PART_SpectrumCanvas", Type = typeof(Canvas))]
     public class SpectrumAnalyzer : Control
     {
-        private readonly DispatcherTimer _animationTimer;
-        private Canvas _spectrumCanvas;
-        private ISpectrumPlayer _soundPlayer;
-        private readonly List<Shape> _barShapes = new List<Shape>();
-        private readonly List<Shape> _peakShapes = new List<Shape>();
-        private double[] _barHeights;
-        private double[] _peakHeights;
-        private float[] _channelData = new float[2048];
-        private float[] _channelPeakData;
-        private double _bandWidth = 1.0;
-        private double _barWidth = 1;
-        private int _maximumFrequencyIndex = 2047;
-        private int _minimumFrequencyIndex;
-        private int[] _barIndexMax;
-        private int[] _barLogScaleIndexMax;
+        #region Fields
+        private readonly DispatcherTimer animationTimer;
+        private Canvas spectrumCanvas;
+        private ISpectrumPlayer soundPlayer;
+        private readonly List<Shape> barShapes = new List<Shape>();
+        private readonly List<Shape> peakShapes = new List<Shape>();
+        private double[] barHeights;
+        private double[] peakHeights;
+        private float[] channelData = new float[2048];
+        private float[] channelPeakData;
+        private double bandWidth = 1.0;
+        private double barWidth = 1;
+        private int maximumFrequencyIndex = 2047;
+        private int minimumFrequencyIndex;
+        private int[] barIndexMax;
+        private int[] barLogScaleIndexMax;
+        #endregion
 
-        private const int _scaleFactorLinear = 9;
-        private const int _scaleFactorSqr = 2;
-        private const double _minDBValue = -90;
-        private const double _maxDBValue = 0;
-        private const double _dbScale = (_maxDBValue - _minDBValue);
+        #region Constants
+        private const int scaleFactorLinear = 9;
+        private const int scaleFactorSqr = 2;
+        private const double minDBValue = -90;
+        private const double maxDBValue = 0;
+        private const double dbScale = (maxDBValue - minDBValue);
+        private const int defaultUpdateInterval = 15;
+        #endregion
 
+        #region Dependency Properties
+        #region MaximumFrequency
+        /// <summary>
+        /// Identifies the <see cref="MaximumFrequency" /> dependency property. 
+        /// </summary>
         public static readonly DependencyProperty MaximumFrequencyProperty = DependencyProperty.Register("MaximumFrequency", typeof(int), typeof(SpectrumAnalyzer), new UIPropertyMetadata(20000, OnMaximumFrequencyChanged, OnCoerceMaximumFrequency));
 
         private static object OnCoerceMaximumFrequency(DependencyObject o, object value)
@@ -55,6 +66,11 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnMaximumFrequencyChanged((int)e.OldValue, (int)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="MaximumFrequency"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="MaximumFrequency"/></param>
+        /// <returns>The adjusted value of <see cref="MaximumFrequency"/></returns>
         protected virtual int OnCoerceMaximumFrequency(int value)
         {
             if ((int)value < MinimumFrequency)
@@ -62,13 +78,18 @@ namespace Kova.NAudioCore
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="MaximumFrequency"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="MaximumFrequency"/></param>
+        /// <param name="newValue">The new value of <see cref="MaximumFrequency"/></param>
         protected virtual void OnMaximumFrequencyChanged(int oldValue, int newValue)
         {
             UpdateBarLayout();
         }
 
         /// <summary>
-        /// The maximum display frequency (right side) for the spectrum analyzer.
+        /// Gets or sets the maximum display frequency (right side) for the spectrum analyzer.
         /// </summary>
         /// <remarks>In usual practice, this value should be somewhere between 0 and half of the maximum sample rate. If using
         /// the maximum sample rate, this would be roughly 22000.</remarks>
@@ -85,7 +106,12 @@ namespace Kova.NAudioCore
                 SetValue(MaximumFrequencyProperty, value);
             }
         }
+        #endregion
 
+        #region Minimum Frequency
+        /// <summary>
+        /// Identifies the <see cref="MinimumFrequency" /> dependency property. 
+        /// </summary>
         public static readonly DependencyProperty MinimumFrequencyProperty = DependencyProperty.Register("MinimumFrequency", typeof(int), typeof(SpectrumAnalyzer), new UIPropertyMetadata(20, OnMinimumFrequencyChanged, OnCoerceMinimumFrequency));
 
         private static object OnCoerceMinimumFrequency(DependencyObject o, object value)
@@ -104,6 +130,11 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnMinimumFrequencyChanged((int)e.OldValue, (int)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="MinimumFrequency"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="MinimumFrequency"/></param>
+        /// <returns>The adjusted value of <see cref="MinimumFrequency"/></returns>
         protected virtual int OnCoerceMinimumFrequency(int value)
         {
             if (value < 0)
@@ -112,13 +143,18 @@ namespace Kova.NAudioCore
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="MinimumFrequency"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="MinimumFrequency"/></param>
+        /// <param name="newValue">The new value of <see cref="MinimumFrequency"/></param>
         protected virtual void OnMinimumFrequencyChanged(int oldValue, int newValue)
         {
             UpdateBarLayout();
         }
 
         /// <summary>
-        /// The minimum display frequency (left side) for the spectrum analyzer.
+        /// Gets or sets the minimum display frequency (left side) for the spectrum analyzer.
         /// </summary>
         [Category("Common")]
         public int MinimumFrequency
@@ -134,6 +170,12 @@ namespace Kova.NAudioCore
             }
         }
 
+        #endregion
+
+        #region BarCount
+        /// <summary>
+        /// Identifies the <see cref="BarCount" /> dependency property. 
+        /// </summary>
         public static readonly DependencyProperty BarCountProperty = DependencyProperty.Register("BarCount", typeof(int), typeof(SpectrumAnalyzer), new UIPropertyMetadata(32, OnBarCountChanged, OnCoerceBarCount));
 
         private static object OnCoerceBarCount(DependencyObject o, object value)
@@ -152,19 +194,29 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnBarCountChanged((int)e.OldValue, (int)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="BarCount"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="BarCount"/></param>
+        /// <returns>The adjusted value of <see cref="BarCount"/></returns>
         protected virtual int OnCoerceBarCount(int value)
         {
             value = Math.Max(value, 1);
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="BarCount"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="BarCount"/></param>
+        /// <param name="newValue">The new value of <see cref="BarCount"/></param>
         protected virtual void OnBarCountChanged(int oldValue, int newValue)
         {
             UpdateBarLayout();
         }
 
         /// <summary>
-        /// The number of bars to show on the sprectrum analyzer.
+        /// Gets or sets the number of bars to show on the sprectrum analyzer.
         /// </summary>
         /// <remarks>A bar's width can be a minimum of 1 pixel. If the BarSpacing and BarCount property result
         /// in the bars being wider than the chart itself, the BarCount will automatically scale down.</remarks>
@@ -181,7 +233,12 @@ namespace Kova.NAudioCore
                 SetValue(BarCountProperty, value);
             }
         }
+        #endregion
 
+        #region BarSpacing
+        /// <summary>
+        /// Identifies the <see cref="BarSpacing" /> dependency property. 
+        /// </summary>
         public static readonly DependencyProperty BarSpacingProperty = DependencyProperty.Register("BarSpacing", typeof(double), typeof(SpectrumAnalyzer), new UIPropertyMetadata(5.0d, OnBarSpacingChanged, OnCoerceBarSpacing));
 
         private static object OnCoerceBarSpacing(DependencyObject o, object value)
@@ -200,19 +257,29 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnBarSpacingChanged((double)e.OldValue, (double)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="BarSpacing"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="BarSpacing"/></param>
+        /// <returns>The adjusted value of <see cref="BarSpacing"/></returns>
         protected virtual double OnCoerceBarSpacing(double value)
         {
             value = Math.Max(value, 0);
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="BarSpacing"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="BarSpacing"/></param>
+        /// <param name="newValue">The new value of <see cref="BarSpacing"/></param>
         protected virtual void OnBarSpacingChanged(double oldValue, double newValue)
         {
             UpdateBarLayout();
         }
 
         /// <summary>
-        /// The spacing, in pixels, between the bars.
+        /// Gets or sets the spacing between the bars.
         /// </summary>
         [Category("Common")]
         public double BarSpacing
@@ -227,7 +294,12 @@ namespace Kova.NAudioCore
                 SetValue(BarSpacingProperty, value);
             }
         }
+        #endregion
 
+        #region PeakFallDelay
+        /// <summary>
+        /// Identifies the <see cref="PeakFallDelay" /> dependency property. 
+        /// </summary>
         public static readonly DependencyProperty PeakFallDelayProperty = DependencyProperty.Register("PeakFallDelay", typeof(int), typeof(SpectrumAnalyzer), new UIPropertyMetadata(10, OnPeakFallDelayChanged, OnCoercePeakFallDelay));
 
         private static object OnCoercePeakFallDelay(DependencyObject o, object value)
@@ -246,21 +318,33 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnPeakFallDelayChanged((int)e.OldValue, (int)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="PeakFallDelay"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="PeakFallDelay"/></param>
+        /// <returns>The adjusted value of <see cref="PeakFallDelay"/></returns>
         protected virtual int OnCoercePeakFallDelay(int value)
         {
             value = Math.Max(value, 0);
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="PeakFallDelay"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="PeakFallDelay"/></param>
+        /// <param name="newValue">The new value of <see cref="PeakFallDelay"/></param>
         protected virtual void OnPeakFallDelayChanged(int oldValue, int newValue)
         {
 
         }
 
         /// <summary>
-        /// The delay factor for the peaks falling. This is relative to the
-        /// refresh rate of the chart.
+        /// Gets or sets the delay factor for the peaks falling.
         /// </summary>
+        /// <remarks>
+        /// The delay is relative to the refresh rate of the chart.
+        /// </remarks>
         [Category("Common")]
         public int PeakFallDelay
         {
@@ -274,7 +358,12 @@ namespace Kova.NAudioCore
                 SetValue(PeakFallDelayProperty, value);
             }
         }
+        #endregion
 
+        #region IsFrequencyScaleLinear
+        /// <summary>
+        /// Identifies the <see cref="IsFrequencyScaleLinear" /> dependency property. 
+        /// </summary>
         public static readonly DependencyProperty IsFrequencyScaleLinearProperty = DependencyProperty.Register("IsFrequencyScaleLinear", typeof(bool), typeof(SpectrumAnalyzer), new UIPropertyMetadata(false, OnIsFrequencyScaleLinearChanged, OnCoerceIsFrequencyScaleLinear));
 
         private static object OnCoerceIsFrequencyScaleLinear(DependencyObject o, object value)
@@ -293,21 +382,34 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnIsFrequencyScaleLinearChanged((bool)e.OldValue, (bool)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="IsFrequencyScaleLinear"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="IsFrequencyScaleLinear"/></param>
+        /// <returns>The adjusted value of <see cref="IsFrequencyScaleLinear"/></returns>
         protected virtual bool OnCoerceIsFrequencyScaleLinear(bool value)
         {
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="IsFrequencyScaleLinear"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="IsFrequencyScaleLinear"/></param>
+        /// <param name="newValue">The new value of <see cref="IsFrequencyScaleLinear"/></param>
         protected virtual void OnIsFrequencyScaleLinearChanged(bool oldValue, bool newValue)
         {
             UpdateBarLayout();
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the bars are layed out on a linear scale horizontally.
+        /// </summary>
+        /// <remarks>
         /// If true, the bars will represent frequency buckets on a linear scale (making them all
         /// have equal band widths on the frequency scale). Otherwise, the bars will be layed out
         /// on a logrithmic scale, with each bar having a larger bandwidth than the one previous.
-        /// </summary>
+        /// </remarks>
         [Category("Common")]
         public bool IsFrequencyScaleLinear
         {
@@ -321,7 +423,12 @@ namespace Kova.NAudioCore
                 SetValue(IsFrequencyScaleLinearProperty, value);
             }
         }
+        #endregion
 
+        #region BarHeightScaling
+        /// <summary>
+        /// Identifies the <see cref="BarHeightScaling" /> dependency property. 
+        /// </summary>
         public static readonly DependencyProperty BarHeightScalingProperty = DependencyProperty.Register("BarHeightScaling", typeof(BarHeightScalingStyles), typeof(SpectrumAnalyzer), new UIPropertyMetadata(BarHeightScalingStyles.Decibel, OnBarHeightScalingChanged, OnCoerceBarHeightScaling));
 
         private static object OnCoerceBarHeightScaling(DependencyObject o, object value)
@@ -340,19 +447,28 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnBarHeightScalingChanged((BarHeightScalingStyles)e.OldValue, (BarHeightScalingStyles)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="BarHeightScaling"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="BarHeightScaling"/></param>
+        /// <returns>The adjusted value of <see cref="BarHeightScaling"/></returns>
         protected virtual BarHeightScalingStyles OnCoerceBarHeightScaling(BarHeightScalingStyles value)
         {
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="BarHeightScaling"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="BarHeightScaling"/></param>
+        /// <param name="newValue">The new value of <see cref="BarHeightScaling"/></param>
         protected virtual void OnBarHeightScalingChanged(BarHeightScalingStyles oldValue, BarHeightScalingStyles newValue)
         {
 
         }
 
         /// <summary>
-        /// If true, the bar height will be displayed linearly with the intensity value.
-        /// Otherwise, the bars will be scaled with a square root function.
+        /// Gets or sets a value indicating to what scale the bar heights are drawn.
         /// </summary>
         [Category("Common")]
         public BarHeightScalingStyles BarHeightScaling
@@ -367,7 +483,12 @@ namespace Kova.NAudioCore
                 SetValue(BarHeightScalingProperty, value);
             }
         }
+        #endregion
 
+        #region AveragePeaks
+        /// <summary>
+        /// Identifies the <see cref="AveragePeaks" /> dependency property. 
+        /// </summary>
         public static readonly DependencyProperty AveragePeaksProperty = DependencyProperty.Register("AveragePeaks", typeof(bool), typeof(SpectrumAnalyzer), new UIPropertyMetadata(false, OnAveragePeaksChanged, OnCoerceAveragePeaks));
 
         private static object OnCoerceAveragePeaks(DependencyObject o, object value)
@@ -386,19 +507,30 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnAveragePeaksChanged((bool)e.OldValue, (bool)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="AveragePeaks"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="AveragePeaks"/></param>
+        /// <returns>The adjusted value of <see cref="AveragePeaks"/></returns>
         protected virtual bool OnCoerceAveragePeaks(bool value)
         {
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="AveragePeaks"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="AveragePeaks"/></param>
+        /// <param name="newValue">The new value of <see cref="AveragePeaks"/></param>
         protected virtual void OnAveragePeaksChanged(bool oldValue, bool newValue)
         {
 
         }
 
         /// <summary>
-        /// If true, each bar's peak value will be averaged with the previous
-        /// bar's peak. This creates a smoothing effect on the bars.
+        /// Gets or sets a value indicating whether each bar's peak 
+        /// value will be averaged with the previous bar's peak.
+        /// This creates a smoothing effect on the bars.
         /// </summary>
         [Category("Common")]
         public bool AveragePeaks
@@ -413,8 +545,13 @@ namespace Kova.NAudioCore
                 SetValue(AveragePeaksProperty, value);
             }
         }
+        #endregion
 
-        public static readonly DependencyProperty BarStyleProperty = DependencyProperty.Register("BarStyle", typeof(Style), typeof(SpectrumAnalyzer), new UIPropertyMetadata(null, new PropertyChangedCallback(OnBarStyleChanged), new CoerceValueCallback(OnCoerceBarStyle)));
+        #region BarStyle
+        /// <summary>
+        /// Identifies the <see cref="BarStyle" /> dependency property. 
+        /// </summary>
+        public static readonly DependencyProperty BarStyleProperty = DependencyProperty.Register("BarStyle", typeof(Style), typeof(SpectrumAnalyzer), new UIPropertyMetadata(null, OnBarStyleChanged, OnCoerceBarStyle));
 
         private static object OnCoerceBarStyle(DependencyObject o, object value)
         {
@@ -432,18 +569,28 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnBarStyleChanged((Style)e.OldValue, (Style)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="BarStyle"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="BarStyle"/></param>
+        /// <returns>The adjusted value of <see cref="BarStyle"/></returns>
         protected virtual Style OnCoerceBarStyle(Style value)
         {
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="BarStyle"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="BarStyle"/></param>
+        /// <param name="newValue">The new value of <see cref="BarStyle"/></param>
         protected virtual void OnBarStyleChanged(Style oldValue, Style newValue)
         {
             UpdateBarLayout();
         }
 
         /// <summary>
-        /// A style with which to draw the bars on the spectrum analyzer.
+        /// Gets or sets a style with which to draw the bars on the spectrum analyzer.
         /// </summary>
         public Style BarStyle
         {
@@ -457,8 +604,13 @@ namespace Kova.NAudioCore
                 SetValue(BarStyleProperty, value);
             }
         }
+        #endregion
 
-        public static readonly DependencyProperty PeakStyleProperty = DependencyProperty.Register("PeakStyle", typeof(Style), typeof(SpectrumAnalyzer), new UIPropertyMetadata(null, new PropertyChangedCallback(OnPeakStyleChanged), new CoerceValueCallback(OnCoercePeakStyle)));
+        #region PeakStyle
+        /// <summary>
+        /// Identifies the <see cref="PeakStyle" /> dependency property. 
+        /// </summary>
+        public static readonly DependencyProperty PeakStyleProperty = DependencyProperty.Register("PeakStyle", typeof(Style), typeof(SpectrumAnalyzer), new UIPropertyMetadata(null, OnPeakStyleChanged, OnCoercePeakStyle));
 
         private static object OnCoercePeakStyle(DependencyObject o, object value)
         {
@@ -476,20 +628,31 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnPeakStyleChanged((Style)e.OldValue, (Style)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="PeakStyle"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="PeakStyle"/></param>
+        /// <returns>The adjusted value of <see cref="PeakStyle"/></returns>
         protected virtual Style OnCoercePeakStyle(Style value)
         {
 
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="PeakStyle"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="PeakStyle"/></param>
+        /// <param name="newValue">The new value of <see cref="PeakStyle"/></param>
         protected virtual void OnPeakStyleChanged(Style oldValue, Style newValue)
         {
             UpdateBarLayout();
         }
 
         /// <summary>
-        /// A style with which to draw the falling peaks on the spectrum analyzer.
+        /// Gets or sets a style with which to draw the falling peaks on the spectrum analyzer.
         /// </summary>
+        [Category("Common")]
         public Style PeakStyle
         {
             // IMPORTANT: To maintain parity between setting a property in XAML and procedural code, do not touch the getter and setter inside this dependency property!
@@ -502,8 +665,13 @@ namespace Kova.NAudioCore
                 SetValue(PeakStyleProperty, value);
             }
         }
+        #endregion
 
-        public static readonly DependencyProperty ActualBarWidthProperty = DependencyProperty.Register("ActualBarWidth", typeof(double), typeof(SpectrumAnalyzer), new UIPropertyMetadata(0.0d, new PropertyChangedCallback(OnActualBarWidthChanged), new CoerceValueCallback(OnCoerceActualBarWidth)));
+        #region ActualBarWidth
+        /// <summary>
+        /// Identifies the <see cref="ActualBarWidth" /> dependency property. 
+        /// </summary>
+        public static readonly DependencyProperty ActualBarWidthProperty = DependencyProperty.Register("ActualBarWidth", typeof(double), typeof(SpectrumAnalyzer), new UIPropertyMetadata(0.0d, OnActualBarWidthChanged, OnCoerceActualBarWidth));
 
         private static object OnCoerceActualBarWidth(DependencyObject o, object value)
         {
@@ -521,18 +689,28 @@ namespace Kova.NAudioCore
                 spectrumAnalyzer.OnActualBarWidthChanged((double)e.OldValue, (double)e.NewValue);
         }
 
+        /// <summary>
+        /// Coerces the value of <see cref="ActualBarWidth"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="ActualBarWidth"/></param>
+        /// <returns>The adjusted value of <see cref="ActualBarWidth"/></returns>
         protected virtual double OnCoerceActualBarWidth(double value)
         {
             return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="ActualBarWidth"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="ActualBarWidth"/></param>
+        /// <param name="newValue">The new value of <see cref="ActualBarWidth"/></param>
         protected virtual void OnActualBarWidthChanged(double oldValue, double newValue)
         {
 
         }
 
         /// <summary>
-        /// The actual width that the bars will be drawn at.
+        /// Gets the actual width that the bars will be drawn at.
         /// </summary>
         public double ActualBarWidth
         {
@@ -546,49 +724,180 @@ namespace Kova.NAudioCore
                 SetValue(ActualBarWidthProperty, value);
             }
         }
+        #endregion
 
+        #region RefreshRate
         /// <summary>
-        /// The different ways that the bar height can be scaled by the spectrum analyzer.
+        /// Identifies the <see cref="RefreshInterval" /> dependency property. 
         /// </summary>
-        public enum BarHeightScalingStyles
+        public static readonly DependencyProperty RefreshIntervalProperty = DependencyProperty.Register("RefreshInterval", typeof(int), typeof(SpectrumAnalyzer), new UIPropertyMetadata(defaultUpdateInterval, OnRefreshIntervalChanged, OnCoerceRefreshInterval));
+
+        private static object OnCoerceRefreshInterval(DependencyObject o, object value)
         {
-            Decibel,
+            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
+            if (spectrumAnalyzer != null)
+                return spectrumAnalyzer.OnCoerceRefreshInterval((int)value);
+            else
+                return value;
+        }
 
-            Sqrt,
-
-            Linear
+        private static void OnRefreshIntervalChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
+            if (spectrumAnalyzer != null)
+                spectrumAnalyzer.OnRefreshIntervalChanged((int)e.OldValue, (int)e.NewValue);
         }
 
         /// <summary>
-        /// The styles that the spectrum analyzer can draw the bars.
+        /// Coerces the value of <see cref="RefreshInterval"/> when a new value is applied.
         /// </summary>
-        public enum BarDrawingStyles
+        /// <param name="value">The value that was set on <see cref="RefreshInterval"/></param>
+        /// <returns>The adjusted value of <see cref="RefreshInterval"/></returns>
+        protected virtual int OnCoerceRefreshInterval(int value)
         {
-            Square,
-
-            Rounded
+            value = Math.Min(1000, Math.Max(10, value));
+            return value;
         }
 
+        /// <summary>
+        /// Called after the <see cref="RefreshInterval"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="RefreshInterval"/></param>
+        /// <param name="newValue">The new value of <see cref="RefreshInterval"/></param>
+        protected virtual void OnRefreshIntervalChanged(int oldValue, int newValue)
+        {
+            animationTimer.Interval = TimeSpan.FromMilliseconds(newValue);
+        }
+
+        /// <summary>
+        /// Gets or sets the refresh interval, in milliseconds, of the Spectrum Analyzer.
+        /// </summary>
+        /// <remarks>
+        /// The valid range of the interval is 10 milliseconds to 1000 milliseconds.
+        /// </remarks>
+        [Category("Common")]
+        public int RefreshInterval
+        {
+            // IMPORTANT: To maintain parity between setting a property in XAML and procedural code, do not touch the getter and setter inside this dependency property!
+            get
+            {
+                return (int)GetValue(RefreshIntervalProperty);
+            }
+            set
+            {
+                SetValue(RefreshIntervalProperty, value);
+            }
+        }
+        #endregion
+
+        #region FFTComplexity
+        /// <summary>
+        /// Identifies the <see cref="FFTComplexity" /> dependency property. 
+        /// </summary>
+        public static readonly DependencyProperty FFTComplexityProperty = DependencyProperty.Register("FFTComplexity", typeof(FFTDataSize), typeof(SpectrumAnalyzer), new UIPropertyMetadata(FFTDataSize.FFT2048, OnFFTComplexityChanged, OnCoerceFFTComplexity));
+
+        private static object OnCoerceFFTComplexity(DependencyObject o, object value)
+        {
+            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
+            if (spectrumAnalyzer != null)
+                return spectrumAnalyzer.OnCoerceFFTComplexity((FFTDataSize)value);
+            else
+                return value;
+        }
+
+        private static void OnFFTComplexityChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            SpectrumAnalyzer spectrumAnalyzer = o as SpectrumAnalyzer;
+            if (spectrumAnalyzer != null)
+                spectrumAnalyzer.OnFFTComplexityChanged((FFTDataSize)e.OldValue, (FFTDataSize)e.NewValue);
+        }
+
+        /// <summary>
+        /// Coerces the value of <see cref="FFTComplexity"/> when a new value is applied.
+        /// </summary>
+        /// <param name="value">The value that was set on <see cref="FFTComplexity"/></param>
+        /// <returns>The adjusted value of <see cref="FFTComplexity"/></returns>
+        protected virtual FFTDataSize OnCoerceFFTComplexity(FFTDataSize value)
+        {
+            return value;
+        }
+
+        /// <summary>
+        /// Called after the <see cref="FFTComplexity"/> value has changed.
+        /// </summary>
+        /// <param name="oldValue">The previous value of <see cref="FFTComplexity"/></param>
+        /// <param name="newValue">The new value of <see cref="FFTComplexity"/></param>
+        protected virtual void OnFFTComplexityChanged(FFTDataSize oldValue, FFTDataSize newValue)
+        {
+            channelData = new float[((int)newValue / 2)];
+        }
+
+        /// <summary>
+        /// Gets or sets the complexity of FFT results the Spectrum Analyzer expects. Larger values
+        /// will be more accurate at converting time domain data to frequency data, but slower.
+        /// </summary>
+        [Category("Common")]
+        public FFTDataSize FFTComplexity
+        {
+            // IMPORTANT: To maintain parity between setting a property in XAML and procedural code, do not touch the getter and setter inside this dependency property!
+            get
+            {
+                return (FFTDataSize)GetValue(FFTComplexityProperty);
+            }
+            set
+            {
+                SetValue(FFTComplexityProperty, value);
+            }
+        }
+        #endregion
+
+        #endregion
+
+        #region Template Overrides
+        /// <summary>
+        /// When overridden in a derived class, is invoked whenever application code
+        /// or internal processes call System.Windows.FrameworkElement.ApplyTemplate().
+        /// </summary>
         public override void OnApplyTemplate()
         {
-            _spectrumCanvas = GetTemplateChild("PART_SpectrumCanvas") as Canvas;
+            spectrumCanvas = GetTemplateChild("PART_SpectrumCanvas") as Canvas;
+            spectrumCanvas.SizeChanged += spectrumCanvas_SizeChanged;
             UpdateBarLayout();
         }
 
+        /// <summary>
+        /// Called whenever the control's template changes. 
+        /// </summary>
+        /// <param name="oldTemplate">The old template</param>
+        /// <param name="newTemplate">The new template</param>
+        protected override void OnTemplateChanged(ControlTemplate oldTemplate, ControlTemplate newTemplate)
+        {
+            base.OnTemplateChanged(oldTemplate, newTemplate);
+            if (spectrumCanvas != null)
+                spectrumCanvas.SizeChanged -= spectrumCanvas_SizeChanged;
+        }
+        #endregion
+
+        #region Constructors
         static SpectrumAnalyzer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SpectrumAnalyzer), new FrameworkPropertyMetadata(typeof(SpectrumAnalyzer)));
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SpectrumAnalyzer"/> class.
+        /// </summary>
         public SpectrumAnalyzer()
         {
-            _animationTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle)
+            animationTimer = new DispatcherTimer(DispatcherPriority.Normal)
             {
-                Interval = TimeSpan.FromMilliseconds(25),
+                Interval = TimeSpan.FromMilliseconds(defaultUpdateInterval),
             };
-            _animationTimer.Tick += animationTimer_Tick;
+            animationTimer.Tick += animationTimer_Tick;
         }
+        #endregion
 
+        #region Public Methods
         /// <summary>
         /// Register a sound player from which the spectrum analyzer
         /// can get the necessary playback data.
@@ -596,12 +905,20 @@ namespace Kova.NAudioCore
         /// <param name="soundPlayer">A sound player that provides spectrum data through the ISpectrumPlayer interface methods.</param>
         public void RegisterSoundPlayer(ISpectrumPlayer soundPlayer)
         {
-            this._soundPlayer = soundPlayer;
+            this.soundPlayer = soundPlayer;
             soundPlayer.PropertyChanged += soundPlayer_PropertyChanged;
             UpdateBarLayout();
-            _animationTimer.Start();
+            animationTimer.Start();
         }
+        #endregion
 
+        #region Event Overrides
+        /// <summary>
+        /// When overridden in a derived class, participates in rendering operations that are directed by the layout system. 
+        /// The rendering instructions for this element are not used directly when this method is invoked, and are 
+        /// instead preserved for later asynchronous use by layout and drawing.
+        /// </summary>
+        /// <param name="dc">The drawing instructions for a specific element. This context is provided to the layout system.</param>
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
@@ -609,19 +926,25 @@ namespace Kova.NAudioCore
             UpdateSpectrum();
         }
 
+        /// <summary>
+        /// Raises the SizeChanged event, using the specified information as part of the eventual event data.
+        /// </summary>
+        /// <param name="sizeInfo">Details of the old and new size involved in the change.</param>
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
             UpdateBarLayout();
             UpdateSpectrum();
         }
+        #endregion
 
+        #region Private Drawing Methods
         private void UpdateSpectrum()
         {
-            if (_soundPlayer == null || _spectrumCanvas == null || _spectrumCanvas.RenderSize.Width < 1 || _spectrumCanvas.RenderSize.Height < 1)
+            if (soundPlayer == null || spectrumCanvas == null || spectrumCanvas.RenderSize.Width < 1 || spectrumCanvas.RenderSize.Height < 1)
                 return;
 
-            if (_soundPlayer.IsPlaying && (_soundPlayer.GetFFTData1(_channelData)))
+            if (soundPlayer.IsPlaying && !soundPlayer.GetFFTData1(channelData))
                 return;
 
             UpdateSpectrumShapes();
@@ -635,15 +958,15 @@ namespace Kova.NAudioCore
             double barHeight = 0f;
             double lastPeakHeight = 0f;
             double peakYPos = 0f;
-            double height = _spectrumCanvas.RenderSize.Height;
+            double height = spectrumCanvas.RenderSize.Height;
             int barIndex = 0;
-            double peakDotHeight = Math.Max(_barWidth / 2.0f, 1);
+            double peakDotHeight = Math.Max(barWidth / 2.0f, 1);
             double barHeightScale = (height - peakDotHeight);
 
-            for (int i = _minimumFrequencyIndex; i <= _maximumFrequencyIndex; i++)
+            for (int i = minimumFrequencyIndex; i <= maximumFrequencyIndex; i++)
             {
                 // If we're paused, keep drawing, but set the current height to 0 so the peaks fall.
-                if (!_soundPlayer.IsPlaying)
+                if (!soundPlayer.IsPlaying)
                 {
                     barHeight = 0f;
                 }
@@ -652,14 +975,14 @@ namespace Kova.NAudioCore
                     switch (BarHeightScaling)
                     {
                         case BarHeightScalingStyles.Decibel:
-                            double dbValue = 20 * Math.Log10((double)_channelData[i]);
-                            fftBucketHeight = ((dbValue - _minDBValue) / _dbScale) * barHeightScale;
+                            double dbValue = 20 * Math.Log10((double)channelData[i]);
+                            fftBucketHeight = ((dbValue - minDBValue) / dbScale) * barHeightScale;
                             break;
                         case BarHeightScalingStyles.Linear:
-                            fftBucketHeight = (_channelData[i] * _scaleFactorLinear) * barHeightScale;
+                            fftBucketHeight = (channelData[i] * scaleFactorLinear) * barHeightScale;
                             break;
                         case BarHeightScalingStyles.Sqrt:
-                            fftBucketHeight = (((Math.Sqrt((double)_channelData[i])) * _scaleFactorSqr) * barHeightScale);
+                            fftBucketHeight = (((Math.Sqrt((double)channelData[i])) * scaleFactorSqr) * barHeightScale);
                             break;
                     }
 
@@ -670,7 +993,7 @@ namespace Kova.NAudioCore
                 }
 
                 // If this is the last FFT bucket in the bar's group, draw the bar.
-                int currentIndexMax = IsFrequencyScaleLinear ? _barIndexMax[barIndex] : _barLogScaleIndexMax[barIndex];
+                int currentIndexMax = IsFrequencyScaleLinear ? barIndexMax[barIndex] : barLogScaleIndexMax[barIndex];
                 if (i == currentIndexMax)
                 {
                     // Peaks can't surpass the height of the control.
@@ -682,19 +1005,19 @@ namespace Kova.NAudioCore
 
                     peakYPos = barHeight;
 
-                    if (_channelPeakData[barIndex] < peakYPos)
-                        _channelPeakData[barIndex] = (float)peakYPos;
+                    if (channelPeakData[barIndex] < peakYPos)
+                        channelPeakData[barIndex] = (float)peakYPos;
                     else
-                        _channelPeakData[barIndex] = (float)(peakYPos + (PeakFallDelay * _channelPeakData[barIndex])) / ((float)(PeakFallDelay + 1));
+                        channelPeakData[barIndex] = (float)(peakYPos + (PeakFallDelay * channelPeakData[barIndex])) / ((float)(PeakFallDelay + 1));
 
-                    double xCoord = BarSpacing + (_barWidth * barIndex) + (BarSpacing * barIndex) + 1;
+                    double xCoord = BarSpacing + (barWidth * barIndex) + (BarSpacing * barIndex) + 1;
 
-                    _barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
-                    _barShapes[barIndex].Height = barHeight;
-                    _peakShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - _channelPeakData[barIndex] - peakDotHeight, 0, 0);
-                    _peakShapes[barIndex].Height = peakDotHeight;
+                    barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
+                    barShapes[barIndex].Height = barHeight;
+                    peakShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - channelPeakData[barIndex] - peakDotHeight, 0, 0);
+                    peakShapes[barIndex].Height = peakDotHeight;
 
-                    if (_channelPeakData[barIndex] > 0.05)
+                    if (channelPeakData[barIndex] > 0.05)
                         allZero = false;
 
                     lastPeakHeight = barHeight;
@@ -703,88 +1026,90 @@ namespace Kova.NAudioCore
                 }
             }
 
-            if (allZero && !_soundPlayer.IsPlaying)
-                _animationTimer.Stop();
+            if (allZero && !soundPlayer.IsPlaying)
+                animationTimer.Stop();
         }
 
         private void UpdateBarLayout()
         {
-            if (_soundPlayer == null || _spectrumCanvas == null)
+            if (soundPlayer == null || spectrumCanvas == null)
                 return;
 
-            _barWidth = Math.Max(((double)(_spectrumCanvas.RenderSize.Width - (BarSpacing * (BarCount + 1))) / (double)BarCount), 1);
-            _maximumFrequencyIndex = Math.Min(_soundPlayer.GetFFTFrequencyIndex(MaximumFrequency) + 1, 2047);
-            _minimumFrequencyIndex = Math.Min(_soundPlayer.GetFFTFrequencyIndex(MinimumFrequency), 2047);
-            _bandWidth = Math.Max(((double)(_maximumFrequencyIndex - _minimumFrequencyIndex)) / _spectrumCanvas.RenderSize.Width, 1.0);
+            barWidth = Math.Max(((double)(spectrumCanvas.RenderSize.Width - (BarSpacing * (BarCount + 1))) / (double)BarCount), 1);
+            maximumFrequencyIndex = Math.Min(soundPlayer.GetFFTFrequencyIndex(MaximumFrequency) + 1, 2047);
+            minimumFrequencyIndex = Math.Min(soundPlayer.GetFFTFrequencyIndex(MinimumFrequency), 2047);
+            bandWidth = Math.Max(((double)(maximumFrequencyIndex - minimumFrequencyIndex)) / spectrumCanvas.RenderSize.Width, 1.0);
 
             int actualBarCount;
-            if (_barWidth >= 1.0d)
+            if (barWidth >= 1.0d)
                 actualBarCount = BarCount;
             else
-                actualBarCount = Math.Max((int)((_spectrumCanvas.RenderSize.Width - BarSpacing) / (_barWidth + BarSpacing)), 1);
-            _channelPeakData = new float[actualBarCount];
+                actualBarCount = Math.Max((int)((spectrumCanvas.RenderSize.Width - BarSpacing) / (barWidth + BarSpacing)), 1);
+            channelPeakData = new float[actualBarCount];
 
-            int indexCount = _maximumFrequencyIndex - _minimumFrequencyIndex;
+            int indexCount = maximumFrequencyIndex - minimumFrequencyIndex;
             int linearIndexBucketSize = (int)Math.Round((double)indexCount / (double)actualBarCount, 0);
             List<int> maxIndexList = new List<int>();
             List<int> maxLogScaleIndexList = new List<int>();
             double maxLog = Math.Log(actualBarCount, actualBarCount);
             for (int i = 1; i < actualBarCount; i++)
             {
-                maxIndexList.Add(_minimumFrequencyIndex + (i * linearIndexBucketSize));
-                int logIndex = (int)((maxLog - Math.Log((actualBarCount + 1) - i, (actualBarCount + 1))) * indexCount) + _minimumFrequencyIndex;
+                maxIndexList.Add(minimumFrequencyIndex + (i * linearIndexBucketSize));
+                int logIndex = (int)((maxLog - Math.Log((actualBarCount + 1) - i, (actualBarCount + 1))) * indexCount) + minimumFrequencyIndex;
                 maxLogScaleIndexList.Add(logIndex);
             }
-            maxIndexList.Add(_maximumFrequencyIndex);
-            maxLogScaleIndexList.Add(_maximumFrequencyIndex);
-            _barIndexMax = maxIndexList.ToArray();
-            _barLogScaleIndexMax = maxLogScaleIndexList.ToArray();
+            maxIndexList.Add(maximumFrequencyIndex);
+            maxLogScaleIndexList.Add(maximumFrequencyIndex);
+            barIndexMax = maxIndexList.ToArray();
+            barLogScaleIndexMax = maxLogScaleIndexList.ToArray();
 
-            _barHeights = new double[actualBarCount];
-            _peakHeights = new double[actualBarCount];
+            barHeights = new double[actualBarCount];
+            peakHeights = new double[actualBarCount];
 
-            _spectrumCanvas.Children.Clear();
-            _barShapes.Clear();
-            _peakShapes.Clear();
+            spectrumCanvas.Children.Clear();
+            barShapes.Clear();
+            peakShapes.Clear();
 
-            double height = _spectrumCanvas.RenderSize.Height;
-            double peakDotHeight = Math.Max(_barWidth / 2.0f, 1);
+            double height = spectrumCanvas.RenderSize.Height;
+            double peakDotHeight = Math.Max(barWidth / 2.0f, 1);
             for (int i = 0; i < actualBarCount; i++)
             {
-                double xCoord = BarSpacing + (_barWidth * i) + (BarSpacing * i) + 1;
+                double xCoord = BarSpacing + (barWidth * i) + (BarSpacing * i) + 1;
                 Rectangle barRectangle = new Rectangle()
                 {
                     Margin = new Thickness(xCoord, height, 0, 0),
-                    Width = _barWidth,
+                    Width = barWidth,
                     Height = 0,
                     Style = BarStyle
                 };
-                _barShapes.Add(barRectangle);
+                barShapes.Add(barRectangle);
                 Rectangle peakRectangle = new Rectangle()
                 {
                     Margin = new Thickness(xCoord, height - peakDotHeight, 0, 0),
-                    Width = _barWidth,
+                    Width = barWidth,
                     Height = peakDotHeight,
                     Style = PeakStyle
                 };
-                _peakShapes.Add(peakRectangle);
+                peakShapes.Add(peakRectangle);
             }
 
-            foreach (Shape shape in _barShapes)
-                _spectrumCanvas.Children.Add(shape);
-            foreach (Shape shape in _peakShapes)
-                _spectrumCanvas.Children.Add(shape);
+            foreach (Shape shape in barShapes)
+                spectrumCanvas.Children.Add(shape);
+            foreach (Shape shape in peakShapes)
+                spectrumCanvas.Children.Add(shape);
 
-            ActualBarWidth = _barWidth;
+            ActualBarWidth = barWidth;
         }
+        #endregion
 
+        #region Event Handlers
         private void soundPlayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case "IsPlaying":
-                    if (_soundPlayer.IsPlaying && !_animationTimer.IsEnabled)
-                        _animationTimer.Start();
+                    if (soundPlayer.IsPlaying && !animationTimer.IsEnabled)
+                        animationTimer.Start();
                     break;
             }
         }
@@ -793,6 +1118,35 @@ namespace Kova.NAudioCore
         {
             UpdateSpectrum();
         }
+
+        private void spectrumCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            UpdateBarLayout();
+        }
+        #endregion
+
+        public enum BarHeightScalingStyles
+        {
+            /// <summary>
+            /// A decibel scale. Formula: 20 * Log10(FFTValue). Total bar height
+            /// is scaled from -90 to 0 dB.
+            /// </summary>
+            Decibel,
+
+            /// <summary>
+            /// A non-linear squareroot scale. Formula: Sqrt(FFTValue) * 2 * BarHeight.
+            /// </summary>
+            Sqrt,
+
+            /// <summary>
+            /// A linear scale. Formula: 9 * FFTValue * BarHeight.
+            /// </summary>
+            Linear
+        }
+
     }
 }
+
+
+
 

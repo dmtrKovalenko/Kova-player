@@ -31,20 +31,22 @@
             <ColumnDefinition Width="61*"/>
             <ColumnDefinition Width="56*"/>
         </Grid.ColumnDefinitions>
+
         <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}"
-                Margin="5,4,40,25" Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                Margin="24,4,4,25" Command="{Binding PlayCommand}"
+                Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Rectangle  Width="21" Margin="4,0,0,0"
                         Height="23"
                         Fill="White" >
-
                 <Rectangle.OpacityMask>
                     <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_play}" />
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
 
-        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" Margin="21,18,48,25" 
-                Grid.Column="3" Grid.RowSpan="2" Grid.ColumnSpan="2">
+        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" Margin="40,18,17,25" 
+                Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                Command="{Binding PlayNextCommand}">
             <Rectangle  Width="18" Margin="2,0,0,0"
                         Height="14"
                         Fill="White" >
@@ -54,8 +56,11 @@
             </Rectangle>
         </Button>
 
-        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" Margin="0.667,18,39,25" Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="1">
-            <Rectangle Width="18" Margin="0,0,0,0"
+        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" 
+                Margin="554,18,20,25"
+                Command="{Binding PlayPreviousCommand}"
+                Grid.RowSpan="2" Grid.ColumnSpan="2">
+            <Rectangle Width="18" Margin="0,0,0,0" 
                        Height="14"
                        Fill="White" >
                 <Rectangle.OpacityMask>
@@ -64,25 +69,22 @@
             </Rectangle>
         </Button>
 
-        <Slider Minimum="0" Maximum="100" 
-                    Value="0" Foreground="White" HorizontalAlignment="Center"
-                    Margin="18,45,47,0" Height="20" VerticalAlignment="Top" Width="718" Grid.ColumnSpan="5" Grid.Row="1" >
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="ValueChanged">
-                    <cmd:EventToCommand Command="{Binding SeekValueChangedCommand, Mode=OneWay}"
-                                                MustToggleIsEnabledValue="True" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
+        <Slider Minimum="0" Maximum="100" Value="{Binding CurrentPosition, Mode=TwoWay}" 
+                Foreground="White" HorizontalAlignment="Center"
+                Margin="84,45,23,0" Height="20" VerticalAlignment="Top" Width="620" 
+                Grid.ColumnSpan="4" Grid.Row="1" >
         </Slider>
 
-        <svl:AlbumArtDisplay Margin="18,17,508.333,28" Grid.RowSpan="2"/>
+        <svl:AlbumArtDisplay Margin="18,17,508.333,28" 
+                             Grid.RowSpan="2"/>
+
         <TextBlock x:Name="CurrentTrack" FontSize="17"
                    Foreground="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
                    HorizontalAlignment="Left"
-                   Margin="79,0,0,0" 
+                   Margin="79,18,0,0" 
                    TextWrapping="Wrap" 
                    Text="{Binding CurrentSong.Title}" 
-                   VerticalAlignment="Top" Width="266" Height="23" Grid.Row="1"/>
+                   VerticalAlignment="Top" Width="266" Height="23" Grid.RowSpan="2"/>
         <TextBlock x:Name="textBlock" FontSize="14"
                      Foreground="{DynamicResource ControlBorderBrush}"
                    Text="{Binding CurrentSong.Artist}" 
@@ -91,9 +93,9 @@
                    Grid.Row="1" 
                    TextWrapping="Wrap" 
                    VerticalAlignment="Top" 
-                   Height="19" Width="124"/>
+                   Height="19" Width="137"/>
 
-        <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}" Grid.Column="4" Margin="12,5,8,49" Grid.RowSpan="2">
+        <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}" Grid.Column="4" Margin="17,6,3,26" Grid.Row="1">
             <Rectangle Width="15"
                                Height="15"
                                Fill="White">
@@ -103,7 +105,7 @@
             </Rectangle>
         </ToggleButton>
 
-        <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}" Grid.Column="4" Margin="12,13,8,19" Grid.Row="1">
+        <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}" Grid.Column="3" Margin="44,6,37,26" Grid.Row="1" Grid.ColumnSpan="2">
             <Rectangle Width="15"
                                Height="15"
                                Fill="White">
@@ -112,5 +114,19 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </ToggleButton>
+
+        <TextBlock x:Name="CurrentTimeText" FontSize="16" Text="{Binding CurrentTime}" 
+                   HorizontalAlignment="Left"  
+                   Margin="18,42,0,0" Grid.Row="1"
+                   Foreground="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Width="61" Height="21"/>
+
+        <TextBlock x:Name="TotalTimeText" FontSize="16" Text="{Binding TotalTime}" 
+                   HorizontalAlignment="Left"  
+                   Margin="47,42,0,0" Grid.Row="1"
+                   Foreground="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
+                   TextWrapping="Wrap" 
+                   VerticalAlignment="Top" Width="60" Height="21" Grid.ColumnSpan="2" Grid.Column="3"/>
     </Grid>
 </UserControl>
