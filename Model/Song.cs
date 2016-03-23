@@ -1,6 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace Kova
         public TimeSpan Duration { get; set; }
 
         public string Genre { get; set; }
+
+        
 
         public Song(string path)
         {

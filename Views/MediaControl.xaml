@@ -4,12 +4,20 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Kova.Views"
-              xmlns:vm="clr-namespace:Kova.ViewModel"
+      xmlns:vm="clr-namespace:Kova.ViewModel"
       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
       xmlns:svl ="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
       xmlns:materialDesign="MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml"
       mc:Ignorable="d" d:DesignWidth="783" Height="90.116">
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <cmd:EventToCommand Command="{Binding LoadMusicPathCommand, Mode=OneWay}"
+             MustToggleIsEnabledValue="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
     <UserControl.Resources>
         <ResourceDictionary>
             <SolidColorBrush x:Key="AccentBackground"

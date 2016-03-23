@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Kova.Views.Settings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Kova.Views"
+             mc:Ignorable="d" 
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             d:DesignHeight="300" d:DesignWidth="790">
+    <Grid >
+        <Controls:MetroAnimatedSingleRowTabControl x:Name="MainTabControl" TabStripPlacement="Left" HorizontalAlignment="Left" Width="138">
+
+            <TabItem Controls:ControlsHelper.HeaderFontSize="17" Header="Appearance">
+                <local:SettingsAppearance  DataContext="{Binding}" Margin="22,19,-491,2"/>
+            </TabItem>
+        </Controls:MetroAnimatedSingleRowTabControl>
+    </Grid>
+</UserControl>

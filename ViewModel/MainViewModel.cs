@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace Kova.ViewModel
 {
@@ -19,9 +20,32 @@ namespace Kova.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
+        public ViewModelBase _currentViewModel { get; set; }
+
+        public RelayCommand ChangeViewCommand { get; private set; }
+
         public MainViewModel()
         {
+            _currentViewModel = new AllCompositionsViewModel();
+            ChangeViewCommand = new RelayCommand(ChangeView);
+        }
 
+        public ViewModelBase CurrentViewModel
+        {
+            get
+            {
+                return _currentViewModel;
+            }
+            set
+            {
+                _currentViewModel = value;
+                RaisePropertyChanged(nameof(CurrentViewModel));
+            }
+        }
+
+        private void ChangeView()
+        {
+            CurrentViewModel = new SettingsViewModel();
         }
     }
 }

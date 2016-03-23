@@ -1,9 +1,12 @@
 ﻿
-FD:\KovaPlayer\App.xaml;;
-FD:\KovaPlayer\MainWindow.xaml;;
-FD:\KovaPlayer\NAudioCore\Visualisation\ExpressionLight.xaml;;
-FD:\KovaPlayer\Views\Albums.xaml;;
-FD:\KovaPlayer\Views\AllCompositions.xaml;;
-FD:\KovaPlayer\Views\MediaControl.xaml;;
-FD:\KovaPlayer\Views\NowPlaying.xaml;;
+FD:\Proj\Kova\App.xaml;;
+FD:\Proj\Kova\MainWindow.xaml;;
+FD:\Proj\Kova\NAudioCore\Visualisation\ExpressionLight.xaml;;
+FD:\Proj\Kova\Views\Albums.xaml;;
+FD:\Proj\Kova\Views\AllCompositions.xaml;;
+FD:\Proj\Kova\Views\MainPage.xaml;;
+FD:\Proj\Kova\Views\MediaControl.xaml;;
+FD:\Proj\Kova\Views\NowPlaying.xaml;;
+FD:\Proj\Kova\Views\Settings.xaml;;
+FD:\Proj\Kova\Views\Settings\SettingsAppearance.xaml;;
 

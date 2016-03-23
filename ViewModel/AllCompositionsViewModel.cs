@@ -5,12 +5,13 @@ using System.IO;
 using System.Collections.ObjectModel;
 using Kova.NAudioCore;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace Kova.ViewModel
 {
     public class AllCompositionsViewModel : ViewModelBase
     {
-        private ObservableCollection<Song> _songs = new ObservableCollection<Song>();
+        public ObservableCollection<Song> _songs = new ObservableCollection<Song>();
         private Song _currentSong;
         private bool _inTimerPorsitionUpdate;
         private TimeSpan _currentTime;
@@ -71,7 +72,7 @@ namespace Kova.ViewModel
             }
         }
 
-        public ObservableCollection<Song> Songs
+      public ObservableCollection<Song> Songs
         {
             get
             {
@@ -181,13 +182,9 @@ namespace Kova.ViewModel
 
         private void PlayNext()
         {
-            if (Songs.IndexOf(CurrentSong) != Songs.Count - 1)
+            if (Songs.IndexOf(CurrentSong) != _songs.Count - 1)
             {
-                CurrentSong = Songs[Songs.IndexOf(CurrentSong) + 1];
-            }
-            else
-            {
-                CurrentSong = Songs[0];
+                CurrentSong = _songs[Songs.IndexOf(CurrentSong) + 1];
             }
         }
 
