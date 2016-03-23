@@ -4,9 +4,7 @@ using GalaSoft.MvvmLight.Command;
 using System.IO;
 using System.Collections.ObjectModel;
 using Kova.NAudioCore;
-
 using System.ComponentModel;
-using System.Collections.Generic;
 
 namespace Kova.ViewModel
 {
@@ -17,6 +15,8 @@ namespace Kova.ViewModel
         private bool _inTimerPorsitionUpdate;
         private TimeSpan _currentTime;
         private TimeSpan _totalTime;
+        private bool _isPlaying;
+        private bool _inRepeatMode;
 
         public RelayCommand AddMusicFolderCommand { get; private set; }
         public RelayCommand LoadMusicPathCommand { get; private set; }
@@ -48,7 +48,14 @@ namespace Kova.ViewModel
 
                 if (NAudioEngine.Instance.ChannelPosition == 100)
                 {
-                    PlayNext();
+                    if (InRepeatMode)
+                    {
+                        PlayRepeat();
+                    }
+                    else
+                    {
+                        PlayNext();
+                    }
                 }
             }
 
@@ -56,6 +63,11 @@ namespace Kova.ViewModel
             {
                 if (NAudioEngine.Instance.ActiveStream != null)
                     TotalTime = NAudioEngine.Instance.ActiveStream.TotalTime;
+            }
+
+            if (e.PropertyName == "IsPlaying")
+            {
+                IsPlaying = NAudioEngine.Instance.IsPlaying;
             }
         }
 
@@ -81,9 +93,9 @@ namespace Kova.ViewModel
             set
             {
                 _currentSong = value;
-                RaisePropertyChanged(nameof(CurrentSong));
                 NAudioEngine.Instance.OpenFile(value.OriginalPath);
                 NAudioEngine.Instance.Play();
+                RaisePropertyChanged(nameof(CurrentSong));
             }
         }
 
@@ -129,13 +141,39 @@ namespace Kova.ViewModel
             }
         }
 
+        public bool IsPlaying
+        {
+            get
+            {
+                return NAudioEngine.Instance.IsPlaying;
+            }
+            set
+            {
+                _isPlaying = value;
+                RaisePropertyChanged(nameof(IsPlaying));
+            }
+        }
+
+        public bool InRepeatMode
+        {
+            get
+            {
+                return _inRepeatMode;
+            }
+            set
+            {
+                _inRepeatMode = value;
+                RaisePropertyChanged(nameof(InRepeatMode));
+            }
+        }
+
         private void Play()
         {
-            if(NAudioEngine.Instance.CanPlay)
+            if (NAudioEngine.Instance.CanPlay)
             {
                 NAudioEngine.Instance.Play();
             }
-            else if(NAudioEngine.Instance.CanPause)
+            else if (NAudioEngine.Instance.CanPause)
             {
                 NAudioEngine.Instance.Pause();
             }
@@ -143,14 +181,27 @@ namespace Kova.ViewModel
 
         private void PlayNext()
         {
-            if (Songs.IndexOf(CurrentSong) != Songs.Count)
+            if (Songs.IndexOf(CurrentSong) != Songs.Count - 1)
+            {
                 CurrentSong = Songs[Songs.IndexOf(CurrentSong) + 1];
+            }
+            else
+            {
+                CurrentSong = Songs[0];
+            }
         }
 
         private void PlayPrevious()
         {
             if (Songs.IndexOf(CurrentSong) != 0)
+            {
                 CurrentSong = Songs[Songs.IndexOf(CurrentSong) - 1];
+            }
+        }
+
+        private void PlayRepeat()
+        {
+            CurrentSong = Songs[Songs.IndexOf(CurrentSong)];
         }
 
         private void AddMusicFolder()
