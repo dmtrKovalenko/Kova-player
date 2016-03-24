@@ -23,11 +23,13 @@ namespace Kova.ViewModel
         public ViewModelBase _currentViewModel { get; set; }
 
         public RelayCommand ChangeViewCommand { get; private set; }
+        public RelayCommand ChangeToCommand { get; private set; }
 
         public MainViewModel()
         {
             _currentViewModel = new AllCompositionsViewModel();
             ChangeViewCommand = new RelayCommand(ChangeView);
+            ChangeToCommand = new RelayCommand(ChangeTo);
         }
 
         public ViewModelBase CurrentViewModel
@@ -46,6 +48,11 @@ namespace Kova.ViewModel
         private void ChangeView()
         {
             CurrentViewModel = new SettingsViewModel();
+        }
+
+        private void ChangeTo()
+        {
+            CurrentViewModel = new AllCompositionsViewModel();
         }
     }
 }

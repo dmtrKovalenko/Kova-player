@@ -12,12 +12,7 @@ namespace Kova.Model
         public Brush BorderColorBrush { get; set; }
         public Brush ColorBrush { get; set; }
 
-        private ICommand changeAccentCommand;
-
-        /*public ICommand ChangeAccentCommand
-        {
-    //        get { return this.changeAccentCommand ?? (changeAccentCommand = new SimpleCommand { CanExecuteDelegate = x => true, ExecuteDelegate = x => this.DoChangeTheme(x) }); }
-        }*/
+ 
 
         protected virtual void DoChangeTheme(object sender)
         {

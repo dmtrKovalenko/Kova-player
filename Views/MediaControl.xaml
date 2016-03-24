@@ -11,13 +11,6 @@
       xmlns:materialDesign="MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Slider.xaml"
       mc:Ignorable="d" d:DesignWidth="783" Height="90.116">
 
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <cmd:EventToCommand Command="{Binding LoadMusicPathCommand, Mode=OneWay}"
-             MustToggleIsEnabledValue="True" />
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-
     <UserControl.Resources>
         <ResourceDictionary>
             <SolidColorBrush x:Key="AccentBackground"
@@ -59,7 +52,7 @@
                                 <Setter Property="Margin" Value="0,0,0,0"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding IsPlaying}" Value="False">
-                                <Setter Property="Margin" Value="2,0,0,0"/>
+                                <Setter Property="Margin" Value="3,0,0,0"/>
                                 <Setter Property="OpacityMask" Value="{DynamicResource playIcon}" />
                             </DataTrigger>
                         </Style.Triggers>

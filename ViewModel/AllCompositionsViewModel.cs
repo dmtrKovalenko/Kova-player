@@ -11,7 +11,7 @@ namespace Kova.ViewModel
 {
     public class AllCompositionsViewModel : ViewModelBase
     {
-        public ObservableCollection<Song> _songs = new ObservableCollection<Song>();
+        private ObservableCollection<Song> _songs = new ObservableCollection<Song>();
         private Song _currentSong;
         private bool _inTimerPorsitionUpdate;
         private TimeSpan _currentTime;
