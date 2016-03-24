@@ -11,6 +11,7 @@ namespace Kova.ViewModel
 {
     public class AllCompositionsViewModel : ViewModelBase
     {
+        private bool _isMusicPathLoaded;
         private ObservableCollection<Song> _songs = new ObservableCollection<Song>();
         private Song _currentSong;
         private bool _inTimerPorsitionUpdate;
@@ -220,14 +221,18 @@ namespace Kova.ViewModel
 
         private void LoadMusicPath()
         {
-            string[] FullDataPath = Directory.GetFiles(Properties.Settings.Default.MusicFolderPath, "*.mp3*", SearchOption.AllDirectories);
-
-            for (int i = 0; i < FullDataPath.Length; i++)
+            if (!_isMusicPathLoaded)
             {
-                Songs.Add(new Song(FullDataPath[i]));
+                string[] FullDataPath = Directory.GetFiles(Properties.Settings.Default.MusicFolderPath, "*.mp3*", SearchOption.AllDirectories);
+
+                for (int i = 0; i < FullDataPath.Length; i++)
+                {
+                    Songs.Add(new Song(FullDataPath[i]));
+                }
+                CurrentSong = Songs[0];
+                NAudioEngine.Instance.Pause();
+                _isMusicPathLoaded = true;
             }
-            CurrentSong = Songs[0];
-            NAudioEngine.Instance.Pause();
         }
     }
 }

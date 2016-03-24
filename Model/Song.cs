@@ -1,10 +1,4 @@
-﻿using GalaSoft.MvvmLight;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace Kova
 {
@@ -18,12 +12,8 @@ namespace Kova
 
         public string Artist { get; set; }
 
-        public TimeSpan Duration { get; set; }
-
         public string Genre { get; set; }
-
-        
-
+       
         public Song(string path)
         {
             if (path == null)
@@ -58,6 +48,5 @@ namespace Kova
         {
             return other != null && this.OriginalPath == other.OriginalPath;
         }
-
     }
 }

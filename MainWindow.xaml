@@ -16,7 +16,15 @@
         Title="Kova"
                       
         DataContext="{Binding Main, Source={StaticResource Locator}}">
-      
+
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <cmd:EventToCommand Command="{Binding LoadMusicPathCommand, Mode=OneWay}"
+             MustToggleIsEnabledValue="True" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <Button>
