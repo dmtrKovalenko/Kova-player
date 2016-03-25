@@ -92,7 +92,7 @@
                 Grid.ColumnSpan="4" Grid.Row="1" >
         </Slider>
 
-        <svl:AlbumArtDisplay Margin="18,17,508.333,28" 
+        <svl:AlbumArtDisplay Margin="18,17,508.333,28" AlbumArtImage="{Binding AlbumArtWork}"
                              Grid.RowSpan="2"/>
 
         <TextBlock x:Name="CurrentTrack" FontSize="17"
@@ -103,7 +103,7 @@
                    Text="{Binding CurrentSong.Title}" 
                    VerticalAlignment="Top" Width="266" Height="23" Grid.RowSpan="2"/>
         <TextBlock x:Name="textBlock" FontSize="14"
-                     Foreground="{DynamicResource GrayBrush3}"
+                     Foreground="{DynamicResource GrayBrush9}"
                    Text="{Binding CurrentSong.Artist}" 
                    HorizontalAlignment="Left" 
                    Margin="79,21,0,0" 

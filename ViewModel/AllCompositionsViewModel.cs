@@ -5,6 +5,8 @@ using System.IO;
 using System.Collections.ObjectModel;
 using Kova.NAudioCore;
 using System.ComponentModel;
+using System.Windows.Media.Imaging;
+using System.Linq;
 
 namespace Kova.ViewModel
 {
@@ -18,6 +20,7 @@ namespace Kova.ViewModel
         private TimeSpan _totalTime;
         private bool _isPlaying;
         private bool _inRepeatMode;
+        private BitmapImage _albumArtWork;
 
         public RelayCommand AddMusicFolderCommand { get; private set; }
         public RelayCommand LoadMusicPathCommand { get; private set; }
@@ -69,6 +72,50 @@ namespace Kova.ViewModel
             if (e.PropertyName == "IsPlaying")
             {
                 IsPlaying = NAudioEngine.Instance.IsPlaying;
+            }
+
+            if (e.PropertyName == "FileTag")
+            {
+                var file = NAudioEngine.Instance.FileTag.Tag;
+                if (file.Pictures.Length > 0)
+                {
+                    using (MemoryStream albumArtworkMemStream = new MemoryStream(file.Pictures[0].Data.Data))
+                    {
+                        try
+                        {
+                            BitmapImage albumImage = new BitmapImage();
+                            albumImage.BeginInit();
+                            albumImage.CacheOption = BitmapCacheOption.OnLoad;
+                            albumImage.StreamSource = albumArtworkMemStream;
+                            albumImage.EndInit();
+                            AlbumArtWork = albumImage;
+                        }
+                        catch (NotSupportedException)
+                        {
+                            AlbumArtWork = null;
+                            // System.NotSupportedException:
+                            // No imaging component suitable to complete this operation was found.
+                        }
+                        albumArtworkMemStream.Close();
+                    }
+                }
+                else
+                {
+                    AlbumArtWork = null;
+                }
+            }
+        }
+
+        public BitmapImage AlbumArtWork
+        {
+            get
+            {
+                return _albumArtWork;
+            }
+            set
+            {
+                _albumArtWork = value;
+                RaisePropertyChanged(nameof(AlbumArtWork));
             }
         }
 
