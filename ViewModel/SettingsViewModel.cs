@@ -14,14 +14,22 @@ using System.Windows;
 
 namespace Kova.ViewModel
 {
-    public class SettingsViewModel : ViewModelBase  
+    public class SettingsViewModel : ViewModelBase
     {
         private List<AccentColorMenuData> _accentColors { get; set; }
+        private List<AccentColorMenuData> _appThemes { get; set; }
+
         private AccentColorMenuData _selectedAccentColor { get; set; }
+        protected AccentColorMenuData _selectedTheme { get; set; }
 
         public SettingsViewModel()
         {
-            _accentColors = ThemeManager.Accents.Select(a => new AccentColorMenuData() { Name = a.Name, ColorBrush = a.Resources["AccentColorBrush"] as Brush }).ToList();
+            _appThemes = ThemeManager.AppThemes
+                                          .Select(a => new AccentColorMenuData() { Name = a.Name, BorderColorBrush = a.Resources["BlackColorBrush"] as Brush, ColorBrush = a.Resources["WhiteColorBrush"] as Brush })
+                                          .ToList();
+            _accentColors = ThemeManager.Accents
+                                          .Select(a => new AccentColorMenuData() { Name = a.Name, ColorBrush = a.Resources["AccentColorBrush"] as Brush })
+                                          .ToList();
         }
 
         public List<AccentColorMenuData> AccentColors
@@ -29,7 +37,27 @@ namespace Kova.ViewModel
             get { return _accentColors; }
         }
 
+        public List<AccentColorMenuData> AppThemes
+        {
+            get { return _appThemes; }
+        }
+
         public AccentColorMenuData SelectedAccentColor
+        {
+            get
+            {
+              
+                return _selectedTheme;
+            }
+            set
+            {
+                _selectedTheme = value;
+                DoChangeAccent(value);
+                RaisePropertyChanged(nameof(SelectedAccentColor));
+            }
+        }
+
+        public AccentColorMenuData SelectedTheme
         {
             get
             {
@@ -39,16 +67,22 @@ namespace Kova.ViewModel
             {
                 _selectedAccentColor = value;
                 DoChangeTheme(value);
-                RaisePropertyChanged(nameof(SelectedAccentColor));
+                RaisePropertyChanged(nameof(SelectedTheme));
             }
+        }
+
+        protected virtual void DoChangeAccent(object sender)
+        {
+            var theme = ThemeManager.DetectAppStyle(Application.Current);
+            var accent = ThemeManager.GetAccent(SelectedAccentColor.Name);
+            ThemeManager.ChangeAppStyle(Application.Current, accent, theme.Item1);
         }
 
         protected virtual void DoChangeTheme(object sender)
         {
-
             var theme = ThemeManager.DetectAppStyle(Application.Current);
-            var accent = ThemeManager.GetAccent(SelectedAccentColor.Name);
-            ThemeManager.ChangeAppStyle(Application.Current, accent, theme.Item1);
+            var appTheme = ThemeManager.GetAppTheme(SelectedTheme.Name);
+            ThemeManager.ChangeAppStyle(Application.Current, theme.Item2, appTheme);
         }
     }
 }

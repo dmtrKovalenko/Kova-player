@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Kova.Views"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="790">
@@ -39,11 +40,12 @@
                     <TextBlock Text="Theme:"
                 		       VerticalAlignment="Center"
                 		       Margin="6,6,10,8" Height="16" />
-                    <ComboBox  Grid.Column="1" 
-                               ItemsSource="{Binding Themes}"
+                    <ComboBox  Grid.Column="1" Text="2"
+                               ItemsSource="{Binding AppThemes, Mode=OneWay}"
                                SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" 
-                               DisplayMemberPath="DisplayName" VerticalAlignment="Center" 
-                               Margin="0,1,0,3" Height="26" />
+                               DisplayMemberPath="Name" VerticalAlignment="Center" 
+                               Margin="0,1,0,3" Height="26" >
+                    </ComboBox>
 
                     <TextBlock Grid.Row="1"
                 		       Text="Font size:" 
