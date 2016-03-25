@@ -12,10 +12,10 @@
             <RowDefinition Height="12*"/>
             <RowDefinition Height="113*"/>
         </Grid.RowDefinitions>
-        <Controls:MetroAnimatedSingleRowTabControl x:Name="MainTabControl" TabStripPlacement="Left" HorizontalAlignment="Left" Width="125" Margin="34,41,0,0" Grid.RowSpan="2">
+        <Controls:MetroAnimatedSingleRowTabControl x:Name="MainTabControl" TabStripPlacement="Left" HorizontalAlignment="Left" Width="118" Margin="34,41,0,0" Grid.RowSpan="2">
 
             <TabItem Controls:ControlsHelper.HeaderFontSize="20" Header="Appearance">
-                <local:SettingsAppearance  DataContext="{Binding}" Margin="3,31,-605,80"/>
+                <local:SettingsAppearance  DataContext="{Binding}" Margin="4,33,-606,78"/>
             </TabItem>
         </Controls:MetroAnimatedSingleRowTabControl>
 

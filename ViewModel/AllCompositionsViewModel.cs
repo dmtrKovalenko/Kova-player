@@ -5,7 +5,6 @@ using System.IO;
 using System.Collections.ObjectModel;
 using Kova.NAudioCore;
 using System.ComponentModel;
-using System.Collections.Generic;
 
 namespace Kova.ViewModel
 {

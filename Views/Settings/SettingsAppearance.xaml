@@ -7,15 +7,14 @@
              xmlns:local="clr-namespace:Kova.Views"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="790">
-      
+
     <Grid>
-        <ScrollViewer Margin="0,4,0,-4">
+        <ScrollViewer>
             <StackPanel x:Name="Panel" MinWidth="150">
-
-                <TextBlock Text="APPEARANCE" Margin="0,0,0,9" />
-
-                <ListView ItemsSource="{Binding AccentColors}" RenderTransformOrigin="0.5,0.5"
-            		  SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}">
+                <TextBlock Text="APPEARANCE" FontSize="18" Margin="4,0,0,1" Height="23" Width="770" />
+                <ListView ItemsSource="{Binding AccentColors}"
+                          RenderTransformOrigin="0.5,0.5"
+                	SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}" >
                     <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=Panel}" />
@@ -24,11 +23,11 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Rectangle Width="40" Height="40" 
-                                       Margin="4" Fill="{Binding ColorBrush, Mode=OneWay}" />
+                        		Margin="4" Fill="{Binding ColorBrush, Mode=OneWay}" />
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-                
+
                 <Grid Margin="0,5,0,0" HorizontalAlignment="Left" Height="63" Width="218">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -39,20 +38,19 @@
                         <RowDefinition Height="11*" />
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="Theme:"
+                    <TextBlock Text="Theme:" FontSize="15"
                 		       VerticalAlignment="Center"
-                		       Margin="6,6,10,8" Height="16" />
+                		       Margin="6,4,10,6" Height="20" />
                     <ComboBox  Grid.Column="1" Text="2"
                                ItemsSource="{Binding AppThemes, Mode=OneWay}"
                                SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" 
                                DisplayMemberPath="Name" VerticalAlignment="Center" 
-                               Margin="1,4,0,0" Height="26" >
-                    </ComboBox>
+                               Margin="1,4,0,0" Height="26" />
 
-                    <TextBlock Grid.Row="1"
+                    <TextBlock Grid.Row="1" FontSize="15"
                 		       Text="Font size:" 
                 		       VerticalAlignment="Center" 
-                	           Margin="6,8,10,10" Height="15" />
+                	           Margin="6,4,10,6" Height="18" />
                     <ComboBox  Grid.Row="1" Grid.Column="1"
                                ItemsSource="{Binding FontSizes}" 
                                SelectedItem="{Binding SelectedFontSize, Mode=TwoWay}"
