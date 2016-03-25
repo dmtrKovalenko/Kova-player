@@ -6,27 +6,29 @@
               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Kova.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="790">
+             d:DesignHeight="500" d:DesignWidth="790">
+      
     <Grid>
         <ScrollViewer Margin="0,4,0,-4">
             <StackPanel x:Name="Panel" MinWidth="150">
 
-                <TextBlock Text="APPEARANCE" Margin="0,0,0,8" />
+                <TextBlock Text="APPEARANCE" Margin="0,0,0,9" />
 
-                <ListBox ItemsSource="{Binding AccentColors}" 
-            		SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}">
-
-                    <ListBox.ItemsPanel>
+                <ListView ItemsSource="{Binding AccentColors}" RenderTransformOrigin="0.5,0.5"
+            		  SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}">
+                    <ListView.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=Panel}" />
                         </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Rectangle Width="40" Height="40" Margin="2" Fill="{Binding ColorBrush, Mode=OneWay}" />
+                            <Rectangle Width="40" Height="40" 
+                                       Margin="4" Fill="{Binding ColorBrush, Mode=OneWay}" />
                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                    </ListView.ItemTemplate>
+                </ListView>
+                
                 <Grid Margin="0,5,0,0" HorizontalAlignment="Left" Height="63" Width="218">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
@@ -44,7 +46,7 @@
                                ItemsSource="{Binding AppThemes, Mode=OneWay}"
                                SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" 
                                DisplayMemberPath="Name" VerticalAlignment="Center" 
-                               Margin="0,1,0,3" Height="26" >
+                               Margin="1,4,0,0" Height="26" >
                     </ComboBox>
 
                     <TextBlock Grid.Row="1"

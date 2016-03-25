@@ -73,7 +73,7 @@ namespace Kova.ViewModel
             }
         }
 
-      public ObservableCollection<Song> Songs
+        public ObservableCollection<Song> Songs
         {
             get
             {

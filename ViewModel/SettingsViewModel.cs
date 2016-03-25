@@ -19,7 +19,7 @@ namespace Kova.ViewModel
         private List<AccentColorMenuData> _accentColors { get; set; }
         private List<AccentColorMenuData> _appThemes { get; set; }
 
-        private AccentColorMenuData _selectedAccentColor { get; set; }
+        private AccentColorMenuData _selectedAccentColor;
         protected AccentColorMenuData _selectedTheme { get; set; }
 
         public SettingsViewModel()
@@ -27,9 +27,14 @@ namespace Kova.ViewModel
             _appThemes = ThemeManager.AppThemes
                                           .Select(a => new AccentColorMenuData() { Name = a.Name, BorderColorBrush = a.Resources["BlackColorBrush"] as Brush, ColorBrush = a.Resources["WhiteColorBrush"] as Brush })
                                           .ToList();
+
             _accentColors = ThemeManager.Accents
                                           .Select(a => new AccentColorMenuData() { Name = a.Name, ColorBrush = a.Resources["AccentColorBrush"] as Brush })
                                           .ToList();
+            var theme = ThemeManager.DetectAppStyle(Application.Current);
+
+            SelectedAccentColor = AccentColors[6];
+            SelectedTheme = AppThemes[1];
         }
 
         public List<AccentColorMenuData> AccentColors
@@ -46,12 +51,11 @@ namespace Kova.ViewModel
         {
             get
             {
-              
-                return _selectedTheme;
+                return _selectedAccentColor;
             }
             set
             {
-                _selectedTheme = value;
+                _selectedAccentColor = value;
                 DoChangeAccent(value);
                 RaisePropertyChanged(nameof(SelectedAccentColor));
             }
@@ -61,11 +65,11 @@ namespace Kova.ViewModel
         {
             get
             {
-                return _selectedAccentColor;
+                return _selectedTheme;
             }
             set
             {
-                _selectedAccentColor = value;
+                _selectedTheme = value;
                 DoChangeTheme(value);
                 RaisePropertyChanged(nameof(SelectedTheme));
             }

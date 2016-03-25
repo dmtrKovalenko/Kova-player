@@ -12,16 +12,33 @@
          <Members>
           <Member Name="#Dispose(System.Boolean)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
            <Messages>
-            <Message Id="waveformGenerateWorker" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2016-03-25 07:01:45Z" FixCategory="NonBreaking">
+            <Message Id="waveformGenerateWorker" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2016-03-25 15:33:56Z" FixCategory="NonBreaking">
              <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="71">'NAudioEngine' содержит поле 'NAudioEngine.waveformGenerateWorker' типа IDisposable: 'BackgroundWorker'. Замените метод Dispose для 'NAudioEngine' на вызов Dispose или Close по этому полю.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#waveformGenerateWorker_DoWork(System.Object,System.ComponentModel.DoWorkEventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-25 07:01:45Z" FixCategory="DependsOnFix">
+            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-25 15:33:56Z" FixCategory="DependsOnFix">
              <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="253">Объект "'waveformInputStream'" можно удалять более одного раза в методе 'NAudioEngine.waveformGenerateWorker_DoWork(object, DoWorkEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 253</Issue>
              <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="253">Объект "'waveformMp3Stream'" можно удалять более одного раза в методе 'NAudioEngine.waveformGenerateWorker_DoWork(object, DoWorkEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 253, 255, 256</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
+      <Namespace Name="Kova.ViewModel">
+       <Types>
+        <Type Name="SettingsViewModel" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Messages>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-03-25 15:33:56Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="SettingsViewModel.cs" Line="25">'SettingsViewModel.SettingsViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;SettingsViewModel..ctor()&#xD;&#xA;SettingsViewModel.set_SelectedAccentColor(AccentCo&#xD;&#xA;SettingsViewModel.set_SelectedTheme(AccentColorMenuData):Void&#xD;&#xA;SettingsViewModel.DoChangeTheme(Object):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="SettingsViewModel.cs" Line="25">'SettingsViewModel.SettingsViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;SettingsViewModel..ctor()&#xD;&#xA;SettingsViewModel.set_SelectedAccentColor(AccentColorMenuData):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
+             <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="SettingsViewModel.cs" Line="25">'SettingsViewModel.SettingsViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;SettingsViewModel..ctor()&#xD;&#xA;SettingsViewModel.set_SelectedAccentColor(AccentColorMenuData):Void&#xD;&#xA;SettingsViewModel.DoChangeAccent(Object):Void</Issue>
             </Message>
            </Messages>
           </Member>
@@ -35,7 +52,7 @@
          <Members>
           <Member Name="#NAudioEngine_PropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-25 07:01:45Z" FixCategory="DependsOnFix">
+            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-25 15:33:56Z" FixCategory="DependsOnFix">
              <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\Views" File="NowPlaying.xaml.cs" Line="67">Объект "'albumArtworkMemStream'" можно удалять более одного раза в методе 'NowPlaying.NAudioEngine_PropertyChanged(object, PropertyChangedEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 67</Issue>
             </Message>
            </Messages>
@@ -58,6 +75,16 @@
    <Url>http://msdn.microsoft.com/library/ms182328.aspx</Url>
    <Email>[none]</Email>
    <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="14.0.0.0" />
+  </Rule>
+  <Rule TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214">
+   <Name>Не вызывайте переопределяемые методы в конструкторах</Name>
+   <Description>Виртуальные методы, определенные в классе, не следует вызывать из конструкторов. Если производный класс переопределил метод, будет вызвана версия производного класса (до вызова конструктора производного класса).</Description>
+   <Resolution Name="Default">{0} содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: {1}</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182331.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="95">CriticalWarning</MessageLevel>
    <File Name="usagerules.dll" Version="14.0.0.0" />
   </Rule>
   <Rule TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202">

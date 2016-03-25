@@ -21,6 +21,7 @@ namespace Kova.ViewModel
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
         public ViewModelBase _currentViewModel { get; set; }
+        public SettingsViewModel _settingsVM = new SettingsViewModel();
 
         public RelayCommand ChangeViewCommand { get; private set; }
         public RelayCommand ChangeToCommand { get; private set; }
@@ -47,7 +48,7 @@ namespace Kova.ViewModel
 
         private void ChangeView()
         {
-            CurrentViewModel = new SettingsViewModel();
+            CurrentViewModel = _settingsVM;
         }
 
         private void ChangeTo()
