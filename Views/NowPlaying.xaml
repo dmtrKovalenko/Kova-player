@@ -30,6 +30,7 @@
                                      PeakFallDelay="10"
                                      BarHeightScaling="Decibel" Grid.ColumnSpan="2" Grid.Column="1" RenderTransformOrigin="0.501,0.775"/>
             </Visualise:ReflectionControl>
+            
             <Visualise:ReflectionControl Grid.ColumnSpan="2" 
                                          Height="410" Margin="22,-73,152,10" Width="172" 
                                          Grid.RowSpan="3" RenderTransformOrigin="0.518,0.423">

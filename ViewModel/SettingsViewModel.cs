@@ -25,8 +25,8 @@ namespace Kova.ViewModel
                                           .ToList();
             var theme = ThemeManager.DetectAppStyle(Application.Current);
 
-            SelectedAccentColor = AccentColors[6];
-            SelectedTheme = AppThemes[1];
+            SelectedAccentColor = AccentColors[Properties.Settings.Default.SelectedAccentIndex];
+            SelectedTheme = AppThemes[Properties.Settings.Default.SelectedThemeIndex];
         }
 
         public List<AccentColorMenuData> AccentColors
@@ -49,6 +49,7 @@ namespace Kova.ViewModel
             {
                 _selectedAccentColor = value;
                 DoChangeAccent(value);
+                Properties.Settings.Default.SelectedAccentIndex = AccentColors.IndexOf(value);
                 RaisePropertyChanged(nameof(SelectedAccentColor));
             }
         }
@@ -63,6 +64,7 @@ namespace Kova.ViewModel
             {
                 _selectedTheme = value;
                 DoChangeTheme(value);
+                Properties.Settings.Default.SelectedThemeIndex = AppThemes.IndexOf(value);
                 RaisePropertyChanged(nameof(SelectedTheme));
             }
         }

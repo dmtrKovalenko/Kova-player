@@ -20,7 +20,7 @@ namespace Kova.NAudioCore
 
         public Aggregator(int bufferSize)
         {
-            this._bufferSize = bufferSize;
+            _bufferSize = bufferSize;
             _binaryExponentitation = (int)Math.Log(bufferSize, 2);
             _channelData = new Complex[bufferSize];
         }

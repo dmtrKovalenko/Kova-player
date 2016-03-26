@@ -25,13 +25,38 @@ namespace Kova.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:/Music")]
-        public string MusicFolderPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public global::System.Collections.Specialized.StringCollection MusicFolderPath {
             get {
-                return ((string)(this["MusicFolderPath"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["MusicFolderPath"]));
             }
             set {
                 this["MusicFolderPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SelectedThemeIndex {
+            get {
+                return ((int)(this["SelectedThemeIndex"]));
+            }
+            set {
+                this["SelectedThemeIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int SelectedAccentIndex {
+            get {
+                return ((int)(this["SelectedAccentIndex"]));
+            }
+            set {
+                this["SelectedAccentIndex"] = value;
             }
         }
     }

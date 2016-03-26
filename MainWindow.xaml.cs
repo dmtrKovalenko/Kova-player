@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using Kova.ViewModel;
 using MahApps.Metro.Controls;
+using Kova.NAudioCore;
 
 namespace Kova
 {
@@ -15,7 +16,12 @@ namespace Kova
         public MainWindow()
         {
             InitializeComponent();
-            Closing += (s, e) => ViewModelLocator.Cleanup();
+            Closing += (s, e) =>
+            {
+                ViewModelLocator.Cleanup();
+                Properties.Settings.Default.Save();
+                NAudioEngine.Instance.Dispose();
+            };
         }
     }
 }

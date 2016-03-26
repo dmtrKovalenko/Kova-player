@@ -10,7 +10,9 @@ namespace Kova.NAudioCore
      public interface ISpectrumPlayer : INotifyPropertyChanged
      {
          bool IsPlaying { get; }
+
          bool GetFFTData1(float[] fftDataBuffer);
+
          int GetFFTFrequencyIndex(int frequency);
      }
 }

@@ -12,34 +12,36 @@ namespace Kova.ViewModel
 {
     public class AllCompositionsViewModel : ViewModelBase
     {
-        private bool _isMusicPathLoaded;
-        private ObservableCollection<Song> _songs = new ObservableCollection<Song>();
-        private Song _currentSong;
-        private bool _inTimerPorsitionUpdate;
-        private TimeSpan _currentTime;
-        private TimeSpan _totalTime;
-        private bool _isPlaying;
-        private bool _inRepeatMode;
-        private BitmapImage _albumArtWork;
+        private bool _isMusicPathLoaded { get; set; }
+        private ObservableCollection<Song> _songs;
+        private Song _currentSong { get; set; }
+        private bool _inTimerPorsitionUpdate { get; set; }
+        private TimeSpan _currentTime { get; set; }
+        private TimeSpan _totalTime { get; set; }
+        private bool _isPlaying { get; set; }
+        private bool _inRepeatMode { get; set; }
+        private BitmapImage _albumArtWork { get; set; }
 
         public RelayCommand AddMusicFolderCommand { get; private set; }
         public RelayCommand LoadMusicPathCommand { get; private set; }
-        public RelayCommand SeekValueChangedCommand { get; private set; }
         public RelayCommand PlayNextCommand { get; private set; }
         public RelayCommand PlayPreviousCommand { get; private set; }
         public RelayCommand PlayCommand { get; private set; }
 
         public AllCompositionsViewModel()
         {
-            NAudioEngine.Instance.PropertyChanged += NAudioENgine_PropertyChanged;
+            _songs = new ObservableCollection<Song>();
+            LoadMusicPath();
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
             LoadMusicPathCommand = new RelayCommand(LoadMusicPath);
             PlayNextCommand = new RelayCommand(PlayNext);
             PlayPreviousCommand = new RelayCommand(PlayPrevious);
             PlayCommand = new RelayCommand(Play);
+
+            NAudioEngine.Instance.PropertyChanged += NAudioEngine_PropertyChanged;
         }
 
-        private void NAudioENgine_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void NAudioEngine_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "ChannelPosition")
             {
@@ -66,43 +68,41 @@ namespace Kova.ViewModel
             if (e.PropertyName == "ActiveStream")
             {
                 if (NAudioEngine.Instance.ActiveStream != null)
+                {
                     TotalTime = NAudioEngine.Instance.ActiveStream.TotalTime;
+
+                    var file = TagLib.File.Create(CurrentSong.OriginalPath);
+                    if (file.Tag.Pictures.Length > 0)
+                    {
+                        using (MemoryStream albumArtworkMemStream = new MemoryStream(file.Tag.Pictures[0].Data.Data))
+                        {
+                            try
+                            {
+                                BitmapImage albumImage = new BitmapImage();
+                                albumImage.BeginInit();
+                                albumImage.CacheOption = BitmapCacheOption.OnLoad;
+                                albumImage.StreamSource = albumArtworkMemStream;
+                                albumImage.EndInit();
+                                AlbumArtWork = albumImage;
+                            }
+                            catch (NotSupportedException)
+                            {
+                                AlbumArtWork = null;
+                                // No image
+                            }
+                            albumArtworkMemStream.Close();
+                        }
+                    }
+                    else
+                    {
+                        AlbumArtWork = null;
+                    }
+                }
             }
 
             if (e.PropertyName == "IsPlaying")
             {
                 IsPlaying = NAudioEngine.Instance.IsPlaying;
-            }
-
-            if (e.PropertyName == "FileTag")
-            {
-                var file = NAudioEngine.Instance.FileTag.Tag;
-                if (file.Pictures.Length > 0)
-                {
-                    using (MemoryStream albumArtworkMemStream = new MemoryStream(file.Pictures[0].Data.Data))
-                    {
-                        try
-                        {
-                            BitmapImage albumImage = new BitmapImage();
-                            albumImage.BeginInit();
-                            albumImage.CacheOption = BitmapCacheOption.OnLoad;
-                            albumImage.StreamSource = albumArtworkMemStream;
-                            albumImage.EndInit();
-                            AlbumArtWork = albumImage;
-                        }
-                        catch (NotSupportedException)
-                        {
-                            AlbumArtWork = null;
-                            // System.NotSupportedException:
-                            // No imaging component suitable to complete this operation was found.
-                        }
-                        albumArtworkMemStream.Close();
-                    }
-                }
-                else
-                {
-                    AlbumArtWork = null;
-                }
             }
         }
 
@@ -229,7 +229,7 @@ namespace Kova.ViewModel
 
         private void PlayNext()
         {
-            if (Songs.IndexOf(CurrentSong) != _songs.Count - 1)
+            if (Songs.IndexOf(CurrentSong) != Songs.Count - 1)
             {
                 CurrentSong = _songs[Songs.IndexOf(CurrentSong) + 1];
             }
@@ -254,13 +254,9 @@ namespace Kova.ViewModel
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
             if (result == System.Windows.Forms.DialogResult.OK)
             {
-                Properties.Settings.Default.MusicFolderPath = dialog.SelectedPath;
-                Properties.Settings.Default.Save();
-                string[] FullDataPath = Directory.GetFiles(dialog.SelectedPath, "*.mp3*", SearchOption.AllDirectories);
-
-                for (int i = 0; i < FullDataPath.Length; i++)
+                if (!Properties.Settings.Default.MusicFolderPath.Contains(dialog.SelectedPath))
                 {
-                    Songs.Add(new Song(FullDataPath[i]));
+                    Properties.Settings.Default.MusicFolderPath.Add(dialog.SelectedPath);
                 }
             }
         }
@@ -269,15 +265,20 @@ namespace Kova.ViewModel
         {
             if (!_isMusicPathLoaded)
             {
-                string[] FullDataPath = Directory.GetFiles(Properties.Settings.Default.MusicFolderPath, "*.mp3*", SearchOption.AllDirectories);
-
-                for (int i = 0; i < FullDataPath.Length; i++)
+                if (Properties.Settings.Default.MusicFolderPath != null)
                 {
-                    Songs.Add(new Song(FullDataPath[i]));
+                    foreach (string path in Properties.Settings.Default.MusicFolderPath)
+                    {
+                        string[] FullDataPath = Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories);
+                        for (int i = 0; i < FullDataPath.Length; i++)
+                        {
+                            Songs.Add(new Song(FullDataPath[i]));
+                        }
+                    }
+                    CurrentSong = Songs[0];
+                    NAudioEngine.Instance.Pause();
+                    _isMusicPathLoaded = true;
                 }
-                CurrentSong = Songs[0];
-                NAudioEngine.Instance.Pause();
-                _isMusicPathLoaded = true;
             }
         }
     }

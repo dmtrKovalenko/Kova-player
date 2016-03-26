@@ -30,7 +30,6 @@ namespace Kova.NAudioCore
         private Aggregator waveformAggregator;
         private string pendingWaveformPath;
         private float[] fullLevelData;
-        private TagLib.File fileTag;
         #endregion
 
         #region Constants
@@ -53,7 +52,7 @@ namespace Kova.NAudioCore
         #region Constructor
         private NAudioEngine()
         {
-            positionTimer.Interval = TimeSpan.FromMilliseconds(20);
+            positionTimer.Interval = TimeSpan.FromMilliseconds(25);
             positionTimer.Tick += positionTimer_Tick;
 
             waveformGenerateWorker.DoWork += waveformGenerateWorker_DoWork;
@@ -75,7 +74,6 @@ namespace Kova.NAudioCore
                 {
                     StopAndCloseStream();
                 }
-
                 disposed = true;
             }
         }
@@ -102,7 +100,7 @@ namespace Kova.NAudioCore
             if (ActiveStream != null)
                 maxFrequency = ActiveStream.WaveFormat.SampleRate / 2.0d;
             else
-                maxFrequency = 22050; // Assume a default 44.1 kHz sample rate.
+                maxFrequency = 22050; //44.1 kHz 
             return (int)((frequency / maxFrequency) * (fftDataSize / 2));
         }
         #endregion
@@ -269,8 +267,6 @@ namespace Kova.NAudioCore
             {
                 inputStream.Close();
                 inputStream = null;
-          //      ActiveStream.Close();
-              //  ActiveStream = null;
             }
             if (waveOutDevice != null)
             {
@@ -318,8 +314,6 @@ namespace Kova.NAudioCore
 
         public void OpenFile(string path)
         {
-            Stop();
-
             if (ActiveStream != null)
             {
                 ChannelPosition = 0;
@@ -340,11 +334,8 @@ namespace Kova.NAudioCore
                     inputStream = new WaveChannel32(ActiveStream);
                     _aggregator = new Aggregator(fftDataSize);
                     inputStream.Sample += inputStream_Sample;
-                    waveOutDevice.Init(inputStream);
-       //             waveOutDevice.PlaybackStopped += (sender, evn) => { throw new Exception(); };
- 
+                    waveOutDevice.Init(inputStream); 
                     ChannelLength = inputStream.TotalTime.TotalSeconds;
-                    FileTag = TagLib.File.Create(path);
                     GenerateWaveformData(path);
                     CanPlay = true;
                 }
@@ -358,18 +349,6 @@ namespace Kova.NAudioCore
         #endregion
 
         #region Public Properties
-        public TagLib.File FileTag
-        {
-            get { return fileTag; }
-            set
-            {
-                TagLib.File oldValue = fileTag;
-                fileTag = value;
-                if (oldValue != fileTag)
-                    NotifyPropertyChanged("FileTag");
-            }
-        }
-
         public WaveStream ActiveStream
         {
             get { return activeStream; }

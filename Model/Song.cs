@@ -4,7 +4,7 @@ namespace Kova
 {
     public class Song : IEquatable<Song>
     { 
-        public string OriginalPath { get; protected set; }
+        public string OriginalPath { get; private set; }
 
         public string Album { get; set; }
 

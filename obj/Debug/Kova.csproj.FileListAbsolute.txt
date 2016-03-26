@@ -1,5 +1,4 @@
 D:\Proj\Kova\bin\Debug\Kova.exe.config
-D:\Proj\Kova\obj\Debug\Kova.csprojResolveAssemblyReference.cache
 D:\Proj\Kova\obj\Debug\MainWindow.baml
 D:\Proj\Kova\obj\Debug\Skins\MainSkin.baml
 D:\Proj\Kova\obj\Debug\MainWindow.g.cs
