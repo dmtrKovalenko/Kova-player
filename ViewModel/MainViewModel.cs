@@ -24,18 +24,22 @@ namespace Kova.ViewModel
         private SettingsViewModel _settingsVM { get; set; }
         private AllCompositionsViewModel _allCompositionsVM { get; set; }
 
-
+        private ViewModelLocator VMlock { get; set; }
+        public RelayCommand LaunchKovaCommand { get; private set; }
         public RelayCommand ChangeViewCommand { get; private set; }
         public RelayCommand ChangeToCommand { get; private set; }
 
         public MainViewModel()
         {
-            _currentViewModel = new AllCompositionsViewModel();
+            VMlock = new ViewModelLocator();
+
             _settingsVM = new SettingsViewModel();
             _allCompositionsVM = new AllCompositionsViewModel();
+            CurrentViewModel = new AllCompositionsViewModel();
 
             ChangeViewCommand = new RelayCommand(ChangeView);
             ChangeToCommand = new RelayCommand(ChangeTo);
+            LaunchKovaCommand = new RelayCommand(LaunchKova);
         }
 
         public ViewModelBase CurrentViewModel
@@ -53,12 +57,17 @@ namespace Kova.ViewModel
 
         private void ChangeView()
         {
-            CurrentViewModel = _settingsVM;
+            CurrentViewModel = VMlock.Settings;
         }
 
         private void ChangeTo()
         {
-            CurrentViewModel = _allCompositionsVM;
+            CurrentViewModel = VMlock.AllCompositions;
+        }
+
+        private void LaunchKova()
+        {
+            System.Diagnostics.Process.Start("https://github.com/dmtrKovalenko/Kova-player");
         }
     }
 }

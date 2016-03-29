@@ -13,15 +13,13 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <SolidColorBrush x:Key="AccentBackground"
-                     Color="{DynamicResource AccentColor}" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Background="{DynamicResource AccentBackground}">
+    <Grid Background="{DynamicResource AccentColorBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>
             <RowDefinition Height="61*"/>
@@ -131,7 +129,7 @@
                                Height="15"
                                Fill="White">
                 <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_axis_three}" />
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_shuffle}" />
                 </Rectangle.OpacityMask>
             </Rectangle>
         </ToggleButton>

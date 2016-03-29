@@ -30,6 +30,8 @@ namespace Kova.NAudioCore
         private Aggregator waveformAggregator;
         private string pendingWaveformPath;
         private float[] fullLevelData;
+        private Equalizer _equalizer;
+        private EqualizerBand[] bands;
         #endregion
 
         #region Constants
@@ -58,6 +60,18 @@ namespace Kova.NAudioCore
             waveformGenerateWorker.DoWork += waveformGenerateWorker_DoWork;
             waveformGenerateWorker.RunWorkerCompleted += waveformGenerateWorker_RunWorkerCompleted;
             waveformGenerateWorker.WorkerSupportsCancellation = true;
+            bands = new EqualizerBand[]
+                  {
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 100, Gain = 0},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 200, Gain = 0},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 400, Gain = 0},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 800, Gain = 0},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 1200, Gain = 0},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 2400, Gain = 0},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 4800, Gain = 0},
+                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 9600, Gain = 0},
+                  };
+
         }
         #region IDisposable
         public void Dispose()
@@ -335,9 +349,10 @@ namespace Kova.NAudioCore
                     _aggregator = new Aggregator(fftDataSize);
                     inputStream.Sample += inputStream_Sample;
                     waveOutDevice.Init(inputStream); 
-                    ChannelLength = inputStream.TotalTime.TotalSeconds;
+                    ChannelLength = 100;
                     GenerateWaveformData(path);
                     CanPlay = true;
+
                 }
                 catch
                 {

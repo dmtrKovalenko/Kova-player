@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("persons.xml")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/1459256791_equalizer.png")]
 
 

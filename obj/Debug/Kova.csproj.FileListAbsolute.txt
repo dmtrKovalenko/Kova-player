@@ -1,6 +1,5 @@
 D:\Proj\Kova\bin\Debug\Kova.exe.config
 D:\Proj\Kova\obj\Debug\MainWindow.baml
-D:\Proj\Kova\obj\Debug\Skins\MainSkin.baml
 D:\Proj\Kova\obj\Debug\MainWindow.g.cs
 D:\Proj\Kova\obj\Debug\App.g.cs
 D:\Proj\Kova\obj\Debug\GeneratedInternalTypeHelper.g.cs
@@ -119,3 +118,6 @@ D:\Proj\Kova\obj\Debug\Views\Settings\SettingsAppearance.g.cs
 D:\Proj\Kova\obj\Debug\Views\MainPage.baml
 D:\Proj\Kova\obj\Debug\Views\Settings.baml
 D:\Proj\Kova\obj\Debug\Views\Settings\SettingsAppearance.baml
+D:\Proj\Kova\obj\Debug\Kova.csprojResolveAssemblyReference.cache
+D:\Proj\Kova\obj\Debug\Views\EqualiserFlyout.baml
+D:\Proj\Kova\obj\Debug\Views\EqualiserFlyout.g.cs

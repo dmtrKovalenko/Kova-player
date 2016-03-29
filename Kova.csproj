@@ -25,15 +25,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GalaSoft.MvvmLight, Version=5.2.0.37222, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
@@ -109,12 +111,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\FlayoutControls.cs" />
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Model\AccentColorMenuData.cs" />
     <Compile Include="Model\DataItem.cs" />
     <Compile Include="Model\DataService.cs" />
     <Compile Include="Model\IDataService.cs" />
     <Compile Include="NAudioCore\Aggregator.cs" />
+    <Compile Include="NAudioCore\Equalizer.cs" />
+    <Compile Include="NAudioCore\EqualizerBand.cs" />
     <Compile Include="NAudioCore\ISpectrumPlayer.cs" />
     <Compile Include="NAudioCore\NAudioEngine.cs" />
     <Compile Include="NAudioCore\SpectrumAnalyzer.cs" />
@@ -128,6 +133,9 @@
     </Compile>
     <Compile Include="Views\AllCompositions.xaml.cs">
       <DependentUpon>AllCompositions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EqualiserFlyout.xaml.cs">
+      <DependentUpon>EqualiserFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -170,6 +178,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\EqualiserFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -183,10 +195,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Skins\MainSkin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -239,6 +247,24 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\icomoon_e62e%280%29.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icomoon_e62e%280%29.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="mahapps.metro.logo2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\1459256791_equalizer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

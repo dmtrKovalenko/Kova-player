@@ -21,22 +21,26 @@ namespace Kova.ViewModel
         private bool _isPlaying { get; set; }
         private bool _inRepeatMode { get; set; }
         private BitmapImage _albumArtWork { get; set; }
+        private bool _isEqualizerShowing { get; set; }
 
         public RelayCommand AddMusicFolderCommand { get; private set; }
         public RelayCommand LoadMusicPathCommand { get; private set; }
         public RelayCommand PlayNextCommand { get; private set; }
         public RelayCommand PlayPreviousCommand { get; private set; }
         public RelayCommand PlayCommand { get; private set; }
+        public RelayCommand ShowEqualizerCommand { get; private set;}
 
         public AllCompositionsViewModel()
         {
             _songs = new ObservableCollection<Song>();
             LoadMusicPath();
+
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
             LoadMusicPathCommand = new RelayCommand(LoadMusicPath);
             PlayNextCommand = new RelayCommand(PlayNext);
             PlayPreviousCommand = new RelayCommand(PlayPrevious);
             PlayCommand = new RelayCommand(Play);
+            ShowEqualizerCommand = new RelayCommand(ShowEqualizer);
 
             NAudioEngine.Instance.PropertyChanged += NAudioEngine_PropertyChanged;
         }
@@ -215,6 +219,24 @@ namespace Kova.ViewModel
             }
         }
 
+        public bool IsEqualizerVisible
+        {
+            get
+            {
+                return _isEqualizerShowing;
+            }
+            set
+            {
+                _isEqualizerShowing = value;
+                RaisePropertyChanged(nameof(IsEqualizerVisible));
+            }
+        }
+
+        private void ShowEqualizer()
+        {
+            IsEqualizerVisible = !IsEqualizerVisible;
+        } 
+
         private void Play()
         {
             if (NAudioEngine.Instance.CanPlay)
@@ -241,6 +263,11 @@ namespace Kova.ViewModel
             {
                 CurrentSong = Songs[Songs.IndexOf(CurrentSong) - 1];
             }
+        }
+
+        private void OpenEqualizer()
+        {
+ 
         }
 
         private void PlayRepeat()

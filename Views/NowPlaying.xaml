@@ -7,7 +7,8 @@
              xmlns:svl="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
              xmlns:Visualise="clr-namespace:Kova.NAudioCore.Visualisation"
              xmlns:Pages ="clr-namespace:Kova.Views"
-             mc:Ignorable="d" d:DesignWidth="730" d:DesignHeight="347.288">
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d" d:DesignWidth="774" d:DesignHeight="390.288">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -22,7 +23,7 @@
             </Grid.ColumnDefinitions>
 
 
-            <Visualise:ReflectionControl Grid.Column="1" Margin="61,-19,10,-37" Grid.RowSpan="3" Grid.ColumnSpan="2" Width="521" Height="403">
+            <Visualise:ReflectionControl Grid.Column="1" Margin="87,6,0,-4" Grid.RowSpan="3" Grid.ColumnSpan="2" Width="541" Height="388">
                 <Core:SpectrumAnalyzer x:Name="spectrumAnalyzer1"
                                      AveragePeaks="False" BarCount="34"
                                      MinimumFrequency="20"                         
@@ -30,16 +31,31 @@
                                      PeakFallDelay="10"
                                      BarHeightScaling="Decibel" Grid.ColumnSpan="2" Grid.Column="1" RenderTransformOrigin="0.501,0.775"/>
             </Visualise:ReflectionControl>
-            
+
             <Visualise:ReflectionControl Grid.ColumnSpan="2" 
-                                         Height="410" Margin="22,-73,152,10" Width="172" 
-                                         Grid.RowSpan="3" RenderTransformOrigin="0.518,0.423">
+                                         Height="410" Margin="32,-55,163,10" Width="172" 
+                                         Grid.RowSpan="2" RenderTransformOrigin="0.518,0.423">
                 <svl:AlbumArtDisplay x:Name="albumArtPanel" AlbumArtImage="{Binding AlbumArtWork}"
                                      Margin="0,104,0,7" Grid.ColumnSpan="2"
                                      RenderTransformOrigin="0.116,0.397">
 
                 </svl:AlbumArtDisplay>
             </Visualise:ReflectionControl>
+
+            <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
+                     Command="{Binding ShowEqualizerCommand}"
+                     Height="43" VerticalAlignment="Top" 
+                     HorizontalAlignment="Left" Width="43" 
+                     Grid.Column="2" Margin="364,-15,0,0">
+                <Rectangle Width="19" Margin="2"
+                               Height="20"
+                               Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_music}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+
+            </Button>
 
         </Grid>
     </Grid>
