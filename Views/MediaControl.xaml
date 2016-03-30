@@ -98,7 +98,7 @@
                    HorizontalAlignment="Left"
                    Margin="79,18,0,0" 
                    TextWrapping="Wrap" 
-                   Text="{Binding CurrentSong.Title}" 
+                   Text="{Binding CurrentSong.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                    VerticalAlignment="Top" Width="266" Height="23" Grid.RowSpan="2"/>
         <TextBlock x:Name="textBlock" FontSize="14"
                      Foreground="{DynamicResource GrayBrush9}"

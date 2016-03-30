@@ -3,7 +3,7 @@
 namespace Kova
 {
     public class Song : IEquatable<Song>
-    { 
+    {
         public string OriginalPath { get; private set; }
 
         public string Album { get; set; }
@@ -13,7 +13,7 @@ namespace Kova
         public string Artist { get; set; }
 
         public string Genre { get; set; }
-       
+
         public Song(string path)
         {
             if (path == null)

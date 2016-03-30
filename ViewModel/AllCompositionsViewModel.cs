@@ -24,19 +24,19 @@ namespace Kova.ViewModel
         private bool _isEqualizerShowing { get; set; }
 
         public RelayCommand AddMusicFolderCommand { get; private set; }
-        public RelayCommand LoadMusicPathCommand { get; private set; }
         public RelayCommand PlayNextCommand { get; private set; }
         public RelayCommand PlayPreviousCommand { get; private set; }
         public RelayCommand PlayCommand { get; private set; }
-        public RelayCommand ShowEqualizerCommand { get; private set;}
+        public RelayCommand ShowEqualizerCommand { get; private set; }
 
         public AllCompositionsViewModel()
         {
             _songs = new ObservableCollection<Song>();
             LoadMusicPath();
+            CurrentSong = Songs[0];
+            NAudioEngine.Instance.Stop();
 
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
-            LoadMusicPathCommand = new RelayCommand(LoadMusicPath);
             PlayNextCommand = new RelayCommand(PlayNext);
             PlayPreviousCommand = new RelayCommand(PlayPrevious);
             PlayCommand = new RelayCommand(Play);
@@ -55,18 +55,11 @@ namespace Kova.ViewModel
                 _inTimerPorsitionUpdate = false;
 
                 CurrentTime = NAudioEngine.Instance.ActiveStream.CurrentTime;
+            }
 
-                if (NAudioEngine.Instance.ChannelPosition == 100)
-                {
-                    if (InRepeatMode)
-                    {
-                        PlayRepeat();
-                    }
-                    else
-                    {
-                        PlayNext();
-                    }
-                }
+            if (e.PropertyName == "PlaybackStopped")
+            {
+                PlayNext();
             }
 
             if (e.PropertyName == "ActiveStream")
@@ -74,7 +67,6 @@ namespace Kova.ViewModel
                 if (NAudioEngine.Instance.ActiveStream != null)
                 {
                     TotalTime = NAudioEngine.Instance.ActiveStream.TotalTime;
-
                     var file = TagLib.File.Create(CurrentSong.OriginalPath);
                     if (file.Tag.Pictures.Length > 0)
                     {
@@ -235,7 +227,7 @@ namespace Kova.ViewModel
         private void ShowEqualizer()
         {
             IsEqualizerVisible = !IsEqualizerVisible;
-        } 
+        }
 
         private void Play()
         {
@@ -253,7 +245,7 @@ namespace Kova.ViewModel
         {
             if (Songs.IndexOf(CurrentSong) != Songs.Count - 1)
             {
-                CurrentSong = _songs[Songs.IndexOf(CurrentSong) + 1];
+                CurrentSong = Songs[Songs.IndexOf(CurrentSong) + 1];
             }
         }
 
@@ -263,11 +255,6 @@ namespace Kova.ViewModel
             {
                 CurrentSong = Songs[Songs.IndexOf(CurrentSong) - 1];
             }
-        }
-
-        private void OpenEqualizer()
-        {
- 
         }
 
         private void PlayRepeat()
@@ -299,11 +286,11 @@ namespace Kova.ViewModel
                         string[] FullDataPath = Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories);
                         for (int i = 0; i < FullDataPath.Length; i++)
                         {
-                            Songs.Add(new Song(FullDataPath[i]));
+                            Song song = new Song(FullDataPath[i]);
+                            if (!Songs.Contains(song))
+                                Songs.Add(song);
                         }
                     }
-                    CurrentSong = Songs[0];
-                    NAudioEngine.Instance.Pause();
                     _isMusicPathLoaded = true;
                 }
             }

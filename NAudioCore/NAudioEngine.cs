@@ -30,8 +30,6 @@ namespace Kova.NAudioCore
         private Aggregator waveformAggregator;
         private string pendingWaveformPath;
         private float[] fullLevelData;
-        private Equalizer _equalizer;
-        private EqualizerBand[] bands;
         #endregion
 
         #region Constants
@@ -60,17 +58,6 @@ namespace Kova.NAudioCore
             waveformGenerateWorker.DoWork += waveformGenerateWorker_DoWork;
             waveformGenerateWorker.RunWorkerCompleted += waveformGenerateWorker_RunWorkerCompleted;
             waveformGenerateWorker.WorkerSupportsCancellation = true;
-            bands = new EqualizerBand[]
-                  {
-                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 100, Gain = 0},
-                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 200, Gain = 0},
-                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 400, Gain = 0},
-                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 800, Gain = 0},
-                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 1200, Gain = 0},
-                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 2400, Gain = 0},
-                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 4800, Gain = 0},
-                        new EqualizerBand {Bandwidth = 0.8f, Frequency = 9600, Gain = 0},
-                  };
 
         }
         #region IDisposable
@@ -94,7 +81,7 @@ namespace Kova.NAudioCore
         #endregion
 
         #region ISpectrumPlayer
-  
+
 
         public bool GetFFTData(float[] fftDataBuffer)
         {
@@ -120,7 +107,7 @@ namespace Kova.NAudioCore
         #endregion
 
         #region IWaveformPlayer
-   
+
 
         public double ChannelLength
         {
@@ -139,13 +126,15 @@ namespace Kova.NAudioCore
             get { return channelPosition; }
             set
             {
-                  double oldValue = channelPosition;
-                  double position = Math.Max(0, Math.Min(value, ChannelLength));
-                  if (!inChannelTimerUpdate && ActiveStream != null)
-                      ActiveStream.Position = (long)((position / 100) * ActiveStream.Length);
-                  channelPosition = position;
-                  if (oldValue != channelPosition)
+                double oldValue = channelPosition;
+                double position = Math.Max(0, Math.Min(value, ChannelLength));
+                if (!inChannelTimerUpdate && ActiveStream != null)
+                    ActiveStream.Position = (long)((position / 100) * ActiveStream.Length);
+                channelPosition = position;
+                if (oldValue != channelPosition)
                     NotifyPropertyChanged("ChannelPosition");
+                if (ChannelPosition == ChannelLength)
+                    waveOutDevice.Stop();
             }
         }
         #endregion
@@ -245,7 +234,6 @@ namespace Kova.NAudioCore
                 if (readCount % 3000 == 0)
                 {
                     float[] clonedData = (float[])waveformCompressedPoints.Clone();
-
                 }
 
                 if (waveformGenerateWorker.CancellationPending)
@@ -279,8 +267,15 @@ namespace Kova.NAudioCore
             }
             if (activeStream != null)
             {
-                inputStream.Close();
-                inputStream = null;
+                try
+                {
+                    inputStream.Close();
+                    inputStream = null;
+                }
+                catch
+                {
+                    inputStream = null;
+                }
             }
             if (waveOutDevice != null)
             {
@@ -343,15 +338,17 @@ namespace Kova.NAudioCore
                     {
                         DesiredLatency = 65
                     };
-                    
+
                     ActiveStream = new AudioFileReader(path);
                     inputStream = new WaveChannel32(ActiveStream);
                     _aggregator = new Aggregator(fftDataSize);
                     inputStream.Sample += inputStream_Sample;
-                    waveOutDevice.Init(inputStream); 
+                    waveOutDevice.Init(inputStream);
                     ChannelLength = 100;
                     GenerateWaveformData(path);
                     CanPlay = true;
+                    inputStream.PadWithZeroes = false;
+                    waveOutDevice.PlaybackStopped += new EventHandler<StoppedEventArgs>(OnPlaybackStopped);
 
                 }
                 catch
@@ -360,6 +357,12 @@ namespace Kova.NAudioCore
                     CanPlay = false;
                 }
             }
+        }
+
+        private void OnPlaybackStopped(object sender, StoppedEventArgs e)
+        {
+            if (ChannelPosition == ChannelLength) 
+               NotifyPropertyChanged("PlaybackStopped");
         }
         #endregion
 
