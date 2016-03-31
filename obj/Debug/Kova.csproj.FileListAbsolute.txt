@@ -121,3 +121,5 @@ D:\Proj\Kova\obj\Debug\Views\Settings\SettingsAppearance.baml
 D:\Proj\Kova\obj\Debug\Kova.csprojResolveAssemblyReference.cache
 D:\Proj\Kova\obj\Debug\Views\EqualiserFlyout.baml
 D:\Proj\Kova\obj\Debug\Views\EqualiserFlyout.g.cs
+D:\Proj\Kova\obj\Debug\Controls\VolumeBar.g.cs
+D:\Proj\Kova\obj\Debug\Controls\VolumeBar.baml

@@ -33,8 +33,8 @@
             </Visualise:ReflectionControl>
 
             <Visualise:ReflectionControl Grid.ColumnSpan="2" 
-                                         Height="410" Margin="32,-55,163,10" Width="172" 
-                                         Grid.RowSpan="2" RenderTransformOrigin="0.518,0.423">
+                                         Height="435" Margin="32,-55,163,10" Width="172" 
+                                         Grid.RowSpan="3" RenderTransformOrigin="0.518,0.423">
                 <svl:AlbumArtDisplay x:Name="albumArtPanel" AlbumArtImage="{Binding AlbumArtWork}"
                                      Margin="0,104,0,7" Grid.ColumnSpan="2"
                                      RenderTransformOrigin="0.116,0.397">

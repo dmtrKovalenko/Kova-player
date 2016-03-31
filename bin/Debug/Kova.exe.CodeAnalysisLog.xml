@@ -12,16 +12,16 @@
          <Members>
           <Member Name="#Dispose(System.Boolean)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
            <Messages>
-            <Message Id="waveformGenerateWorker" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2016-03-30 13:21:17Z" FixCategory="NonBreaking">
-             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="71">'NAudioEngine' содержит поле 'NAudioEngine.waveformGenerateWorker' типа IDisposable: 'BackgroundWorker'. Замените метод Dispose для 'NAudioEngine' на вызов Dispose или Close по этому полю.</Issue>
+            <Message Id="waveformGenerateWorker" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2016-03-31 15:43:55Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="72">'NAudioEngine' содержит поле 'NAudioEngine.waveformGenerateWorker' типа IDisposable: 'BackgroundWorker'. Замените метод Dispose для 'NAudioEngine' на вызов Dispose или Close по этому полю.</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#waveformGenerateWorker_DoWork(System.Object,System.ComponentModel.DoWorkEventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-30 13:21:17Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="253">Объект "'waveformInputStream'" можно удалять более одного раза в методе 'NAudioEngine.waveformGenerateWorker_DoWork(object, DoWorkEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 253</Issue>
-             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="253">Объект "'waveformMp3Stream'" можно удалять более одного раза в методе 'NAudioEngine.waveformGenerateWorker_DoWork(object, DoWorkEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 253, 255, 256</Issue>
+            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-31 15:43:55Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="254">Объект "'waveformInputStream'" можно удалять более одного раза в методе 'NAudioEngine.waveformGenerateWorker_DoWork(object, DoWorkEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 254</Issue>
+             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="254">Объект "'waveformMp3Stream'" можно удалять более одного раза в методе 'NAudioEngine.waveformGenerateWorker_DoWork(object, DoWorkEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 254, 256, 257</Issue>
             </Message>
            </Messages>
           </Member>
@@ -35,15 +35,15 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-03-30 13:21:17Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="AllCompositionsViewModel.cs" Line="32">'AllCompositionsViewModel.AllCompositionsViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;AllCompositionsViewModel..ctor()&#xD;&#xA;AllCompositionsViewModel.set_CurrentSong(Song):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-03-31 15:43:55Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="AllCompositionsViewModel.cs" Line="36">'AllCompositionsViewModel.AllCompositionsViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;AllCompositionsViewModel..ctor()&#xD;&#xA;AllCompositionsViewModel.set_CurrentSong(Song):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
             </Message>
            </Messages>
           </Member>
           <Member Name="#NAudioEngine_PropertyChanged(System.Object,System.ComponentModel.PropertyChangedEventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-30 13:21:17Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\ViewModel" File="AllCompositionsViewModel.cs" Line="90">Объект "'albumArtworkMemStream'" можно удалять более одного раза в методе 'AllCompositionsViewModel.NAudioEngine_PropertyChanged(object, PropertyChangedEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 90</Issue>
+            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-03-31 15:43:55Z" FixCategory="DependsOnFix">
+             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\ViewModel" File="AllCompositionsViewModel.cs" Line="103">Объект "'albumArtworkMemStream'" можно удалять более одного раза в методе 'AllCompositionsViewModel.NAudioEngine_PropertyChanged(object, PropertyChangedEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 103</Issue>
             </Message>
            </Messages>
           </Member>
@@ -53,7 +53,7 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-03-30 13:21:17Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-03-31 15:43:55Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="MainViewModel.cs" Line="32">'MainViewModel.MainViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;MainViewModel..ctor()&#xD;&#xA;MainViewModel.set_CurrentViewModel(ViewModelBase):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
             </Message>
            </Messages>
@@ -64,7 +64,7 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-03-30 13:21:17Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-03-31 15:43:55Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="SettingsViewModel.cs" Line="19">'SettingsViewModel.SettingsViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;SettingsViewModel..ctor()&#xD;&#xA;SettingsViewModel.set_SelectedAccentColor(AccentColorMenuData):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
             </Message>
            </Messages>
@@ -102,7 +102,7 @@
   <Rule TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202">
    <Name>Не ликвидировать объекты несколько раз</Name>
    <Description>Правильно реализованный метод Dispose может вызываться неоднократно без создания исключения. Однако такой гарантии нет, и чтобы предотвратить создание System.ObjectDisposedException, не следует вызывать метод Dispose для объекта более одного раза.</Description>
-   <Resolution Name="Default">Объект "{0}" можно удалять более одного раза в методе {1}. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 253</Resolution>
+   <Resolution Name="Default">Объект "{0}" можно удалять более одного раза в методе {1}. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 254</Resolution>
    <Owner>RuleOwner</Owner>
    <Url>http://msdn.microsoft.com/library/ms182334.aspx</Url>
    <Email />

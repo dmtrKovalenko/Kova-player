@@ -39,7 +39,7 @@ namespace Kova
             }
             else
             {
-                this.Title = System.IO.Path.GetFileName(path);
+                this.Title = System.IO.Path.GetFileNameWithoutExtension(path);
             }
           
         }

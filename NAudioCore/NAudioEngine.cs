@@ -30,6 +30,7 @@ namespace Kova.NAudioCore
         private Aggregator waveformAggregator;
         private string pendingWaveformPath;
         private float[] fullLevelData;
+        private float _volume;
         #endregion
 
         #region Constants
@@ -349,7 +350,6 @@ namespace Kova.NAudioCore
                     CanPlay = true;
                     inputStream.PadWithZeroes = false;
                     waveOutDevice.PlaybackStopped += new EventHandler<StoppedEventArgs>(OnPlaybackStopped);
-
                 }
                 catch
                 {
@@ -376,6 +376,19 @@ namespace Kova.NAudioCore
                 activeStream = value;
                 if (oldValue != activeStream)
                     NotifyPropertyChanged("ActiveStream");
+            }
+        }
+
+        public float Volume
+        {
+            get
+            {
+                return waveOutDevice.Volume;
+            }
+            set
+            {
+                waveOutDevice.Volume = value;
+                NotifyPropertyChanged(nameof(Volume));
             }
         }
 

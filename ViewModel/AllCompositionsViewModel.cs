@@ -6,28 +6,32 @@ using System.Collections.ObjectModel;
 using Kova.NAudioCore;
 using System.ComponentModel;
 using System.Windows.Media.Imaging;
-using System.Linq;
 
 namespace Kova.ViewModel
 {
     public class AllCompositionsViewModel : ViewModelBase
     {
         private bool _isMusicPathLoaded { get; set; }
-        private ObservableCollection<Song> _songs;
+        private ObservableCollection<Song> _songs { get; set; }
         private Song _currentSong { get; set; }
         private bool _inTimerPorsitionUpdate { get; set; }
         private TimeSpan _currentTime { get; set; }
         private TimeSpan _totalTime { get; set; }
         private bool _isPlaying { get; set; }
-        private bool _inRepeatMode { get; set; }
+        private bool _inRepeatSet { get; set; }
         private BitmapImage _albumArtWork { get; set; }
         private bool _isEqualizerShowing { get; set; }
+        private bool _isVolumePopupOpened { get; set; }
+        private bool _isMuted { get; set; }
+        private float _lastVolume { get; set; }
 
+        public RelayCommand VolumePopupOpenCommand { get; private set; }
         public RelayCommand AddMusicFolderCommand { get; private set; }
         public RelayCommand PlayNextCommand { get; private set; }
         public RelayCommand PlayPreviousCommand { get; private set; }
         public RelayCommand PlayCommand { get; private set; }
         public RelayCommand ShowEqualizerCommand { get; private set; }
+        public RelayCommand MuteCommand { get; private set; }
 
         public AllCompositionsViewModel()
         {
@@ -41,6 +45,8 @@ namespace Kova.ViewModel
             PlayPreviousCommand = new RelayCommand(PlayPrevious);
             PlayCommand = new RelayCommand(Play);
             ShowEqualizerCommand = new RelayCommand(ShowEqualizer);
+            VolumePopupOpenCommand = new RelayCommand(OpenVolumePopup);
+            MuteCommand = new RelayCommand(Mute);
 
             NAudioEngine.Instance.PropertyChanged += NAudioEngine_PropertyChanged;
         }
@@ -59,7 +65,14 @@ namespace Kova.ViewModel
 
             if (e.PropertyName == "PlaybackStopped")
             {
-                PlayNext();
+                if (InRepeatSet)
+                {
+                    PlayRepeat();
+                }
+                else
+                {
+                    PlayNext();
+                }
             }
 
             if (e.PropertyName == "ActiveStream")
@@ -198,16 +211,16 @@ namespace Kova.ViewModel
             }
         }
 
-        public bool InRepeatMode
+        public bool InRepeatSet
         {
             get
             {
-                return _inRepeatMode;
+                return _inRepeatSet;
             }
             set
             {
-                _inRepeatMode = value;
-                RaisePropertyChanged(nameof(InRepeatMode));
+                _inRepeatSet = value;
+                RaisePropertyChanged(nameof(InRepeatSet));
             }
         }
 
@@ -222,6 +235,64 @@ namespace Kova.ViewModel
                 _isEqualizerShowing = value;
                 RaisePropertyChanged(nameof(IsEqualizerVisible));
             }
+        }
+
+        public bool IsVolumePopupOpened
+        {
+            get
+            {
+                return _isVolumePopupOpened;
+            }
+            set
+            {
+                _isVolumePopupOpened = value;
+                RaisePropertyChanged(nameof(IsVolumePopupOpened));
+            }
+        }
+
+        public float Volume
+        {
+            get
+            {
+                return NAudioEngine.Instance.Volume;
+            }
+            set
+            {
+                NAudioEngine.Instance.Volume = value;
+                RaisePropertyChanged(nameof(Volume));
+            }
+        }
+
+        public bool IsMuted
+        {
+            get
+            {
+                return _isMuted;
+            }
+            set
+            {
+                _isMuted = value;
+                RaisePropertyChanged(nameof(IsMuted));
+            }
+        }
+
+        private void Mute()
+        {
+            IsMuted = !IsMuted;
+            if (IsMuted)
+            {
+                _lastVolume = Volume;
+                Volume = 0;
+            }
+            else
+            {
+                Volume = _lastVolume;
+            }
+        }
+
+        private void OpenVolumePopup()
+        {
+            IsVolumePopupOpened = !IsVolumePopupOpened;
         }
 
         private void ShowEqualizer()
@@ -261,6 +332,8 @@ namespace Kova.ViewModel
         {
             CurrentSong = Songs[Songs.IndexOf(CurrentSong)];
         }
+
+        
 
         private void AddMusicFolder()
         {

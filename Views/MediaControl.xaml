@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Kova.Views"
       xmlns:vm="clr-namespace:Kova.ViewModel"
+                xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
       xmlns:svl ="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
@@ -14,27 +15,28 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
+
     <Grid Background="{DynamicResource AccentColorBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="20*"/>
             <RowDefinition Height="61*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="578*"/>
+            <ColumnDefinition Width="509*"/>
+            <ColumnDefinition Width="70*"/>
             <ColumnDefinition Width="44*"/>
             <ColumnDefinition Width="44*"/>
             <ColumnDefinition Width="61*"/>
             <ColumnDefinition Width="56*"/>
         </Grid.ColumnDefinitions>
-             
-            <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}"
+
+        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}"
                 Margin="24,4,4,25" Command="{Binding PlayCommand}"
-                Grid.Column="1" Grid.RowSpan="2" Grid.ColumnSpan="2">
+                Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Button.Resources>
                 <VisualBrush x:Key="playIcon" Stretch="Fill" Visual="{DynamicResource appbar_control_play}" />
                 <VisualBrush x:Key="pauseIcon" Stretch="Fill" Visual="{DynamicResource appbar_control_pause}" />
@@ -60,7 +62,7 @@
         </Button>
 
         <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" Margin="40,18,17,25" 
-                Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2"
+                Grid.Column="3" Grid.RowSpan="2" Grid.ColumnSpan="2"
                 Command="{Binding PlayNextCommand}">
             <Rectangle  Width="18" Margin="2,0,0,0"
                         Height="14"
@@ -72,9 +74,9 @@
         </Button>
 
         <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" 
-                Margin="554,18,20,25"
+                Margin="45.5,18,20,25"
                 Command="{Binding PlayPreviousCommand}"
-                Grid.RowSpan="2" Grid.ColumnSpan="2">
+                Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="1">
             <Rectangle Width="18" Margin="0,0,0,0" 
                        Height="14"
                        Fill="White" >
@@ -84,13 +86,80 @@
             </Rectangle>
         </Button>
 
+        <Button x:Name="VolumeButton" BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" 
+                Margin="9.5,7,24,25" 
+                Command="{Binding VolumePopupOpenCommand}"
+                Grid.Row="1" Grid.Column="1">
+            <Rectangle Width="16"
+                       Height="14" 
+                       Fill="White" >
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_sound_3}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
+
+        <Popup IsOpen="{Binding IsVolumePopupOpened}" 
+               Placement="Top" PopupAnimation="Fade" 
+               AllowsTransparency="True" StaysOpen="False"
+               VerticalOffset="-10"
+               HorizontalOffset="-67"
+               PlacementTarget="{Binding ElementName=VolumeButton}" Grid.ColumnSpan="2">
+
+            <Grid HorizontalAlignment="Center"
+                  VerticalAlignment="Center" 
+                  Background="{DynamicResource FlatButtonBackgroundBrush}" 
+                  Width="212" Height="46">
+
+                <Button BorderBrush="Transparent" Style="{DynamicResource MetroCircleButtonStyle}" 
+                     Margin="2,7,169,3" 
+                     Command="{Binding MuteCommand}" RenderTransformOrigin="-0.75,0.4">
+                    <Button.Resources>
+                        <VisualBrush x:Key="VolumeIcon" Stretch="Fill" Visual="{DynamicResource appbar_sound_3}" />
+                        <VisualBrush x:Key="MuteIcon" Stretch="Fill" Visual="{DynamicResource appbar_sound_mute}" />
+                    </Button.Resources>
+                    <Rectangle Width="24"
+                       Height="22" 
+                       Fill="{DynamicResource GrayBrush2}" >
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMuted}" Value="True">
+                                        <Setter Property="OpacityMask" Value="{DynamicResource MuteIcon}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsMuted}" Value="False">
+                                        <Setter Property="OpacityMask" Value="{DynamicResource VolumeIcon}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                </Button>
+                <Slider x:Name="horizSlider"
+                    Margin="43,18,8,0"
+                    Maximum="1" LargeChange="0.25"
+                    Minimum="0" Value="{Binding Volume, Mode=TwoWay}"
+                    Style="{StaticResource FlatSlider}"
+                    SmallChange="1"
+                    Height="11" VerticalAlignment="Top" Width="Auto" />
+            </Grid>
+        </Popup>
+
         <Slider Minimum="0" Maximum="100" Value="{Binding CurrentPosition, Mode=TwoWay}" 
                 Foreground="White" HorizontalAlignment="Center"
-                Margin="84,45,23,0" Height="20" VerticalAlignment="Top" Width="620" 
-                Grid.ColumnSpan="4" Grid.Row="1" >
+                Margin="86,45,21,0" Height="20" VerticalAlignment="Top" Width="620" 
+                Grid.ColumnSpan="5" Grid.Row="1" >
+            <Slider.Resources>
+                <ResourceDictionary>
+                    <ResourceDictionary.MergedDictionaries>
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Dark.xaml" />
+                        <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                    </ResourceDictionary.MergedDictionaries>
+                </ResourceDictionary>
+            </Slider.Resources>
         </Slider>
 
-        <svl:AlbumArtDisplay Margin="18,17,508.333,28" AlbumArtImage="{Binding AlbumArtWork}"
+        <svl:AlbumArtDisplay Margin="18,17,438.5,28" AlbumArtImage="{Binding AlbumArtWork}"
                              Grid.RowSpan="2"/>
 
         <TextBlock x:Name="CurrentTrack" FontSize="17"
@@ -101,7 +170,7 @@
                    Text="{Binding CurrentSong.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                    VerticalAlignment="Top" Width="266" Height="23" Grid.RowSpan="2"/>
         <TextBlock x:Name="textBlock" FontSize="14"
-                     Foreground="{DynamicResource GrayBrush9}"
+                   Foreground="{DynamicResource GrayBrush2}"
                    Text="{Binding CurrentSong.Artist}" 
                    HorizontalAlignment="Left" 
                    Margin="79,21,0,0" 
@@ -111,8 +180,8 @@
                    Height="19" Width="137"/>
 
         <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}"
-                      Grid.Column="4" Grid.Row="1"
-                      Margin="17,6,3,26" IsChecked="{Binding InRepeatMode, Mode=TwoWay}">
+                      Grid.Column="5" Grid.Row="1"
+                      Margin="17,6,3,26" IsChecked="{Binding InRepeatSet, Mode=TwoWay}">
             <Rectangle Width="15"
                                Height="15"
                                Fill="White">
@@ -123,7 +192,7 @@
         </ToggleButton>
 
         <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}" 
-                      Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="2"
+                      Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2"
                       Margin="44,6,37,26" >
             <Rectangle Width="15"
                                Height="15"
@@ -146,6 +215,6 @@
                    Margin="47,42,0,0" Grid.Row="1"
                    Foreground="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
                    TextWrapping="Wrap" 
-                   VerticalAlignment="Top" Width="60" Height="21" Grid.ColumnSpan="2" Grid.Column="3"/>
+                   VerticalAlignment="Top" Width="60" Height="21" Grid.ColumnSpan="2" Grid.Column="4"/>
     </Grid>
 </UserControl>

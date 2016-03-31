@@ -112,6 +112,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\FlayoutControls.cs" />
+    <Compile Include="Controls\VolumeBar.xaml.cs">
+      <DependentUpon>VolumeBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Design\DesignDataService.cs" />
     <Compile Include="Model\AccentColorMenuData.cs" />
     <Compile Include="Model\DataItem.cs" />
@@ -154,6 +157,10 @@
     <Compile Include="Views\Settings\SettingsAppearance.xaml.cs">
       <DependentUpon>SettingsAppearance.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\VolumeBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

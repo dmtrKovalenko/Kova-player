@@ -10,11 +10,11 @@ none
 false
 CODE_ANALYSIS;DEBUG;TRACE
 D:\Proj\Kova\App.xaml
-111205344637
+12669925820
 
-36-1877741140
+37412828090
 78615849788
-MainWindow.xaml;NAudioCore\Visualisation\ExpressionLight.xaml;Views\Albums.xaml;Views\AllCompositions.xaml;Views\EqualiserFlyout.xaml;Views\MainPage.xaml;Views\MediaControl.xaml;Views\NowPlaying.xaml;Resources\Icons.xaml;Views\Settings.xaml;Views\Settings\SettingsAppearance.xaml;
+Controls\VolumeBar.xaml;MainWindow.xaml;NAudioCore\Visualisation\ExpressionLight.xaml;Views\Albums.xaml;Views\AllCompositions.xaml;Views\EqualiserFlyout.xaml;Views\MainPage.xaml;Views\MediaControl.xaml;Views\NowPlaying.xaml;Resources\Icons.xaml;Views\Settings.xaml;Views\Settings\SettingsAppearance.xaml;
 
 False
 
