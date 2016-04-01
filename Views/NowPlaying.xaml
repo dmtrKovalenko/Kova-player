@@ -43,7 +43,7 @@
             </Visualise:ReflectionControl>
 
             <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
-                     Command="{Binding ShowEqualizerCommand}"
+                     Command="{Binding ShowPlaybackQueueCommand}"
                      Height="43" VerticalAlignment="Top" 
                      HorizontalAlignment="Left" Width="43" 
                      Grid.Column="2" Margin="364,-15,0,0">

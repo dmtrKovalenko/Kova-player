@@ -13,9 +13,6 @@
         
         <ResourceDictionary>
             <vm:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
-            <DataTemplate DataType="{x:Type vm:MainViewModel}">
-                <Kova:MainWindow />
-            </DataTemplate>
             <DataTemplate DataType="{x:Type vm:AllCompositionsViewModel}">
                 <Views:MainPage />
             </DataTemplate>

@@ -17,6 +17,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <VisualBrush x:Key="VolumeIcon" Stretch="Fill" Visual="{DynamicResource appbar_sound_3}" />
+            <VisualBrush x:Key="MuteIcon" Stretch="Fill" Visual="{DynamicResource appbar_sound_mute}" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -93,9 +95,18 @@
             <Rectangle Width="16"
                        Height="14" 
                        Fill="White" >
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_sound_3}" />
-                </Rectangle.OpacityMask>
+                <Rectangle.Style>
+                    <Style TargetType="{x:Type Rectangle}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMuted}" Value="True">
+                                <Setter Property="OpacityMask" Value="{DynamicResource MuteIcon}" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsMuted}" Value="False">
+                                <Setter Property="OpacityMask" Value="{DynamicResource VolumeIcon}" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Rectangle.Style>
             </Rectangle>
         </Button>
 
@@ -114,10 +125,6 @@
                 <Button BorderBrush="Transparent" Style="{DynamicResource MetroCircleButtonStyle}" 
                      Margin="2,7,169,3" 
                      Command="{Binding MuteCommand}" RenderTransformOrigin="-0.75,0.4">
-                    <Button.Resources>
-                        <VisualBrush x:Key="VolumeIcon" Stretch="Fill" Visual="{DynamicResource appbar_sound_3}" />
-                        <VisualBrush x:Key="MuteIcon" Stretch="Fill" Visual="{DynamicResource appbar_sound_mute}" />
-                    </Button.Resources>
                     <Rectangle Width="24"
                        Height="22" 
                        Fill="{DynamicResource GrayBrush2}" >

@@ -7,8 +7,6 @@ D:\Proj\Kova\obj\Debug\Kova_MarkupCompile.cache
 D:\Proj\Kova\obj\Debug\Kova_MarkupCompile.lref
 D:\Proj\Kova\bin\Debug\Kova.exe
 D:\Proj\Kova\bin\Debug\Kova.pdb
-D:\Proj\Kova\bin\Debug\Kova.exe.CodeAnalysisLog.xml
-D:\Proj\Kova\bin\Debug\Kova.exe.lastcodeanalysissucceeded
 D:\Proj\Kova\bin\Debug\GalaSoft.MvvmLight.dll
 D:\Proj\Kova\bin\Debug\GalaSoft.MvvmLight.Extras.dll
 D:\Proj\Kova\bin\Debug\GalaSoft.MvvmLight.Platform.dll
@@ -121,5 +119,5 @@ D:\Proj\Kova\obj\Debug\Views\Settings\SettingsAppearance.baml
 D:\Proj\Kova\obj\Debug\Kova.csprojResolveAssemblyReference.cache
 D:\Proj\Kova\obj\Debug\Views\EqualiserFlyout.baml
 D:\Proj\Kova\obj\Debug\Views\EqualiserFlyout.g.cs
-D:\Proj\Kova\obj\Debug\Controls\VolumeBar.g.cs
-D:\Proj\Kova\obj\Debug\Controls\VolumeBar.baml
+D:\Proj\Kova\bin\Debug\Kova.exe.CodeAnalysisLog.xml
+D:\Proj\Kova\bin\Debug\Kova.exe.lastcodeanalysissucceeded

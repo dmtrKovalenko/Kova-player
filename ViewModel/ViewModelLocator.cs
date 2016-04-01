@@ -47,6 +47,9 @@ namespace Kova.ViewModel
             SimpleIoc.Default.Register<SettingsViewModel>();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+            "CA1822:MarkMembersAsStatic",
+            Justification = "This non-static member is needed for data binding purposes.")]
         public MainViewModel Main
         {
             get

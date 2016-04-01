@@ -11,7 +11,6 @@ namespace Kova.ViewModel
 {
     public class AllCompositionsViewModel : ViewModelBase
     {
-        private bool _isMusicPathLoaded { get; set; }
         private ObservableCollection<Song> _songs { get; set; }
         private Song _currentSong { get; set; }
         private bool _inTimerPorsitionUpdate { get; set; }
@@ -30,7 +29,7 @@ namespace Kova.ViewModel
         public RelayCommand PlayNextCommand { get; private set; }
         public RelayCommand PlayPreviousCommand { get; private set; }
         public RelayCommand PlayCommand { get; private set; }
-        public RelayCommand ShowEqualizerCommand { get; private set; }
+        public RelayCommand ShowPlaybackQueueCommand { get; private set; }
         public RelayCommand MuteCommand { get; private set; }
 
         public AllCompositionsViewModel()
@@ -39,12 +38,13 @@ namespace Kova.ViewModel
             LoadMusicPath();
             CurrentSong = Songs[0];
             NAudioEngine.Instance.Stop();
+            Volume = 1;
 
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
             PlayNextCommand = new RelayCommand(PlayNext);
             PlayPreviousCommand = new RelayCommand(PlayPrevious);
             PlayCommand = new RelayCommand(Play);
-            ShowEqualizerCommand = new RelayCommand(ShowEqualizer);
+            ShowPlaybackQueueCommand = new RelayCommand(ShowPlaybackQueue);
             VolumePopupOpenCommand = new RelayCommand(OpenVolumePopup);
             MuteCommand = new RelayCommand(Mute);
 
@@ -224,7 +224,7 @@ namespace Kova.ViewModel
             }
         }
 
-        public bool IsEqualizerVisible
+        public bool IsPlaybackQueueOpen
         {
             get
             {
@@ -233,7 +233,7 @@ namespace Kova.ViewModel
             set
             {
                 _isEqualizerShowing = value;
-                RaisePropertyChanged(nameof(IsEqualizerVisible));
+                RaisePropertyChanged(nameof(IsPlaybackQueueOpen));
             }
         }
 
@@ -295,9 +295,9 @@ namespace Kova.ViewModel
             IsVolumePopupOpened = !IsVolumePopupOpened;
         }
 
-        private void ShowEqualizer()
+        private void ShowPlaybackQueue()
         {
-            IsEqualizerVisible = !IsEqualizerVisible;
+            IsPlaybackQueueOpen = !IsPlaybackQueueOpen;
         }
 
         private void Play()
@@ -333,8 +333,6 @@ namespace Kova.ViewModel
             CurrentSong = Songs[Songs.IndexOf(CurrentSong)];
         }
 
-        
-
         private void AddMusicFolder()
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
@@ -350,21 +348,17 @@ namespace Kova.ViewModel
 
         private void LoadMusicPath()
         {
-            if (!_isMusicPathLoaded)
+            if (Properties.Settings.Default.MusicFolderPath != null)
             {
-                if (Properties.Settings.Default.MusicFolderPath != null)
+                foreach (string path in Properties.Settings.Default.MusicFolderPath)
                 {
-                    foreach (string path in Properties.Settings.Default.MusicFolderPath)
+                    string[] FullDataPath = Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories);
+                    for (int i = 0; i < FullDataPath.Length; i++)
                     {
-                        string[] FullDataPath = Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories);
-                        for (int i = 0; i < FullDataPath.Length; i++)
-                        {
-                            Song song = new Song(FullDataPath[i]);
-                            if (!Songs.Contains(song))
-                                Songs.Add(song);
-                        }
+                        Song song = new Song(FullDataPath[i]);
+                        if (!Songs.Contains(song))
+                            Songs.Add(song);
                     }
-                    _isMusicPathLoaded = true;
                 }
             }
         }

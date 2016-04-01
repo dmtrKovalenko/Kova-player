@@ -25,7 +25,9 @@
 
         <Button Margin="4,5,739,2" Height="41" Width="41"
                 Style="{DynamicResource MetroCircleButtonStyle}"
-                Command="{Binding DataContext.ChangeToCommand, RelativeSource={RelativeSource AncestorType={x:Type Controls:MetroWindow}}, Mode=OneWay}" Grid.ColumnSpan="2" >
+                Command="{Binding DataContext.ChangeViewCommand, RelativeSource={RelativeSource AncestorType={x:Type Controls:MetroWindow}}, Mode=OneWay}" 
+                CommandParameter="{Binding Source={StaticResource Locator}, Path=AllCompositions}"
+                Grid.ColumnSpan="2" >
             <Rectangle  Width="19"
                         Height="14"
                         Fill="{DynamicResource BlackColorBrush}" >

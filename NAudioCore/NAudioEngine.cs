@@ -30,7 +30,6 @@ namespace Kova.NAudioCore
         private Aggregator waveformAggregator;
         private string pendingWaveformPath;
         private float[] fullLevelData;
-        private float _volume;
         #endregion
 
         #region Constants
