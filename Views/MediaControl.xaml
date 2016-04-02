@@ -111,22 +111,25 @@
         </Button>
 
         <Popup IsOpen="{Binding IsVolumePopupOpened}" 
-               Placement="Top" PopupAnimation="Fade" 
-               AllowsTransparency="True" StaysOpen="False"
+               Placement="Top" PopupAnimation="Scroll" 
+               AllowsTransparency="True" 
+               StaysOpen="False"
                VerticalOffset="-10"
                HorizontalOffset="-67"
-               PlacementTarget="{Binding ElementName=VolumeButton}" Grid.ColumnSpan="2">
+               PlacementTarget="{Binding ElementName=VolumeButton}" 
+               Grid.ColumnSpan="2">
 
             <Grid HorizontalAlignment="Center"
                   VerticalAlignment="Center" 
                   Background="{DynamicResource FlatButtonBackgroundBrush}" 
-                  Width="212" Height="46">
+                  Width="212" Height="34">
 
                 <Button BorderBrush="Transparent" Style="{DynamicResource MetroCircleButtonStyle}" 
-                     Margin="2,7,169,3" 
+                     Margin="0,0,174,0" 
                      Command="{Binding MuteCommand}" RenderTransformOrigin="-0.75,0.4">
-                    <Rectangle Width="24"
-                       Height="22" 
+                    <Rectangle Margin="0,2,0,0"
+                               Width="20"
+                               Height="17" 
                        Fill="{DynamicResource GrayBrush2}" >
                         <Rectangle.Style>
                             <Style TargetType="{x:Type Rectangle}">
@@ -143,11 +146,11 @@
                     </Rectangle>
                 </Button>
                 <Slider x:Name="horizSlider"
-                    Margin="43,18,8,0"
-                    Maximum="1" LargeChange="0.25"
-                    Minimum="0" Value="{Binding Volume, Mode=TwoWay}"
-                    Style="{StaticResource FlatSlider}"
-                    SmallChange="1"
+                        Margin="38,11,13,0"
+                        Maximum="1" LargeChange="0.25"
+                        Minimum="0" Value="{Binding Volume, Mode=TwoWay}"
+                        Style="{StaticResource FlatSlider}"
+                        SmallChange="1"
                     Height="11" VerticalAlignment="Top" Width="Auto" />
             </Grid>
         </Popup>
@@ -169,15 +172,15 @@
         <svl:AlbumArtDisplay Margin="18,17,438.5,28" AlbumArtImage="{Binding AlbumArtWork}"
                              Grid.RowSpan="2"/>
 
-        <TextBlock x:Name="CurrentTrack" FontSize="17"
+        <TextBlock FontSize="17"
                    Foreground="{DynamicResource ValidationTextBrush}"
                    HorizontalAlignment="Left"
                    Margin="79,18,0,0" 
                    TextWrapping="Wrap" 
                    Text="{Binding CurrentSong.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                    VerticalAlignment="Top" Width="266" Height="23" Grid.RowSpan="2"/>
-        <TextBlock x:Name="textBlock" FontSize="14"
-                   Foreground="{DynamicResource GrayBrush2}"
+        <TextBlock FontSize="15"
+                   Foreground="{DynamicResource GrayBrush8}"
                    Text="{Binding CurrentSong.Artist}" 
                    HorizontalAlignment="Left" 
                    Margin="79,21,0,0" 
@@ -210,7 +213,8 @@
             </Rectangle>
         </ToggleButton>
 
-        <TextBlock x:Name="CurrentTimeText" FontSize="16" Text="{Binding CurrentTime}" 
+        <TextBlock x:Name="CurrentTimeText" FontSize="16" 
+                   Text="{Binding CurrentTime}" 
                    HorizontalAlignment="Left"  
                    Margin="18,42,0,0" Grid.Row="1"
                    Foreground="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"

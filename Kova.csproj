@@ -272,19 +272,10 @@
     <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="animals %283%29.png" />
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\icomoon_e62e%280%29.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icomoon_e62e%280%29.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="mahapps.metro.logo2.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="logo.png" />

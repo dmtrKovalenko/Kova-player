@@ -36,6 +36,7 @@ namespace Kova.ViewModel
         {
             _songs = new ObservableCollection<Song>();
             LoadMusicPath();
+
             CurrentSong = Songs[0];
             NAudioEngine.Instance.Stop();
             Volume = 1;

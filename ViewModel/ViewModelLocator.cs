@@ -58,7 +58,7 @@ namespace Kova.ViewModel
             }
         }
 
-        public AllCompositionsViewModel  AllCompositions
+        public AllCompositionsViewModel AllCompositions
         {
             get
             {
