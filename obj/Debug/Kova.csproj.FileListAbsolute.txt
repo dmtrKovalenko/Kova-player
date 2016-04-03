@@ -29,8 +29,6 @@ D:\Proj\Kova\obj\Debug\Kova.Properties.Resources.resources
 D:\Proj\Kova\obj\Debug\Kova.csproj.GenerateResource.Cache
 D:\Proj\Kova\obj\Debug\Kova.exe
 D:\Proj\Kova\obj\Debug\Kova.pdb
-D:\Proj\Kova\obj\Debug\Resources\Icons.baml
-D:\Proj\Kova\obj\Debug\Resources\Icons.g.cs
 D:\Proj\Kova\bin\Debug\NAudio.dll
 D:\Proj\Kova\bin\Debug\policy.2.0.taglib-sharp.dll
 D:\Proj\Kova\bin\Debug\taglib-sharp.dll
@@ -117,7 +115,7 @@ D:\Proj\Kova\obj\Debug\Views\MainPage.baml
 D:\Proj\Kova\obj\Debug\Views\Settings.baml
 D:\Proj\Kova\obj\Debug\Views\Settings\SettingsAppearance.baml
 D:\Proj\Kova\obj\Debug\Kova.csprojResolveAssemblyReference.cache
-D:\Proj\Kova\obj\Debug\Views\EqualiserFlyout.baml
-D:\Proj\Kova\obj\Debug\Views\EqualiserFlyout.g.cs
 D:\Proj\Kova\bin\Debug\Kova.exe.CodeAnalysisLog.xml
 D:\Proj\Kova\bin\Debug\Kova.exe.lastcodeanalysissucceeded
+D:\Proj\Kova\obj\Debug\Resources\Icons.baml
+D:\Proj\Kova\obj\Debug\Resources\Icons.g.cs

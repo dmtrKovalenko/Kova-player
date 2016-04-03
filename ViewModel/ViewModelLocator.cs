@@ -43,7 +43,7 @@ namespace Kova.ViewModel
             ////}
 
             SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<AllCompositionsViewModel>();
+            SimpleIoc.Default.Register<PlayerViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
         }
 
@@ -58,11 +58,11 @@ namespace Kova.ViewModel
             }
         }
 
-        public AllCompositionsViewModel AllCompositions
+        public PlayerViewModel Player
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<AllCompositionsViewModel>();
+                return ServiceLocator.Current.GetInstance<PlayerViewModel>();
             }
         }
 

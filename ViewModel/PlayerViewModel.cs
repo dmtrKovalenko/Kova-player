@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 
 namespace Kova.ViewModel
 {
-    public class AllCompositionsViewModel : ViewModelBase
+    public class PlayerViewModel : ViewModelBase
     {
         private ObservableCollection<Song> _songs { get; set; }
         private Song _currentSong { get; set; }
@@ -32,14 +32,14 @@ namespace Kova.ViewModel
         public RelayCommand ShowPlaybackQueueCommand { get; private set; }
         public RelayCommand MuteCommand { get; private set; }
 
-        public AllCompositionsViewModel()
+        public PlayerViewModel()
         {
             _songs = new ObservableCollection<Song>();
             LoadMusicPath();
 
-            CurrentSong = Songs[0];
-            NAudioEngine.Instance.Stop();
-            Volume = 1;
+            //CurrentSong = Songs[0];
+            //NAudioEngine.Instance.Stop();
+            //Volume = 1;
 
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
             PlayNextCommand = new RelayCommand(PlayNext);
@@ -146,6 +146,11 @@ namespace Kova.ViewModel
         {
             get
             {
+                if (_currentSong == null)
+                {
+                    CurrentSong = Songs[24];
+                    NAudioEngine.Instance.Stop();
+                }
                 return _currentSong;
             }
             set

@@ -14,7 +14,7 @@ namespace Kova.ViewModel
         public MainViewModel()
         {
             _VMlock = new ViewModelLocator();
-            CurrentViewModel = _VMlock.AllCompositions;
+            CurrentViewModel = _VMlock.Player;
 
             ChangeViewCommand = new RelayCommand<ViewModelBase>((View) => ChangeView(View));
             LaunchKovaCommand = new RelayCommand(LaunchKova);
