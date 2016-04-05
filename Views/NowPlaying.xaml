@@ -42,20 +42,19 @@
                 </svl:AlbumArtDisplay>
             </Visualise:ReflectionControl>
 
-            <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
-                     Command="{Binding ShowPlaybackQueueCommand}"
-                     Height="43" VerticalAlignment="Top" 
-                     HorizontalAlignment="Left" Width="43" 
-                     Grid.Column="2" Margin="364,-15,0,0">
-                <Rectangle Width="19" Margin="2"
+        <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
+                 Command="{Binding ShowPlaybackQueueCommand}"
+                 Height="43" VerticalAlignment="Top" 
+                 HorizontalAlignment="Right" 
+                 Width="43" Grid.Column="2">
+            <Rectangle Width="19" Margin="2"
                                Height="20"
                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                    <Rectangle.OpacityMask>
-                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_music}" />
-                    </Rectangle.OpacityMask>
-                </Rectangle>
-
-            </Button>
+                <Rectangle.OpacityMask>
+                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_music}" />
+                </Rectangle.OpacityMask>
+            </Rectangle>
+        </Button>
 
         </Grid>
     </Grid>

@@ -6,20 +6,18 @@ using System.Collections.ObjectModel;
 using Kova.NAudioCore;
 using System.ComponentModel;
 using System.Windows.Media.Imaging;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Kova.ViewModel
 {
     public class PlayerViewModel : ViewModelBase
     {
         private ObservableCollection<Song> _songs { get; set; }
-        private Song _currentSong { get; set; }
-        private bool _inTimerPorsitionUpdate { get; set; }
+        private Song _currentSong { get; set; }  
         private TimeSpan _currentTime { get; set; }
-        private TimeSpan _totalTime { get; set; }
-        private bool _isPlaying { get; set; }
         private bool _inRepeatSet { get; set; }
         private BitmapImage _albumArtWork { get; set; }
-        private bool _isEqualizerShowing { get; set; }
+        private bool _isPlayBackQueueOpened { get; set; }
         private bool _isVolumePopupOpened { get; set; }
         private bool _isMuted { get; set; }
         private float _lastVolume { get; set; }
@@ -31,16 +29,14 @@ namespace Kova.ViewModel
         public RelayCommand PlayCommand { get; private set; }
         public RelayCommand ShowPlaybackQueueCommand { get; private set; }
         public RelayCommand MuteCommand { get; private set; }
+        public NAudioEngine Player { get; private set; }
 
         public PlayerViewModel()
         {
             _songs = new ObservableCollection<Song>();
             LoadMusicPath();
 
-            //CurrentSong = Songs[0];
-            //NAudioEngine.Instance.Stop();
-            //Volume = 1;
-
+            Player = NAudioEngine.Instance;
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
             PlayNextCommand = new RelayCommand(PlayNext);
             PlayPreviousCommand = new RelayCommand(PlayPrevious);
@@ -56,11 +52,6 @@ namespace Kova.ViewModel
         {
             if (e.PropertyName == "ChannelPosition")
             {
-                _inTimerPorsitionUpdate = true;
-                CurrentPosition = NAudioEngine.Instance.ChannelPosition;
-                RaisePropertyChanged(nameof(CurrentPosition));
-                _inTimerPorsitionUpdate = false;
-
                 CurrentTime = NAudioEngine.Instance.ActiveStream.CurrentTime;
             }
 
@@ -80,7 +71,6 @@ namespace Kova.ViewModel
             {
                 if (NAudioEngine.Instance.ActiveStream != null)
                 {
-                    TotalTime = NAudioEngine.Instance.ActiveStream.TotalTime;
                     var file = TagLib.File.Create(CurrentSong.OriginalPath);
                     if (file.Tag.Pictures.Length > 0)
                     {
@@ -100,7 +90,6 @@ namespace Kova.ViewModel
                                 AlbumArtWork = null;
                                 // No image
                             }
-                            albumArtworkMemStream.Close();
                         }
                     }
                     else
@@ -108,11 +97,6 @@ namespace Kova.ViewModel
                         AlbumArtWork = null;
                     }
                 }
-            }
-
-            if (e.PropertyName == "IsPlaying")
-            {
-                IsPlaying = NAudioEngine.Instance.IsPlaying;
             }
         }
 
@@ -156,25 +140,9 @@ namespace Kova.ViewModel
             set
             {
                 _currentSong = value;
-                NAudioEngine.Instance.OpenFile(value.OriginalPath);
-                NAudioEngine.Instance.Play();
+                Player.OpenFile(value.OriginalPath);
+                Player.Play();
                 RaisePropertyChanged(nameof(CurrentSong));
-            }
-        }
-
-        public double CurrentPosition
-        {
-            get
-            {
-                return NAudioEngine.Instance.ChannelPosition;
-            }
-            set
-            {
-                if (!_inTimerPorsitionUpdate)
-                {
-                    NAudioEngine.Instance.ChannelPosition = value;
-                    RaisePropertyChanged(nameof(CurrentPosition));
-                }
             }
         }
 
@@ -191,32 +159,6 @@ namespace Kova.ViewModel
             }
         }
 
-        public TimeSpan TotalTime
-        {
-            get
-            {
-                return _totalTime;
-            }
-            private set
-            {
-                _totalTime = value;
-                RaisePropertyChanged(nameof(TotalTime));
-            }
-        }
-
-        public bool IsPlaying
-        {
-            get
-            {
-                return NAudioEngine.Instance.IsPlaying;
-            }
-            set
-            {
-                _isPlaying = value;
-                RaisePropertyChanged(nameof(IsPlaying));
-            }
-        }
-
         public bool InRepeatSet
         {
             get
@@ -230,16 +172,16 @@ namespace Kova.ViewModel
             }
         }
 
-        public bool IsPlaybackQueueOpen
+        public bool IsPlaybackQueueOpened
         {
             get
             {
-                return _isEqualizerShowing;
+                return _isPlayBackQueueOpened;
             }
             set
             {
-                _isEqualizerShowing = value;
-                RaisePropertyChanged(nameof(IsPlaybackQueueOpen));
+                _isPlayBackQueueOpened = value;
+                RaisePropertyChanged(nameof(IsPlaybackQueueOpened));
             }
         }
 
@@ -253,19 +195,6 @@ namespace Kova.ViewModel
             {
                 _isVolumePopupOpened = value;
                 RaisePropertyChanged(nameof(IsVolumePopupOpened));
-            }
-        }
-
-        public float Volume
-        {
-            get
-            {
-                return NAudioEngine.Instance.Volume;
-            }
-            set
-            {
-                NAudioEngine.Instance.Volume = value;
-                RaisePropertyChanged(nameof(Volume));
             }
         }
 
@@ -287,12 +216,12 @@ namespace Kova.ViewModel
             IsMuted = !IsMuted;
             if (IsMuted)
             {
-                _lastVolume = Volume;
-                Volume = 0;
+                _lastVolume = Player.Volume;
+                Player.Volume = 0;
             }
             else
             {
-                Volume = _lastVolume;
+                Player.Volume = _lastVolume;
             }
         }
 
@@ -303,18 +232,18 @@ namespace Kova.ViewModel
 
         private void ShowPlaybackQueue()
         {
-            IsPlaybackQueueOpen = !IsPlaybackQueueOpen;
+            IsPlaybackQueueOpened = !IsPlaybackQueueOpened;
         }
 
         private void Play()
         {
-            if (NAudioEngine.Instance.CanPlay)
+            if (Player.CanPlay)
             {
-                NAudioEngine.Instance.Play();
+                Player.Play();
             }
-            else if (NAudioEngine.Instance.CanPause)
+            else if (Player.CanPause)
             {
-                NAudioEngine.Instance.Pause();
+                Player.Pause();
             }
         }
 
@@ -348,6 +277,13 @@ namespace Kova.ViewModel
                 if (!Properties.Settings.Default.MusicFolderPath.Contains(dialog.SelectedPath))
                 {
                     Properties.Settings.Default.MusicFolderPath.Add(dialog.SelectedPath);
+                    var DirectoryMusicPathes = Directory.GetFiles(dialog.SelectedPath, "*.mp3*", SearchOption.AllDirectories);
+                    for (int i = 0; i < DirectoryMusicPathes.Length; i++)
+                    {
+                        Song song = new Song(DirectoryMusicPathes[i]);
+                        if (!Songs.Contains(song))
+                            Songs.Add(song);
+                    }
                 }
             }
         }
@@ -358,10 +294,10 @@ namespace Kova.ViewModel
             {
                 foreach (string path in Properties.Settings.Default.MusicFolderPath)
                 {
-                    string[] FullDataPath = Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories);
-                    for (int i = 0; i < FullDataPath.Length; i++)
+                    var DirectoryMusicPathes = Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories);
+                    for (int i = 0; i < DirectoryMusicPathes.Length; i++)
                     {
-                        Song song = new Song(FullDataPath[i]);
+                        Song song = new Song(DirectoryMusicPathes[i]);
                         if (!Songs.Contains(song))
                             Songs.Add(song);
                     }

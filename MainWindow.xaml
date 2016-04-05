@@ -8,6 +8,7 @@
         xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
         xmlns:Views ="clr-namespace:Kova.Views"
         xmlns:vm="clr-namespace:Kova.ViewModel"
+        ResizeMode="CanResizeWithGrip"
         Icon="Resources/logo.png"     
         mc:Ignorable="d ignore"     
         xmlns:svl ="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
@@ -54,6 +55,13 @@
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
     <Grid>
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="ApplicationScaleTransform"
+                            CenterX="0"
+                            CenterY="0"
+                            ScaleX="{Binding ElementName=mainWindow, Path=ScaleValue}"
+                            ScaleY="{Binding ElementName=mainWindow, Path=ScaleValue}" />
+        </Grid.LayoutTransform>
         <ContentPresenter Content="{Binding CurrentViewModel}" />
     </Grid>
 </Controls:MetroWindow>

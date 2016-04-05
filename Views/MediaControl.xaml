@@ -28,88 +28,112 @@
             <RowDefinition Height="61*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="509*"/>
-            <ColumnDefinition Width="70*"/>
-            <ColumnDefinition Width="44*"/>
-            <ColumnDefinition Width="44*"/>
-            <ColumnDefinition Width="61*"/>
-            <ColumnDefinition Width="56*"/>
+            <ColumnDefinition Width="508*"/>
+            <ColumnDefinition Width="275*"/>
         </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Right"
+            Margin="0,-7,0,10" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <Grid Width="256">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" 
+            		Margin="36,28,174,13"
+            		Command="{Binding PlayPreviousCommand}">
+                    <Rectangle Width="18" Margin="0,0,0,0" 
+            			Height="14"
+            			Fill="White" >
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_rewind_variant}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
+                <Button BorderBrush="White"
+            		Style="{DynamicResource MetroCircleButtonStyle}"
+            		Margin="80,10,112,13"
+            		Command="{Binding PlayCommand}">
+                    <Button.Resources>
+                        <VisualBrush x:Key="playIcon" Stretch="Fill" Visual="{DynamicResource appbar_control_play}" />
+                        <VisualBrush x:Key="pauseIcon" Stretch="Fill" Visual="{DynamicResource appbar_control_pause}" />
+                    </Button.Resources>
+                    <Rectangle  Width="22"
+            			Height="23"
+            			Fill="White" >
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Player.IsPlaying}" Value="True">
+                                        <Setter Property="OpacityMask" Value="{DynamicResource pauseIcon}" />
+                                        <Setter Property="Margin" Value="0,0,0,0"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Player.IsPlaying}" Value="False">
+                                        <Setter Property="Margin" Value="3,0,0,0"/>
+                                        <Setter Property="OpacityMask" Value="{DynamicResource playIcon}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                </Button>
 
-        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}"
-                Margin="24,4,4,25" Command="{Binding PlayCommand}"
-                Grid.Column="2" Grid.RowSpan="2" Grid.ColumnSpan="2">
-            <Button.Resources>
-                <VisualBrush x:Key="playIcon" Stretch="Fill" Visual="{DynamicResource appbar_control_play}" />
-                <VisualBrush x:Key="pauseIcon" Stretch="Fill" Visual="{DynamicResource appbar_control_pause}" />
-            </Button.Resources>
-            <Rectangle  Width="22"
-                        Height="23"
-                        Fill="White" >
-                <Rectangle.Style>
-                    <Style TargetType="{x:Type Rectangle}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsPlaying}" Value="True">
-                                <Setter Property="OpacityMask" Value="{DynamicResource pauseIcon}" />
-                                <Setter Property="Margin" Value="0,0,0,0"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsPlaying}" Value="False">
-                                <Setter Property="Margin" Value="3,0,0,0"/>
-                                <Setter Property="OpacityMask" Value="{DynamicResource playIcon}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Rectangle.Style>
-            </Rectangle>
-        </Button>
+                <Button BorderBrush="White" 
+            		Style="{DynamicResource MetroCircleButtonStyle}" 
+            		Margin="142,28,68,13"
+            		Command="{Binding PlayNextCommand}">
+                    <Rectangle  Width="18" Margin="2,0,0,0"
+            			Height="14"
+            			Fill="White" >
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_fastforward_variant}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </Button>
 
-        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" Margin="40,18,17,25" 
-                Grid.Column="3" Grid.RowSpan="2" Grid.ColumnSpan="2"
-                Command="{Binding PlayNextCommand}">
-            <Rectangle  Width="18" Margin="2,0,0,0"
-                        Height="14"
-                        Fill="White" >
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_fastforward_variant}" />
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
+                <Button x:Name="VolumeButton" BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" 
+            		Margin="0,38,220,13" 
+            		Command="{Binding VolumePopupOpenCommand}">
+                    <Rectangle Width="16"
+            			Height="14" 
+            			Fill="White" >
+                        <Rectangle.Style>
+                            <Style TargetType="{x:Type Rectangle}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMuted}" Value="True">
+                                        <Setter Property="OpacityMask" Value="{DynamicResource MuteIcon}" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsMuted}" Value="False">
+                                        <Setter Property="OpacityMask" Value="{DynamicResource VolumeIcon}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Rectangle.Style>
+                    </Rectangle>
+                </Button>
 
-        <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" 
-                Margin="45.5,18,20,25"
-                Command="{Binding PlayPreviousCommand}"
-                Grid.RowSpan="2" Grid.ColumnSpan="2" Grid.Column="1">
-            <Rectangle Width="18" Margin="0,0,0,0" 
-                       Height="14"
-                       Fill="White" >
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_rewind_variant}" />
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
+                <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}"
+            		Margin="188,38,32,13" IsChecked="{Binding InRepeatSet, Mode=TwoWay}">
+                    <Rectangle Width="15"
+            			Height="15"
+            			Fill="White">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_repeat}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </ToggleButton>
 
-        <Button x:Name="VolumeButton" BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" 
-                Margin="9.5,7,24,25" 
-                Command="{Binding VolumePopupOpenCommand}"
-                Grid.Row="1" Grid.Column="1">
-            <Rectangle Width="16"
-                       Height="14" 
-                       Fill="White" >
-                <Rectangle.Style>
-                    <Style TargetType="{x:Type Rectangle}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsMuted}" Value="True">
-                                <Setter Property="OpacityMask" Value="{DynamicResource MuteIcon}" />
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding IsMuted}" Value="False">
-                                <Setter Property="OpacityMask" Value="{DynamicResource VolumeIcon}" />
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Rectangle.Style>
-            </Rectangle>
-        </Button>
-
+                <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}"
+            		Margin="220,38,0,13" >
+                    <Rectangle Width="15"
+            			Height="15"
+            			Fill="White">
+                        <Rectangle.OpacityMask>
+                            <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_shuffle}" />
+                        </Rectangle.OpacityMask>
+                    </Rectangle>
+                </ToggleButton>
+            </Grid>
+        </StackPanel>
         <Popup IsOpen="{Binding IsVolumePopupOpened}" 
                Placement="Top" PopupAnimation="Scroll" 
                AllowsTransparency="True" 
@@ -117,7 +141,7 @@
                VerticalOffset="-10"
                HorizontalOffset="-67"
                PlacementTarget="{Binding ElementName=VolumeButton}" 
-               Grid.ColumnSpan="2">
+               Grid.ColumnSpan="2" Margin="0,0,205,0">
 
             <Grid HorizontalAlignment="Center"
                   VerticalAlignment="Center" 
@@ -148,17 +172,21 @@
                 <Slider x:Name="horizSlider"
                         Margin="38,11,13,0"
                         Maximum="1" LargeChange="0.25"
-                        Minimum="0" Value="{Binding Volume, Mode=TwoWay}"
+                        Minimum="0" Value="{Binding Player.Volume, Mode=TwoWay}"
                         Style="{StaticResource FlatSlider}"
                         SmallChange="1"
                     Height="11" VerticalAlignment="Top" Width="Auto" />
             </Grid>
         </Popup>
 
-        <Slider Minimum="0" Maximum="100" Value="{Binding CurrentPosition, Mode=TwoWay}" 
-                Foreground="White" HorizontalAlignment="Center"
-                Margin="86,45,21,0" Height="20" VerticalAlignment="Top" Width="620" 
-                Grid.ColumnSpan="5" Grid.Row="1" >
+        <Slider Minimum="0" Maximum="100"
+                Value="{Binding Player.ChannelPosition, Mode=TwoWay}" 
+                Foreground="White" 
+                HorizontalAlignment="Stretch"
+                Margin="86,45,77,0" 
+                Height="20" VerticalAlignment="Bottom" 
+                 
+                Grid.ColumnSpan="2" Grid.Row="1" >
             <Slider.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
@@ -169,7 +197,9 @@
             </Slider.Resources>
         </Slider>
 
-        <svl:AlbumArtDisplay Margin="18,17,438.5,28" AlbumArtImage="{Binding AlbumArtWork}"
+        <svl:AlbumArtDisplay Margin="18,17,438,28"
+                             HorizontalAlignment="Left"
+                             AlbumArtImage="{Binding AlbumArtWork}"
                              Grid.RowSpan="2"/>
 
         <TextBlock FontSize="17"
@@ -189,30 +219,6 @@
                    VerticalAlignment="Top" 
                    Height="19" Width="137"/>
 
-        <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}"
-                      Grid.Column="5" Grid.Row="1"
-                      Margin="17,6,3,26" IsChecked="{Binding InRepeatSet, Mode=TwoWay}">
-            <Rectangle Width="15"
-                               Height="15"
-                               Fill="White">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_repeat}" />
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </ToggleButton>
-
-        <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}" 
-                      Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="2"
-                      Margin="44,6,37,26" >
-            <Rectangle Width="15"
-                               Height="15"
-                               Fill="White">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_shuffle}" />
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </ToggleButton>
-
         <TextBlock x:Name="CurrentTimeText" FontSize="16" 
                    Text="{Binding CurrentTime}" 
                    HorizontalAlignment="Left"  
@@ -221,11 +227,12 @@
                    TextWrapping="Wrap" 
                    VerticalAlignment="Top" Width="61" Height="21"/>
 
-        <TextBlock x:Name="TotalTimeText" FontSize="16" Text="{Binding TotalTime}" 
-                   HorizontalAlignment="Left"  
-                   Margin="47,42,0,0" Grid.Row="1"
+        <TextBlock x:Name="TotalTimeText" FontSize="16"
+                   Text="{Binding Player.ActiveStream.TotalTime}" 
+                   HorizontalAlignment="Right"  
+                   Margin="0,42,10,0" Grid.Row="1"
                    Foreground="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
                    TextWrapping="Wrap" 
-                   VerticalAlignment="Top" Width="60" Height="21" Grid.ColumnSpan="2" Grid.Column="4"/>
+                   VerticalAlignment="Top" Width="60" Height="21" Grid.Column="1"/>
     </Grid>
 </UserControl>

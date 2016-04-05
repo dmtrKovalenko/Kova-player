@@ -1,10 +1,12 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace Kova.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        private readonly IDialogCoordinator _dialogCoordinator;
         private ViewModelBase _currentViewModel { get; set; }
 
         private ViewModelLocator _VMlock { get; set; }
@@ -13,6 +15,7 @@ namespace Kova.ViewModel
 
         public MainViewModel()
         {
+            _dialogCoordinator = DialogCoordinator.Instance;
             _VMlock = new ViewModelLocator();
             CurrentViewModel = _VMlock.Player;
 

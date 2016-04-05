@@ -944,7 +944,7 @@ namespace Kova.NAudioCore
             if (soundPlayer == null || spectrumCanvas == null || spectrumCanvas.RenderSize.Width < 1 || spectrumCanvas.RenderSize.Height < 1)
                 return;
 
-            if (soundPlayer.IsPlaying && !soundPlayer.GetFFTData1(channelData))
+            if (soundPlayer.IsPlaying && !soundPlayer.GetFFTData(channelData))
                 return;
 
             UpdateSpectrumShapes();

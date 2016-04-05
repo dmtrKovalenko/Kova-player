@@ -89,12 +89,6 @@ namespace Kova.NAudioCore
             return IsPlaying;
         }
 
-        public bool GetFFTData1(float[] fftDataBuffer)
-        {
-            _aggregator.GetFFTResults(fftDataBuffer);
-            return IsPlaying;
-        }
-
         public int GetFFTFrequencyIndex(int frequency)
         {
             double maxFrequency;
@@ -250,11 +244,7 @@ namespace Kova.NAudioCore
                 fullLevelData = waveformData.ToArray();
             }));
             waveformInputStream.Close();
-            waveformInputStream.Dispose();
-            waveformInputStream = null;
             waveformMp3Stream.Close();
-            waveformMp3Stream.Dispose();
-            waveformMp3Stream = null;
         }
         #endregion
 

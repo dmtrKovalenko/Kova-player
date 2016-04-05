@@ -11,7 +11,7 @@ namespace Kova.NAudioCore
      {
          bool IsPlaying { get; }
 
-         bool GetFFTData1(float[] fftDataBuffer);
+         bool GetFFTData(float[] fftDataBuffer);
 
          int GetFFTFrequencyIndex(int frequency);
      }
