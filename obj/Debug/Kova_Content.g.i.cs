@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/1459256791_equalizer.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("jw_icon.ico")]
 
 

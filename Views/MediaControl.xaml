@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Kova.Views"
       xmlns:vm="clr-namespace:Kova.ViewModel"
-                xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+      xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
       xmlns:svl ="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
@@ -34,12 +34,12 @@
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right"
             Margin="0,-7,0,10" Grid.ColumnSpan="2" Grid.RowSpan="2">
-            <Grid Width="256">
+            <Grid Width="262">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" 
-            		Margin="36,28,174,13"
+            		Margin="34,24,178,13"
             		Command="{Binding PlayPreviousCommand}">
                     <Rectangle Width="18" Margin="0,0,0,0" 
             			Height="14"
@@ -51,7 +51,7 @@
                 </Button>
                 <Button BorderBrush="White"
             		Style="{DynamicResource MetroCircleButtonStyle}"
-            		Margin="80,10,112,13"
+            		Margin="80,10,118,13"
             		Command="{Binding PlayCommand}">
                     <Button.Resources>
                         <VisualBrush x:Key="playIcon" Stretch="Fill" Visual="{DynamicResource appbar_control_play}" />
@@ -79,7 +79,7 @@
 
                 <Button BorderBrush="White" 
             		Style="{DynamicResource MetroCircleButtonStyle}" 
-            		Margin="142,28,68,13"
+            		Margin="140,24,72,13"
             		Command="{Binding PlayNextCommand}">
                     <Rectangle  Width="18" Margin="2,0,0,0"
             			Height="14"
@@ -90,9 +90,11 @@
                     </Rectangle>
                 </Button>
 
-                <Button x:Name="VolumeButton" BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" 
-            		Margin="0,38,220,13" 
-            		Command="{Binding VolumePopupOpenCommand}">
+                <Button x:Name="VolumeButton" 
+                        BorderBrush="White"
+                        Style="{DynamicResource MetroCircleButtonStyle}" 
+            		    Margin="-3,34,225,13" 
+            		    Command="{Binding VolumePopupOpenCommand}">
                     <Rectangle Width="16"
             			Height="14" 
             			Fill="White" >
@@ -112,7 +114,7 @@
                 </Button>
 
                 <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}"
-            		Margin="188,38,32,13" IsChecked="{Binding InRepeatSet, Mode=TwoWay}">
+            		Margin="187,34,35,13" IsChecked="{Binding InRepeatSet, Mode=TwoWay}">
                     <Rectangle Width="15"
             			Height="15"
             			Fill="White">
@@ -123,7 +125,7 @@
                 </ToggleButton>
 
                 <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}"
-            		Margin="220,38,0,13" >
+            		Margin="223,34,-1,13" >
                     <Rectangle Width="15"
             			Height="15"
             			Fill="White">

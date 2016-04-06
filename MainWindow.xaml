@@ -16,9 +16,18 @@
         Height="527.072"
         Width="783.978"
         Title="Kova"
-                      
         DataContext="{Binding Main,Source={StaticResource Locator}}">
 
+    <Controls:MetroWindow.InputBindings>
+        <KeyBinding Command="{Binding Player.PlayCommand, Source={StaticResource Locator}}"
+              Gesture="Space" />
+        <KeyBinding Command="{Binding Player.PlayPreviousCommand, Source={StaticResource Locator}}"
+              Gesture="Left" />
+        <KeyBinding Command="{Binding Player.PlayNextCommand, Source={StaticResource Locator}}"
+              Gesture="Right" />
+        <KeyBinding Command="{Binding Player.MuteCommand, Source={StaticResource Locator}}"
+              Gesture="Ctrl+M" />
+    </Controls:MetroWindow.InputBindings>
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
             <Button>
@@ -66,3 +75,4 @@
     </Grid>
 </Controls:MetroWindow>
     
+

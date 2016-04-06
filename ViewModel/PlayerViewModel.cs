@@ -33,7 +33,6 @@ namespace Kova.ViewModel
 
         public PlayerViewModel()
         {
-            _songs = new ObservableCollection<Song>();
             LoadMusicPath();
 
             Player = NAudioEngine.Instance;
@@ -290,6 +289,7 @@ namespace Kova.ViewModel
 
         private void LoadMusicPath()
         {
+            Songs = new ObservableCollection<Song>();
             if (Properties.Settings.Default.MusicFolderPath != null)
             {
                 foreach (string path in Properties.Settings.Default.MusicFolderPath)
