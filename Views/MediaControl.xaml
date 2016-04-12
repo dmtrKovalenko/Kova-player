@@ -38,9 +38,12 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Button BorderBrush="White" Style="{DynamicResource MetroCircleButtonStyle}" 
-            		Margin="34,24,178,13"
-            		Command="{Binding PlayPreviousCommand}">
+                
+                <Button BorderBrush="White" 
+                        Style="{DynamicResource MetroCircleButtonStyle}" 
+                        Focusable="False"
+            		    Margin="34,24,178,13"
+            		    Command="{Binding PlayPreviousCommand}">
                     <Rectangle Width="18" Margin="0,0,0,0" 
             			Height="14"
             			Fill="White" >
@@ -49,10 +52,12 @@
                         </Rectangle.OpacityMask>
                     </Rectangle>
                 </Button>
+                
                 <Button BorderBrush="White"
-            		Style="{DynamicResource MetroCircleButtonStyle}"
-            		Margin="80,10,118,13"
-            		Command="{Binding PlayCommand}">
+                        Focusable="False"
+            		    Style="{DynamicResource MetroCircleButtonStyle}"
+            		    Margin="80,10,118,13"
+            		    Command="{Binding PlayCommand}">
                     <Button.Resources>
                         <VisualBrush x:Key="playIcon" Stretch="Fill" Visual="{DynamicResource appbar_control_play}" />
                         <VisualBrush x:Key="pauseIcon" Stretch="Fill" Visual="{DynamicResource appbar_control_pause}" />
@@ -78,9 +83,10 @@
                 </Button>
 
                 <Button BorderBrush="White" 
-            		Style="{DynamicResource MetroCircleButtonStyle}" 
-            		Margin="140,24,72,13"
-            		Command="{Binding PlayNextCommand}">
+                        Focusable="False"
+            		    Style="{DynamicResource MetroCircleButtonStyle}" 
+            		    Margin="140,24,72,13"
+            		    Command="{Binding PlayNextCommand}">
                     <Rectangle  Width="18" Margin="2,0,0,0"
             			Height="14"
             			Fill="White" >
@@ -91,6 +97,7 @@
                 </Button>
 
                 <Button x:Name="VolumeButton" 
+                        Focusable="False"
                         BorderBrush="White"
                         Style="{DynamicResource MetroCircleButtonStyle}" 
             		    Margin="-3,34,225,13" 
@@ -113,8 +120,11 @@
                     </Rectangle>
                 </Button>
 
-                <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}"
-            		Margin="187,34,35,13" IsChecked="{Binding InRepeatSet, Mode=TwoWay}">
+                <ToggleButton BorderBrush="White" 
+                              Style="{DynamicResource MetroCircleToggleButtonStyle}"
+            	              Margin="187,34,35,13"
+                              Focusable="False"
+                              IsChecked="{Binding InRepeatSet, Mode=TwoWay}">
                     <Rectangle Width="15"
             			Height="15"
             			Fill="White">
@@ -124,8 +134,10 @@
                     </Rectangle>
                 </ToggleButton>
 
-                <ToggleButton BorderBrush="White" Style="{DynamicResource MetroCircleToggleButtonStyle}"
-            		Margin="223,34,-1,13" >
+                <ToggleButton BorderBrush="White" 
+                              Style="{DynamicResource MetroCircleToggleButtonStyle}"
+                              Focusable="False"
+            		          Margin="223,34,-1,13" >
                     <Rectangle Width="15"
             			Height="15"
             			Fill="White">
@@ -151,8 +163,8 @@
                   Width="212" Height="34">
 
                 <Button BorderBrush="Transparent" Style="{DynamicResource MetroCircleButtonStyle}" 
-                     Margin="0,0,174,0" 
-                     Command="{Binding MuteCommand}" RenderTransformOrigin="-0.75,0.4">
+                        Margin="0,0,174,0" 
+                        Command="{Binding MuteCommand}" RenderTransformOrigin="-0.75,0.4">
                     <Rectangle Margin="0,2,0,0"
                                Width="20"
                                Height="17" 
@@ -173,11 +185,13 @@
                 </Button>
                 <Slider x:Name="horizSlider"
                         Margin="38,11,13,0"
-                        Maximum="1" LargeChange="0.25"
-                        Minimum="0" Value="{Binding Player.Volume, Mode=TwoWay}"
+                        Maximum="1" Minimum="0" 
+                        LargeChange="0.25"
+                        Value="{Binding Player.Volume, Mode=TwoWay}"
                         Style="{StaticResource FlatSlider}"
                         SmallChange="1"
-                    Height="11" VerticalAlignment="Top" Width="Auto" />
+                        VerticalAlignment="Top"
+                        Height="11" Width="Auto" />
             </Grid>
         </Popup>
 
@@ -186,8 +200,9 @@
                 Foreground="White" 
                 HorizontalAlignment="Stretch"
                 Margin="86,45,77,0" 
-                Height="20" VerticalAlignment="Bottom" 
-                 
+                IsSnapToTickEnabled="False"
+                Height="20"
+                VerticalAlignment="Bottom" 
                 Grid.ColumnSpan="2" Grid.Row="1" >
             <Slider.Resources>
                 <ResourceDictionary>
@@ -210,7 +225,7 @@
                    Margin="79,18,0,0" 
                    TextWrapping="Wrap" 
                    Text="{Binding CurrentSong.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                   VerticalAlignment="Top" Width="266" Height="23" Grid.RowSpan="2"/>
+                   VerticalAlignment="Top" Width="359" Height="23" Grid.RowSpan="2"/>
         <TextBlock FontSize="15"
                    Foreground="{DynamicResource GrayBrush8}"
                    Text="{Binding CurrentSong.Artist}" 
@@ -219,7 +234,7 @@
                    Grid.Row="1" 
                    TextWrapping="Wrap" 
                    VerticalAlignment="Top" 
-                   Height="19" Width="137"/>
+                   Height="19" Width="351"/>
 
         <TextBlock x:Name="CurrentTimeText" FontSize="16" 
                    Text="{Binding CurrentTime}" 

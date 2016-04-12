@@ -27,7 +27,8 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button  Style="{DynamicResource MetroCircleButtonStyle}" Command="{Binding AddMusicFolderCommand}"
+        <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
+                    Command="{Binding ShowMessegeDialogCommand, Mode=OneWay}" 
                  Height="40" VerticalAlignment="Top" 
                  HorizontalAlignment="Left" Width="40">
             <Rectangle Width="22"

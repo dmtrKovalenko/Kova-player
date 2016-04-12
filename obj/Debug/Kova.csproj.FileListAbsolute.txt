@@ -119,3 +119,5 @@ D:\Proj\Kova\bin\Debug\Kova.exe.CodeAnalysisLog.xml
 D:\Proj\Kova\bin\Debug\Kova.exe.lastcodeanalysissucceeded
 D:\Proj\Kova\obj\Debug\Resources\Icons.baml
 D:\Proj\Kova\obj\Debug\Resources\Icons.g.cs
+D:\Proj\Kova\obj\Debug\Views\AddMusicDialog.g.cs
+D:\Proj\Kova\obj\Debug\Views\AddMusicDialog.baml

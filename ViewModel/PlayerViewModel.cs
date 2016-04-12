@@ -12,15 +12,16 @@ namespace Kova.ViewModel
 {
     public class PlayerViewModel : ViewModelBase
     {
-        private ObservableCollection<Song> _songs { get; set; }
-        private Song _currentSong { get; set; }  
-        private TimeSpan _currentTime { get; set; }
-        private bool _inRepeatSet { get; set; }
-        private BitmapImage _albumArtWork { get; set; }
-        private bool _isPlayBackQueueOpened { get; set; }
-        private bool _isVolumePopupOpened { get; set; }
-        private bool _isMuted { get; set; }
-        private float _lastVolume { get; set; }
+        private readonly IDialogCoordinator _dialogCoordinator;
+        private ObservableCollection<Song> _songs;
+        private Song _currentSong;
+        private TimeSpan _currentTime;
+        private bool _inRepeatSet;
+        private BitmapImage _albumArtWork;
+        private bool _isPlayBackQueueOpened;
+        private bool _isVolumePopupOpened;
+        private bool _isMuted;
+        private float _lastVolume;
 
         public RelayCommand VolumePopupOpenCommand { get; private set; }
         public RelayCommand AddMusicFolderCommand { get; private set; }
@@ -30,11 +31,13 @@ namespace Kova.ViewModel
         public RelayCommand ShowPlaybackQueueCommand { get; private set; }
         public RelayCommand MuteCommand { get; private set; }
         public NAudioEngine Player { get; private set; }
+        public RelayCommand ShowMessegeDialogCommand { get; private set; }
 
         public PlayerViewModel()
         {
             LoadMusicPath();
 
+            _dialogCoordinator = DialogCoordinator.Instance;
             Player = NAudioEngine.Instance;
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
             PlayNextCommand = new RelayCommand(PlayNext);
@@ -43,8 +46,21 @@ namespace Kova.ViewModel
             ShowPlaybackQueueCommand = new RelayCommand(ShowPlaybackQueue);
             VolumePopupOpenCommand = new RelayCommand(OpenVolumePopup);
             MuteCommand = new RelayCommand(Mute);
+            ShowMessegeDialogCommand = new RelayCommand(ShowDialogAsync);
 
             NAudioEngine.Instance.PropertyChanged += NAudioEngine_PropertyChanged;
+        }
+
+        private async void ShowDialogAsync()
+        {
+            var customDialog = new CustomDialog() { Title = "Custom Dialog" };
+            var addMusicDialog = new ViewModel.AddMusicDialogViewModel(instance =>
+            {
+                _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+            });
+
+            customDialog.Content = new Views.AddMusicDialog() { DataContext = addMusicDialog };
+            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
         private void NAudioEngine_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -131,7 +147,7 @@ namespace Kova.ViewModel
             {
                 if (_currentSong == null)
                 {
-                    CurrentSong = Songs[24];
+                    CurrentSong = Songs[25];
                     NAudioEngine.Instance.Stop();
                 }
                 return _currentSong;
@@ -294,12 +310,13 @@ namespace Kova.ViewModel
             {
                 foreach (string path in Properties.Settings.Default.MusicFolderPath)
                 {
-                    var DirectoryMusicPathes = Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories);
-                    for (int i = 0; i < DirectoryMusicPathes.Length; i++)
+                    foreach (var item in Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories))
                     {
-                        Song song = new Song(DirectoryMusicPathes[i]);
+                        Song song = new Song(item);
                         if (!Songs.Contains(song))
+                        {
                             Songs.Add(song);
+                        }
                     }
                 }
             }

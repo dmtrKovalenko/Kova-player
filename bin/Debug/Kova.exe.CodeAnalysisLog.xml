@@ -6,21 +6,33 @@
    <Modules>
     <Module Name="kova.exe">
      <Namespaces>
+      <Namespace Name="Kova">
+       <Types>
+        <Type Name="Playlist" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#PlayList" Kind="Property" Static="False" Accessibility="Public" ExternallyVisible="True">
+           <Accessors>
+            <Accessor Name="#get_PlayList()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
+             <Messages>
+              <Message TypeName="DoNotRaiseExceptionsInUnexpectedLocations" Category="Microsoft.Design" CheckId="CA1065" Status="Active" Created="2016-04-12 08:25:30Z" FixCategory="Breaking">
+               <Issue Name="PropertyGetter" Certainty="90" Level="Warning" Path="D:\Proj\Kova" File="Playlist.cs" Line="20">'Playlist.PlayList.get()' создает исключение с типом 'NullReferenceException', данный тип исключения не должен вызываться в свойстве. Если существует вероятность вызова этого экземпляра исключения, используйте исключение другого типа, преобразуйте это свойство в метод или измените его логику так, чтобы она не вызывала исключения.</Issue>
+              </Message>
+             </Messages>
+            </Accessor>
+           </Accessors>
+          </Member>
+         </Members>
+        </Type>
+       </Types>
+      </Namespace>
       <Namespace Name="Kova.NAudioCore">
        <Types>
         <Type Name="NAudioEngine" Kind="Class" Accessibility="Public" ExternallyVisible="True">
          <Members>
           <Member Name="#Dispose(System.Boolean)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
            <Messages>
-            <Message Id="waveformGenerateWorker" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2016-04-06 10:16:27Z" FixCategory="NonBreaking">
-             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="71">'NAudioEngine' содержит поле 'NAudioEngine.waveformGenerateWorker' типа IDisposable: 'BackgroundWorker'. Замените метод Dispose для 'NAudioEngine' на вызов Dispose или Close по этому полю.</Issue>
-            </Message>
-           </Messages>
-          </Member>
-          <Member Name="#waveformGenerateWorker_DoWork(System.Object,System.ComponentModel.DoWorkEventArgs)" Kind="Method" Static="False" Accessibility="Private" ExternallyVisible="False">
-           <Messages>
-            <Message TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202" Status="Active" Created="2016-04-06 10:16:27Z" FixCategory="DependsOnFix">
-             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="247">Объект "'waveformMp3Stream'" можно удалять более одного раза в методе 'NAudioEngine.waveformGenerateWorker_DoWork(object, DoWorkEventArgs)'. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 247</Issue>
+            <Message Id="_waveformGenerateWorker" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2016-04-12 08:25:30Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="66">'NAudioEngine' содержит поле 'NAudioEngine._waveformGenerateWorker' типа IDisposable: 'BackgroundWorker'. Замените метод Dispose для 'NAudioEngine' на вызов Dispose или Close по этому полю.</Issue>
             </Message>
            </Messages>
           </Member>
@@ -34,8 +46,8 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-06 10:16:27Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="MainViewModel.cs" Line="16">'MainViewModel.MainViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;MainViewModel..ctor()&#xD;&#xA;MainViewModel.set_CurrentViewModel(ViewModelBase):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-12 08:25:30Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="MainViewModel.cs" Line="17">'MainViewModel.MainViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;MainViewModel..ctor()&#xD;&#xA;MainViewModel.set_CurrentViewModel(ViewModelBase):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
             </Message>
            </Messages>
           </Member>
@@ -45,8 +57,8 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-06 10:16:27Z" FixCategory="NonBreaking">
-             <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="PlayerViewModel.cs" Line="34">'PlayerViewModel.PlayerViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;PlayerViewModel..ctor()&#xD;&#xA;PlayerViewModel.LoadMusicPath():Void&#xD;&#xA;PlayerViewModel.set_Songs(ObservableCollection&lt;Song&gt;):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-12 08:25:30Z" FixCategory="NonBreaking">
+             <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="PlayerViewModel.cs" Line="36">'PlayerViewModel.PlayerViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;PlayerViewModel..ctor()&#xD;&#xA;PlayerViewModel.LoadMusicPath():Void&#xD;&#xA;PlayerViewModel.set_Songs(ObservableCollection&lt;Song&gt;):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
             </Message>
            </Messages>
           </Member>
@@ -56,7 +68,7 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-06 10:16:27Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-12 08:25:30Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="SettingsViewModel.cs" Line="19">'SettingsViewModel.SettingsViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;SettingsViewModel..ctor()&#xD;&#xA;SettingsViewModel.set_SelectedAccentColor(AccentColorMenuData):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
             </Message>
            </Messages>
@@ -91,15 +103,15 @@
    <MessageLevel Certainty="95">CriticalWarning</MessageLevel>
    <File Name="usagerules.dll" Version="14.0.0.0" />
   </Rule>
-  <Rule TypeName="Не ликвидировать объекты несколько раз" Category="Microsoft.Usage" CheckId="CA2202">
-   <Name>Не ликвидировать объекты несколько раз</Name>
-   <Description>Правильно реализованный метод Dispose может вызываться неоднократно без создания исключения. Однако такой гарантии нет, и чтобы предотвратить создание System.ObjectDisposedException, не следует вызывать метод Dispose для объекта более одного раза.</Description>
-   <Resolution Name="Default">Объект "{0}" можно удалять более одного раза в методе {1}. Чтобы избежать исключения System.ObjectDisposedException, следует вызывать метод "Dispose" для объекта только один раз.: Lines: 247</Resolution>
-   <Owner>RuleOwner</Owner>
-   <Url>http://msdn.microsoft.com/library/ms182334.aspx</Url>
-   <Email />
-   <MessageLevel Certainty="75">Warning</MessageLevel>
-   <File Name="dataflowrules.dll" Version="14.0.0.0" />
+  <Rule TypeName="DoNotRaiseExceptionsInUnexpectedLocations" Category="Microsoft.Design" CheckId="CA1065">
+   <Name>Не вызывайте исключения в непредвиденных местах</Name>
+   <Description>Не следует явно вызывать исключения из неожиданных мест расположения. Существует ряд методов, например, Equals и GetHashCode, пользователи которых не ожидают вызова исключений. В связи с этим вызовы этих методов редко заключены в блоки try catch.</Description>
+   <Resolution Name="PropertyGetter">{0} создает исключение с типом {1}, данный тип исключения не должен вызываться в свойстве. Если существует вероятность вызова этого экземпляра исключения, используйте исключение другого типа, преобразуйте это свойство в метод или измените его логику так, чтобы она не вызывала исключения.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/bb386039.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="90">Error, Warning</MessageLevel>
+   <File Name="designrules.dll" Version="14.0.0.0" />
   </Rule>
  </Rules>
  <Localized>

@@ -17,21 +17,21 @@ namespace Kova.NAudioCore
     public class SpectrumAnalyzer : Control
     {
         #region Fields
-        private readonly DispatcherTimer animationTimer;
-        private Canvas spectrumCanvas;
-        private ISpectrumPlayer soundPlayer;
-        private readonly List<Shape> barShapes = new List<Shape>();
-        private readonly List<Shape> peakShapes = new List<Shape>();
-        private double[] barHeights;
-        private double[] peakHeights;
-        private float[] channelData = new float[2048];
-        private float[] channelPeakData;
-        private double bandWidth = 1.0;
-        private double barWidth = 1;
-        private int maximumFrequencyIndex = 2047;
-        private int minimumFrequencyIndex;
-        private int[] barIndexMax;
-        private int[] barLogScaleIndexMax;
+        private readonly DispatcherTimer _animationTimer;
+        private Canvas _spectrumCanvas;
+        private ISpectrumPlayer _soundPlayer;
+        private readonly List<Shape> _barShapes = new List<Shape>();
+        private readonly List<Shape> _peakShapes = new List<Shape>();
+        private double[] _barHeights;
+        private double[] _peakHeights;
+        private float[] _channelData = new float[2048];
+        private float[] _channelPeakData;
+        private double _bandWidth = 1.0;
+        private double _barWidth = 1;
+        private int _maximumFrequencyIndex = 2047;
+        private int _minimumFrequencyIndex;
+        private int[] _barIndexMax;
+        private int[] _barLogScaleIndexMax;
         #endregion
 
         #region Constants
@@ -766,7 +766,7 @@ namespace Kova.NAudioCore
         /// <param name="newValue">The new value of <see cref="RefreshInterval"/></param>
         protected virtual void OnRefreshIntervalChanged(int oldValue, int newValue)
         {
-            animationTimer.Interval = TimeSpan.FromMilliseconds(newValue);
+            _animationTimer.Interval = TimeSpan.FromMilliseconds(newValue);
         }
 
         /// <summary>
@@ -829,7 +829,7 @@ namespace Kova.NAudioCore
         /// <param name="newValue">The new value of <see cref="FFTComplexity"/></param>
         protected virtual void OnFFTComplexityChanged(FFTDataSize oldValue, FFTDataSize newValue)
         {
-            channelData = new float[((int)newValue / 2)];
+            _channelData = new float[((int)newValue / 2)];
         }
 
         /// <summary>
@@ -860,8 +860,8 @@ namespace Kova.NAudioCore
         /// </summary>
         public override void OnApplyTemplate()
         {
-            spectrumCanvas = GetTemplateChild("PART_SpectrumCanvas") as Canvas;
-            spectrumCanvas.SizeChanged += spectrumCanvas_SizeChanged;
+            _spectrumCanvas = GetTemplateChild("PART_SpectrumCanvas") as Canvas;
+            _spectrumCanvas.SizeChanged += spectrumCanvas_SizeChanged;
             UpdateBarLayout();
         }
 
@@ -873,8 +873,8 @@ namespace Kova.NAudioCore
         protected override void OnTemplateChanged(ControlTemplate oldTemplate, ControlTemplate newTemplate)
         {
             base.OnTemplateChanged(oldTemplate, newTemplate);
-            if (spectrumCanvas != null)
-                spectrumCanvas.SizeChanged -= spectrumCanvas_SizeChanged;
+            if (_spectrumCanvas != null)
+                _spectrumCanvas.SizeChanged -= spectrumCanvas_SizeChanged;
         }
         #endregion
 
@@ -889,11 +889,11 @@ namespace Kova.NAudioCore
         /// </summary>
         public SpectrumAnalyzer()
         {
-            animationTimer = new DispatcherTimer(DispatcherPriority.Normal)
+            _animationTimer = new DispatcherTimer(DispatcherPriority.Normal)
             {
                 Interval = TimeSpan.FromMilliseconds(defaultUpdateInterval),
             };
-            animationTimer.Tick += animationTimer_Tick;
+            _animationTimer.Tick += animationTimer_Tick;
         }
         #endregion
 
@@ -905,10 +905,10 @@ namespace Kova.NAudioCore
         /// <param name="soundPlayer">A sound player that provides spectrum data through the ISpectrumPlayer interface methods.</param>
         public void RegisterSoundPlayer(ISpectrumPlayer soundPlayer)
         {
-            this.soundPlayer = soundPlayer;
+            this._soundPlayer = soundPlayer;
             soundPlayer.PropertyChanged += soundPlayer_PropertyChanged;
             UpdateBarLayout();
-            animationTimer.Start();
+            _animationTimer.Start();
         }
         #endregion
 
@@ -941,10 +941,10 @@ namespace Kova.NAudioCore
         #region Private Drawing Methods
         private void UpdateSpectrum()
         {
-            if (soundPlayer == null || spectrumCanvas == null || spectrumCanvas.RenderSize.Width < 1 || spectrumCanvas.RenderSize.Height < 1)
+            if (_soundPlayer == null || _spectrumCanvas == null || _spectrumCanvas.RenderSize.Width < 1 || _spectrumCanvas.RenderSize.Height < 1)
                 return;
 
-            if (soundPlayer.IsPlaying && !soundPlayer.GetFFTData(channelData))
+            if (_soundPlayer.IsPlaying && !_soundPlayer.GetFFTData(_channelData))
                 return;
 
             UpdateSpectrumShapes();
@@ -958,15 +958,15 @@ namespace Kova.NAudioCore
             double barHeight = 0f;
             double lastPeakHeight = 0f;
             double peakYPos = 0f;
-            double height = spectrumCanvas.RenderSize.Height;
+            double height = _spectrumCanvas.RenderSize.Height;
             int barIndex = 0;
-            double peakDotHeight = Math.Max(barWidth / 2.0f, 1);
+            double peakDotHeight = Math.Max(_barWidth / 2.0f, 1);
             double barHeightScale = (height - peakDotHeight);
 
-            for (int i = minimumFrequencyIndex; i <= maximumFrequencyIndex; i++)
+            for (int i = _minimumFrequencyIndex; i <= _maximumFrequencyIndex; i++)
             {
                 // If we're paused, keep drawing, but set the current height to 0 so the peaks fall.
-                if (!soundPlayer.IsPlaying)
+                if (!_soundPlayer.IsPlaying)
                 {
                     barHeight = 0f;
                 }
@@ -975,14 +975,14 @@ namespace Kova.NAudioCore
                     switch (BarHeightScaling)
                     {
                         case BarHeightScalingStyles.Decibel:
-                            double dbValue = 20 * Math.Log10((double)channelData[i]);
+                            double dbValue = 20 * Math.Log10((double)_channelData[i]);
                             fftBucketHeight = ((dbValue - minDBValue) / dbScale) * barHeightScale;
                             break;
                         case BarHeightScalingStyles.Linear:
-                            fftBucketHeight = (channelData[i] * scaleFactorLinear) * barHeightScale;
+                            fftBucketHeight = (_channelData[i] * scaleFactorLinear) * barHeightScale;
                             break;
                         case BarHeightScalingStyles.Sqrt:
-                            fftBucketHeight = (((Math.Sqrt((double)channelData[i])) * scaleFactorSqr) * barHeightScale);
+                            fftBucketHeight = (((Math.Sqrt((double)_channelData[i])) * scaleFactorSqr) * barHeightScale);
                             break;
                     }
 
@@ -993,7 +993,7 @@ namespace Kova.NAudioCore
                 }
 
                 // If this is the last FFT bucket in the bar's group, draw the bar.
-                int currentIndexMax = IsFrequencyScaleLinear ? barIndexMax[barIndex] : barLogScaleIndexMax[barIndex];
+                int currentIndexMax = IsFrequencyScaleLinear ? _barIndexMax[barIndex] : _barLogScaleIndexMax[barIndex];
                 if (i == currentIndexMax)
                 {
                     // Peaks can't surpass the height of the control.
@@ -1005,19 +1005,19 @@ namespace Kova.NAudioCore
 
                     peakYPos = barHeight;
 
-                    if (channelPeakData[barIndex] < peakYPos)
-                        channelPeakData[barIndex] = (float)peakYPos;
+                    if (_channelPeakData[barIndex] < peakYPos)
+                        _channelPeakData[barIndex] = (float)peakYPos;
                     else
-                        channelPeakData[barIndex] = (float)(peakYPos + (PeakFallDelay * channelPeakData[barIndex])) / ((float)(PeakFallDelay + 1));
+                        _channelPeakData[barIndex] = (float)(peakYPos + (PeakFallDelay * _channelPeakData[barIndex])) / ((float)(PeakFallDelay + 1));
 
-                    double xCoord = BarSpacing + (barWidth * barIndex) + (BarSpacing * barIndex) + 1;
+                    double xCoord = BarSpacing + (_barWidth * barIndex) + (BarSpacing * barIndex) + 1;
 
-                    barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
-                    barShapes[barIndex].Height = barHeight;
-                    peakShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - channelPeakData[barIndex] - peakDotHeight, 0, 0);
-                    peakShapes[barIndex].Height = peakDotHeight;
+                    _barShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - barHeight, 0, 0);
+                    _barShapes[barIndex].Height = barHeight;
+                    _peakShapes[barIndex].Margin = new Thickness(xCoord, (height - 1) - _channelPeakData[barIndex] - peakDotHeight, 0, 0);
+                    _peakShapes[barIndex].Height = peakDotHeight;
 
-                    if (channelPeakData[barIndex] > 0.05)
+                    if (_channelPeakData[barIndex] > 0.05)
                         allZero = false;
 
                     lastPeakHeight = barHeight;
@@ -1026,79 +1026,79 @@ namespace Kova.NAudioCore
                 }
             }
 
-            if (allZero && !soundPlayer.IsPlaying)
-                animationTimer.Stop();
+            if (allZero && !_soundPlayer.IsPlaying)
+                _animationTimer.Stop();
         }
 
         private void UpdateBarLayout()
         {
-            if (soundPlayer == null || spectrumCanvas == null)
+            if (_soundPlayer == null || _spectrumCanvas == null)
                 return;
 
-            barWidth = Math.Max(((double)(spectrumCanvas.RenderSize.Width - (BarSpacing * (BarCount + 1))) / (double)BarCount), 1);
-            maximumFrequencyIndex = Math.Min(soundPlayer.GetFFTFrequencyIndex(MaximumFrequency) + 1, 2047);
-            minimumFrequencyIndex = Math.Min(soundPlayer.GetFFTFrequencyIndex(MinimumFrequency), 2047);
-            bandWidth = Math.Max(((double)(maximumFrequencyIndex - minimumFrequencyIndex)) / spectrumCanvas.RenderSize.Width, 1.0);
+            _barWidth = Math.Max(((double)(_spectrumCanvas.RenderSize.Width - (BarSpacing * (BarCount + 1))) / (double)BarCount), 1);
+            _maximumFrequencyIndex = Math.Min(_soundPlayer.GetFFTFrequencyIndex(MaximumFrequency) + 1, 2047);
+            _minimumFrequencyIndex = Math.Min(_soundPlayer.GetFFTFrequencyIndex(MinimumFrequency), 2047);
+            _bandWidth = Math.Max(((double)(_maximumFrequencyIndex - _minimumFrequencyIndex)) / _spectrumCanvas.RenderSize.Width, 1.0);
 
             int actualBarCount;
-            if (barWidth >= 1.0d)
+            if (_barWidth >= 1.0d)
                 actualBarCount = BarCount;
             else
-                actualBarCount = Math.Max((int)((spectrumCanvas.RenderSize.Width - BarSpacing) / (barWidth + BarSpacing)), 1);
-            channelPeakData = new float[actualBarCount];
+                actualBarCount = Math.Max((int)((_spectrumCanvas.RenderSize.Width - BarSpacing) / (_barWidth + BarSpacing)), 1);
+            _channelPeakData = new float[actualBarCount];
 
-            int indexCount = maximumFrequencyIndex - minimumFrequencyIndex;
+            int indexCount = _maximumFrequencyIndex - _minimumFrequencyIndex;
             int linearIndexBucketSize = (int)Math.Round((double)indexCount / (double)actualBarCount, 0);
             List<int> maxIndexList = new List<int>();
             List<int> maxLogScaleIndexList = new List<int>();
             double maxLog = Math.Log(actualBarCount, actualBarCount);
             for (int i = 1; i < actualBarCount; i++)
             {
-                maxIndexList.Add(minimumFrequencyIndex + (i * linearIndexBucketSize));
-                int logIndex = (int)((maxLog - Math.Log((actualBarCount + 1) - i, (actualBarCount + 1))) * indexCount) + minimumFrequencyIndex;
+                maxIndexList.Add(_minimumFrequencyIndex + (i * linearIndexBucketSize));
+                int logIndex = (int)((maxLog - Math.Log((actualBarCount + 1) - i, (actualBarCount + 1))) * indexCount) + _minimumFrequencyIndex;
                 maxLogScaleIndexList.Add(logIndex);
             }
-            maxIndexList.Add(maximumFrequencyIndex);
-            maxLogScaleIndexList.Add(maximumFrequencyIndex);
-            barIndexMax = maxIndexList.ToArray();
-            barLogScaleIndexMax = maxLogScaleIndexList.ToArray();
+            maxIndexList.Add(_maximumFrequencyIndex);
+            maxLogScaleIndexList.Add(_maximumFrequencyIndex);
+            _barIndexMax = maxIndexList.ToArray();
+            _barLogScaleIndexMax = maxLogScaleIndexList.ToArray();
 
-            barHeights = new double[actualBarCount];
-            peakHeights = new double[actualBarCount];
+            _barHeights = new double[actualBarCount];
+            _peakHeights = new double[actualBarCount];
 
-            spectrumCanvas.Children.Clear();
-            barShapes.Clear();
-            peakShapes.Clear();
+            _spectrumCanvas.Children.Clear();
+            _barShapes.Clear();
+            _peakShapes.Clear();
 
-            double height = spectrumCanvas.RenderSize.Height;
-            double peakDotHeight = Math.Max(barWidth / 2.0f, 1);
+            double height = _spectrumCanvas.RenderSize.Height;
+            double peakDotHeight = Math.Max(_barWidth / 2.0f, 1);
             for (int i = 0; i < actualBarCount; i++)
             {
-                double xCoord = BarSpacing + (barWidth * i) + (BarSpacing * i) + 1;
+                double xCoord = BarSpacing + (_barWidth * i) + (BarSpacing * i) + 1;
                 Rectangle barRectangle = new Rectangle()
                 {
                     Margin = new Thickness(xCoord, height, 0, 0),
-                    Width = barWidth,
+                    Width = _barWidth,
                     Height = 0,
                     Style = BarStyle
                 };
-                barShapes.Add(barRectangle);
+                _barShapes.Add(barRectangle);
                 Rectangle peakRectangle = new Rectangle()
                 {
                     Margin = new Thickness(xCoord, height - peakDotHeight, 0, 0),
-                    Width = barWidth,
+                    Width = _barWidth,
                     Height = peakDotHeight,
                     Style = PeakStyle
                 };
-                peakShapes.Add(peakRectangle);
+                _peakShapes.Add(peakRectangle);
             }
 
-            foreach (Shape shape in barShapes)
-                spectrumCanvas.Children.Add(shape);
-            foreach (Shape shape in peakShapes)
-                spectrumCanvas.Children.Add(shape);
+            foreach (Shape shape in _barShapes)
+                _spectrumCanvas.Children.Add(shape);
+            foreach (Shape shape in _peakShapes)
+                _spectrumCanvas.Children.Add(shape);
 
-            ActualBarWidth = barWidth;
+            ActualBarWidth = _barWidth;
         }
         #endregion
 
@@ -1108,8 +1108,8 @@ namespace Kova.NAudioCore
             switch (e.PropertyName)
             {
                 case "IsPlaying":
-                    if (soundPlayer.IsPlaying && !animationTimer.IsEnabled)
-                        animationTimer.Start();
+                    if (_soundPlayer.IsPlaying && !_animationTimer.IsEnabled)
+                        _animationTimer.Start();
                     break;
             }
         }

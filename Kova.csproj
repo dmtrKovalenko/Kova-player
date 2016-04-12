@@ -157,8 +157,13 @@
     <Compile Include="NAudioCore\Visualisation\ReflectionControl.cs" />
     <Compile Include="NAudioCore\Visualisation\UIHelper.cs" />
     <Compile Include="Model\Song.cs" />
+    <Compile Include="Playlist.cs" />
+    <Compile Include="ViewModel\AddMusicDialogViewModel.cs" />
     <Compile Include="ViewModel\PlayerViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
+    <Compile Include="Views\AddMusicDialog.xaml.cs">
+      <DependentUpon>AddMusicDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Albums.xaml.cs">
       <DependentUpon>Albums.xaml</DependentUpon>
     </Compile>
@@ -201,6 +206,10 @@
     <Page Include="Resources\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AddMusicDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Albums.xaml">
       <SubType>Designer</SubType>
@@ -289,16 +298,7 @@
     <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Drawing_12_.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\logo.ico" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="logo.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="jw_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

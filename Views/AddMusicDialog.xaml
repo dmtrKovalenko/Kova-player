@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="Kova.Views.AddMusicDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Kova.Views"
+             xmlns:properties="clr-namespace:Kova.Properties"
+             mc:Ignorable="d" Width="378" Height="187">
+    <Grid Margin="0,10,0,0">
+        <ListBox
+            Margin="4,0,0,36"
+            ItemsSource="{Binding Source={x:Static properties:Settings.Default}, Path=MusicFolderPath}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=Panel}" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <Button Margin="193,141,104,3"
+                Command="{Binding Player.AddMusicFolderCommand, Source={StaticResource Locator}}"
+                Content="Add" ></Button>
+        <Button Content="Close"
+                Command="{Binding CloseCommand}"
+                Margin="292,141,10,3" RenderTransformOrigin="0.539,1.037"></Button>
+    </Grid>
+</UserControl>

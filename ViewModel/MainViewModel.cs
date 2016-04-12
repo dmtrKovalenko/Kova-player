@@ -1,23 +1,23 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using MahApps.Metro.Controls.Dialogs;
+using System;
+using System.Windows.Input;
 
 namespace Kova.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private readonly IDialogCoordinator _dialogCoordinator;
-        private ViewModelBase _currentViewModel { get; set; }
+        private ViewModelBase _currentViewModel;
+        private ViewModelLocator _VMLocator;
 
-        private ViewModelLocator _VMlock { get; set; }
         public RelayCommand LaunchKovaCommand { get; private set; }
         public RelayCommand<ViewModelBase> ChangeViewCommand { get; private set; }
-
+       
         public MainViewModel()
         {
-            _dialogCoordinator = DialogCoordinator.Instance;
-            _VMlock = new ViewModelLocator();
-            CurrentViewModel = _VMlock.Player;
+            _VMLocator = new ViewModelLocator();
+            CurrentViewModel = _VMLocator.Player;
 
             ChangeViewCommand = new RelayCommand<ViewModelBase>((View) => ChangeView(View));
             LaunchKovaCommand = new RelayCommand(LaunchKova);
@@ -35,7 +35,7 @@ namespace Kova.ViewModel
                 RaisePropertyChanged(nameof(CurrentViewModel));
             }
         }
-
+     
         private void ChangeView(ViewModelBase other)
         {
             CurrentViewModel = other;
