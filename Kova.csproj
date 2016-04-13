@@ -149,6 +149,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\MusicFolderListItem.xaml.cs">
+      <DependentUpon>MusicFolderListItem.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\AccentColorMenuData.cs" />
     <Compile Include="NAudioCore\Aggregator.cs" />
     <Compile Include="NAudioCore\ISpectrumPlayer.cs" />
@@ -187,6 +190,10 @@
     <Compile Include="Views\Settings\SettingsAppearance.xaml.cs">
       <DependentUpon>SettingsAppearance.xaml</DependentUpon>
     </Compile>
+    <Page Include="Controls\MusicFolderListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

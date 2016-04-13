@@ -10,11 +10,11 @@ none
 false
 CODE_ANALYSIS;DEBUG;CODE_ANALYSIS
 D:\Proj\Kova\App.xaml
-111128478636
+12-242349384
 
-27-407671679
+28305265984
 78615849788
-MainWindow.xaml;NAudioCore\Visualisation\ExpressionLight.xaml;Resources\Icons.xaml;Views\AddMusicDialog.xaml;Views\Albums.xaml;Views\AllCompositions.xaml;Views\MainPage.xaml;Views\MediaControl.xaml;Views\NowPlaying.xaml;Views\Settings.xaml;Views\Settings\SettingsAppearance.xaml;
+Controls\MusicFolderListItem.xaml;MainWindow.xaml;NAudioCore\Visualisation\ExpressionLight.xaml;Resources\Icons.xaml;Views\AddMusicDialog.xaml;Views\Albums.xaml;Views\AllCompositions.xaml;Views\MainPage.xaml;Views\MediaControl.xaml;Views\NowPlaying.xaml;Views\Settings.xaml;Views\Settings\SettingsAppearance.xaml;
 
 False
 

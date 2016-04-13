@@ -53,7 +53,7 @@ namespace Kova.ViewModel
 
         private async void ShowDialogAsync()
         {
-            var customDialog = new CustomDialog() { Title = "Custom Dialog" };
+            var customDialog = new CustomDialog() { Title = "Add music" };
             var addMusicDialog = new ViewModel.AddMusicDialogViewModel(instance =>
             {
                 _dialogCoordinator.HideMetroDialogAsync(this, customDialog);

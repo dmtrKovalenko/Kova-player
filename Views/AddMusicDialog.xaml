@@ -4,23 +4,62 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kova.Views"
+            xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:properties="clr-namespace:Kova.Properties"
-             mc:Ignorable="d" Width="378" Height="187">
-    <Grid Margin="0,10,0,0">
-        <ListBox
-            Margin="4,0,0,36"
+             mc:Ignorable="d"   
+             d:DesignHeight="200"
+             d:DesignWidth="400">
+    <UserControl.Resources>
+        <Style x:Key="SmallTileStyle" TargetType="Controls:Tile">
+            <Setter Property="Height" Value="50" />
+            <Setter Property="TitleFontSize" Value="11" />
+            <Setter Property="Width" Value="185" />
+        </Style>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Left">
+        
+        <TextBlock 
+            FontSize="15"
+            Text="We add your music from this folders, include subfolders" Margin="0,0,0,179">
+        </TextBlock>
+        <ListView x:Name="MusicFoldersList"
+            Margin="7,29,0,59"
             ItemsSource="{Binding Source={x:Static properties:Settings.Default}, Path=MusicFolderPath}">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=Panel}" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-        </ListBox>
-        <Button Margin="193,141,104,3"
-                Command="{Binding Player.AddMusicFolderCommand, Source={StaticResource Locator}}"
-                Content="Add" ></Button>
-        <Button Content="Close"
-                Command="{Binding CloseCommand}"
-                Margin="292,141,10,3" RenderTransformOrigin="0.539,1.037"></Button>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=MusicFoldersList}" Width="441" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <Controls:Tile 
+                               BorderBrush="White"
+                               Title="Music"
+                               Style="{StaticResource SmallTileStyle}" >
+                                <TextBlock Text="{Binding}"
+                                       TextAlignment="Left"
+                                       HorizontalAlignment="Left"
+                                       FontSize="13"></TextBlock>
+                            </Controls:Tile>
+                        </WrapPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListView>
+        <StackPanel Margin="220,141,0,0" 
+                    HorizontalAlignment="Left" >
+            <Grid Height="58" Width="180">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="118*"/>
+                    <ColumnDefinition Width="91*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Close"
+        			Command="{Binding CloseCommand}"
+        			Margin="0,12,15,8" HorizontalAlignment="Right" Width="71" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" />
+                <Button Margin="0,12,18,8"
+        			Command="{Binding Player.AddMusicFolderCommand, Source={StaticResource Locator}}"
+        			Content="Add" HorizontalAlignment="Right" Width="71" RenderTransformOrigin="-0.174,0.482" />
+            </Grid>
+        </StackPanel>
     </Grid>
 </UserControl>

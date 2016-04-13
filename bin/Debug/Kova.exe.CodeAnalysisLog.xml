@@ -14,7 +14,7 @@
            <Accessors>
             <Accessor Name="#get_PlayList()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
              <Messages>
-              <Message TypeName="DoNotRaiseExceptionsInUnexpectedLocations" Category="Microsoft.Design" CheckId="CA1065" Status="Active" Created="2016-04-12 08:25:30Z" FixCategory="Breaking">
+              <Message TypeName="DoNotRaiseExceptionsInUnexpectedLocations" Category="Microsoft.Design" CheckId="CA1065" Status="Active" Created="2016-04-13 19:53:04Z" FixCategory="Breaking">
                <Issue Name="PropertyGetter" Certainty="90" Level="Warning" Path="D:\Proj\Kova" File="Playlist.cs" Line="20">'Playlist.PlayList.get()' создает исключение с типом 'NullReferenceException', данный тип исключения не должен вызываться в свойстве. Если существует вероятность вызова этого экземпляра исключения, используйте исключение другого типа, преобразуйте это свойство в метод или измените его логику так, чтобы она не вызывала исключения.</Issue>
               </Message>
              </Messages>
@@ -31,7 +31,7 @@
          <Members>
           <Member Name="#Dispose(System.Boolean)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
            <Messages>
-            <Message Id="_waveformGenerateWorker" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2016-04-12 08:25:30Z" FixCategory="NonBreaking">
+            <Message Id="_waveformGenerateWorker" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2016-04-13 19:53:04Z" FixCategory="NonBreaking">
              <Issue Certainty="75" Level="Warning" Path="D:\Proj\Kova\NAudioCore" File="NAudioEngine.cs" Line="66">'NAudioEngine' содержит поле 'NAudioEngine._waveformGenerateWorker' типа IDisposable: 'BackgroundWorker'. Замените метод Dispose для 'NAudioEngine' на вызов Dispose или Close по этому полю.</Issue>
             </Message>
            </Messages>
@@ -46,7 +46,7 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-12 08:25:30Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-13 19:53:04Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="MainViewModel.cs" Line="17">'MainViewModel.MainViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;MainViewModel..ctor()&#xD;&#xA;MainViewModel.set_CurrentViewModel(ViewModelBase):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
             </Message>
            </Messages>
@@ -57,7 +57,7 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-12 08:25:30Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-13 19:53:04Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="PlayerViewModel.cs" Line="36">'PlayerViewModel.PlayerViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;PlayerViewModel..ctor()&#xD;&#xA;PlayerViewModel.LoadMusicPath():Void&#xD;&#xA;PlayerViewModel.set_Songs(ObservableCollection&lt;Song&gt;):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
             </Message>
            </Messages>
@@ -68,7 +68,7 @@
          <Members>
           <Member Name="#.ctor()" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="True">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-12 08:25:30Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2016-04-13 19:53:04Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalWarning" Path="D:\Proj\Kova\ViewModel" File="SettingsViewModel.cs" Line="19">'SettingsViewModel.SettingsViewModel()' содержит цепочку вызовов, которая приводит к вызову виртуального метода, определенного классом. Просмотрите следующий стек вызовов для обнаружения непреднамеренных последствий: &#xD;&#xA;&#xD;&#xA;SettingsViewModel..ctor()&#xD;&#xA;SettingsViewModel.set_SelectedAccentColor(AccentColorMenuData):Void&#xD;&#xA;ObservableObject.RaisePropertyChanged(String):Void</Issue>
             </Message>
            </Messages>

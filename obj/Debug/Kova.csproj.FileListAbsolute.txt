@@ -121,3 +121,5 @@ D:\Proj\Kova\obj\Debug\Resources\Icons.baml
 D:\Proj\Kova\obj\Debug\Resources\Icons.g.cs
 D:\Proj\Kova\obj\Debug\Views\AddMusicDialog.g.cs
 D:\Proj\Kova\obj\Debug\Views\AddMusicDialog.baml
+D:\Proj\Kova\obj\Debug\Controls\MusicFolderListItem.g.cs
+D:\Proj\Kova\obj\Debug\Controls\MusicFolderListItem.baml
