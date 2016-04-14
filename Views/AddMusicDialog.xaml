@@ -3,8 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Kova.Views"
-            xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:Kova.Views"    
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:properties="clr-namespace:Kova.Properties"
              mc:Ignorable="d"   
              d:DesignHeight="200"
@@ -17,13 +17,13 @@
         </Style>
     </UserControl.Resources>
     <Grid HorizontalAlignment="Left">
-        
         <TextBlock 
             FontSize="15"
             Text="We add your music from this folders, include subfolders" Margin="0,0,0,179">
         </TextBlock>
         <ListView x:Name="MusicFoldersList"
-            Margin="7,29,0,59"
+            Margin="7,29,0,59" 
+            MaxHeight="450"
             ItemsSource="{Binding Source={x:Static properties:Settings.Default}, Path=MusicFolderPath}">
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -33,11 +33,17 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
-                            <Controls:Tile 
+                        <Controls:Tile x:Name="Tile"
+                               HorizontalContentAlignment="Left"
                                BorderBrush="White"
-                               Title="Music"
+                               Title="Music" 
+                               Command="{Binding DataContext.RemoveCommand, ElementName=MusicFoldersList}"
+                               CommandParameter="{Binding}"
+                               TitleFontSize="12" 
                                Style="{StaticResource SmallTileStyle}" >
-                                <TextBlock Text="{Binding}"
+                            <TextBlock 
+                                       Text="{Binding}"
+                                       Margin="8,0,0,0"
                                        TextAlignment="Left"
                                        HorizontalAlignment="Left"
                                        FontSize="13"></TextBlock>
@@ -47,7 +53,8 @@
                 </ListBox.ItemTemplate>
             </ListView>
         <StackPanel Margin="220,141,0,0" 
-                    HorizontalAlignment="Left" >
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Bottom">
             <Grid Height="58" Width="180">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="118*"/>

@@ -45,6 +45,7 @@ namespace Kova.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<PlayerViewModel>();
             SimpleIoc.Default.Register<SettingsViewModel>();
+            SimpleIoc.Default.Register<AddMusicDialogViewModel>();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
@@ -71,6 +72,14 @@ namespace Kova.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<SettingsViewModel>();
+            }
+        }
+
+       public AddMusicDialogViewModel AddMusicDialog
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<AddMusicDialogViewModel>();
             }
         }
 

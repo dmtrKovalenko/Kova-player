@@ -5,8 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
         xmlns:ignore="http://www.galasoft.ch/ignore"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
         xmlns:Views ="clr-namespace:Kova.Views"
         Dialog:DialogParticipation.Register="{Binding}"
         xmlns:vm="clr-namespace:Kova.ViewModel"
@@ -32,7 +30,7 @@
     </Controls:MetroWindow.InputBindings>
     <Controls:MetroWindow.LeftWindowCommands>
         <Controls:WindowCommands>
-            <Button>
+            <Button Command="{Binding LaunchKovaCommand}">
                 <Rectangle Width="22"
                            Height="22"
                            Fill="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}">
@@ -40,28 +38,15 @@
                         <VisualBrush Stretch="Uniform" Visual="{StaticResource appbar_github}" />
                     </Rectangle.OpacityMask>
                 </Rectangle>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cmd:EventToCommand 
-                            Command="{Binding LaunchKovaCommand, Mode=OneWay}"
-                            MustToggleIsEnabledValue="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.LeftWindowCommands>
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Content="settings">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="Click">
-                        <cmd:EventToCommand
-                            Command="{Binding ChangeViewCommand, Mode=OneWay}"
-                            CommandParameter="{Binding Source={StaticResource Locator}, Path=Settings}"
-                            MustToggleIsEnabledValue="True" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
+            <Button Content="settings"
+                    Command="{Binding ChangeViewCommand, Mode=OneWay}"
+                    CommandParameter="{Binding Source={StaticResource Locator}, Path=Settings}">
             </Button>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>

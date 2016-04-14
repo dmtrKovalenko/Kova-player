@@ -49,11 +49,11 @@ namespace Kova.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
-            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
-        public global::System.Collections.Specialized.StringCollection MusicFolderPath {
+        [global::System.Configuration.DefaultSettingValueAttribute("\r\n                    <ArrayOfString xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-" +
+            "instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />\r\n                ")]
+        public global::System.Collections.ObjectModel.ObservableCollection<System.String> MusicFolderPath {
             get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["MusicFolderPath"]));
+                return ((global::System.Collections.ObjectModel.ObservableCollection<System.String>)(this["MusicFolderPath"]));
             }
             set {
                 this["MusicFolderPath"] = value;
