@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kova.Views"    
+                xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+                     Dialog:DialogParticipation.Register="{Binding}"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:properties="clr-namespace:Kova.Properties"
              mc:Ignorable="d"   
@@ -21,18 +23,46 @@
             FontSize="15"
             Text="We add your music from this folders, include subfolders" Margin="0,0,0,179">
         </TextBlock>
-        <ListView x:Name="MusicFoldersList"
-            Margin="7,29,0,59" 
-            MaxHeight="450"
-            ItemsSource="{Binding Source={x:Static properties:Settings.Default}, Path=MusicFolderPath}">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=MusicFoldersList}" Width="441" />
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <WrapPanel>
+        <Line X1="0" Y1="25" Y2="25" X2="400" Stroke="{DynamicResource BlackBrush}"/>
+        <ItemsControl x:Name="MusicFoldersList"
+            Margin="7,30,0,58" 
+            MaxHeight="450">
+            <ItemsControl.ItemsSource>
+                <CompositeCollection>
+                    <Controls:Tile 
+        				Style="{StaticResource SmallTileStyle}"
+        				Command="{Binding Player.AddMusicFolderCommand, Source={StaticResource Locator}}">
+                        <Grid Margin="0" Width="180" Height="50">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Ellipse Margin="72,4,66,6"
+                                     StrokeThickness="3"
+                                     Stroke="White" Grid.RowSpan="2"/>
+                            <Rectangle  
+                            	VerticalAlignment="Center"
+                            	Width="24"
+                            	Height="24"
+                            	Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}"  HorizontalAlignment="Right" Grid.RowSpan="2" Margin="0,12,75,14">
+                                <Rectangle.OpacityMask>
+                                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_add}" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Grid>
+                    </Controls:Tile>
+
+                    <CollectionContainer Collection="{Binding MusicFolderPath, Source={x:Static properties:Settings.Default}}"/>
+                </CompositeCollection>
+            </ItemsControl.ItemsSource>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=MusicFoldersList}" Margin="-2,0,0,0"  />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel>
                         <Controls:Tile x:Name="Tile"
                                HorizontalContentAlignment="Left"
                                BorderBrush="White"
@@ -41,32 +71,33 @@
                                CommandParameter="{Binding}"
                                TitleFontSize="12" 
                                Style="{StaticResource SmallTileStyle}" >
-                            <TextBlock 
+                            <Grid>
+                                <TextBlock 
                                        Text="{Binding}"
                                        Margin="8,0,0,0"
                                        TextAlignment="Left"
                                        HorizontalAlignment="Left"
                                        FontSize="13"></TextBlock>
-                            </Controls:Tile>
-                        </WrapPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListView>
-        <StackPanel Margin="220,141,0,0" 
-                    HorizontalAlignment="Left" 
-                    VerticalAlignment="Bottom">
-            <Grid Height="58" Width="180">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="118*"/>
-                    <ColumnDefinition Width="91*"/>
-                </Grid.ColumnDefinitions>
-                <Button Content="Close"
+                                <Rectangle Width="14" 
+                                           Margin="166,0,0,0"
+                                           VerticalAlignment="Top"
+                	              		   Height="14"
+            			                   Fill="White" >
+                                    <Rectangle.OpacityMask>
+                                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_close}" />
+                                    </Rectangle.OpacityMask>
+                                </Rectangle>
+                            </Grid>
+                        </Controls:Tile>
+                    </WrapPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+
+        <Button Content="Close"
         			Command="{Binding CloseCommand}"
-        			Margin="0,12,15,8" HorizontalAlignment="Right" Width="71" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2" />
-                <Button Margin="0,12,18,8"
-        			Command="{Binding Player.AddMusicFolderCommand, Source={StaticResource Locator}}"
-        			Content="Add" HorizontalAlignment="Right" Width="71" RenderTransformOrigin="-0.174,0.482" />
-            </Grid>
-        </StackPanel>
+        			Margin="0,158,15,8" HorizontalAlignment="Right" Width="71" RenderTransformOrigin="0.5,0.5" />
+
     </Grid>
 </UserControl>

@@ -9,7 +9,7 @@
         Dialog:DialogParticipation.Register="{Binding}"
         xmlns:vm="clr-namespace:Kova.ViewModel"
         ResizeMode="CanResizeWithGrip"
-        Icon="Resources/logo.png"     
+        Icon="Resources/logo.png"
         mc:Ignorable="d ignore"     
         xmlns:svl ="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"

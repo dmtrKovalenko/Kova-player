@@ -12,7 +12,7 @@ namespace Kova.ViewModel
 {
     public class PlayerViewModel : ViewModelBase
     {
-        private readonly IDialogCoordinator _dialogCoordinator;
+        
         private ObservableCollection<Song> _songs;
         private Song _currentSong;
         private TimeSpan _currentTime;
@@ -31,13 +31,11 @@ namespace Kova.ViewModel
         public RelayCommand ShowPlaybackQueueCommand { get; private set; }
         public RelayCommand MuteCommand { get; private set; }
         public NAudioEngine Player { get; private set; }
-        public RelayCommand ShowMessegeDialogCommand { get; private set; }
 
         public PlayerViewModel()
         {
             LoadMusicPath();
 
-            _dialogCoordinator = DialogCoordinator.Instance;
             Player = NAudioEngine.Instance;
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
             PlayNextCommand = new RelayCommand(PlayNext);
@@ -46,21 +44,8 @@ namespace Kova.ViewModel
             ShowPlaybackQueueCommand = new RelayCommand(ShowPlaybackQueue);
             VolumePopupOpenCommand = new RelayCommand(OpenVolumePopup);
             MuteCommand = new RelayCommand(Mute);
-            ShowMessegeDialogCommand = new RelayCommand(ShowDialogAsync);
 
             NAudioEngine.Instance.PropertyChanged += NAudioEngine_PropertyChanged;
-        }
-
-        private async void ShowDialogAsync()
-        {
-            var customDialog = new CustomDialog() { Title = "Add music" };
-            var addMusicDialog = new AddMusicDialogViewModel(instance =>
-            {
-                _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
-            });
-
-            customDialog.Content = new Views.AddMusicDialog() { DataContext = addMusicDialog };
-            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
         }
 
         private void NAudioEngine_PropertyChanged(object sender, PropertyChangedEventArgs e)

@@ -28,7 +28,7 @@
             </ListView.View>
         </ListView>
         <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
-                    Command="{Binding ShowMessegeDialogCommand, Mode=OneWay}" 
+                 Command="{Binding Main.ShowMessegeDialogCommand, Source={StaticResource Locator}}" 
                  Height="40" VerticalAlignment="Top" 
                  HorizontalAlignment="Left" Width="40">
             <Rectangle Width="22"
