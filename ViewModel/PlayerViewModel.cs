@@ -7,12 +7,13 @@ using Kova.NAudioCore;
 using System.ComponentModel;
 using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls.Dialogs;
+using GalaSoft.MvvmLight.Messaging;
+using System.Threading.Tasks;
 
 namespace Kova.ViewModel
 {
     public class PlayerViewModel : ViewModelBase
     {
-        
         private ObservableCollection<Song> _songs;
         private Song _currentSong;
         private TimeSpan _currentTime;
@@ -22,9 +23,9 @@ namespace Kova.ViewModel
         private bool _isVolumePopupOpened;
         private bool _isMuted;
         private float _lastVolume;
+        private int _selectedSongIndex;
 
         public RelayCommand VolumePopupOpenCommand { get; private set; }
-        public RelayCommand AddMusicFolderCommand { get; private set; }
         public RelayCommand PlayNextCommand { get; private set; }
         public RelayCommand PlayPreviousCommand { get; private set; }
         public RelayCommand PlayCommand { get; private set; }
@@ -34,10 +35,11 @@ namespace Kova.ViewModel
 
         public PlayerViewModel()
         {
-            LoadMusicPath();
+            Songs = new ObservableCollection<Song>();
+            LoadMusicLibraryAsync();
 
             Player = NAudioEngine.Instance;
-            AddMusicFolderCommand = new RelayCommand(AddMusicFolder);
+
             PlayNextCommand = new RelayCommand(PlayNext);
             PlayPreviousCommand = new RelayCommand(PlayPrevious);
             PlayCommand = new RelayCommand(Play);
@@ -45,7 +47,7 @@ namespace Kova.ViewModel
             VolumePopupOpenCommand = new RelayCommand(OpenVolumePopup);
             MuteCommand = new RelayCommand(Mute);
 
-            NAudioEngine.Instance.PropertyChanged += NAudioEngine_PropertyChanged;
+            Player.PropertyChanged += NAudioEngine_PropertyChanged;
         }
 
         private void NAudioEngine_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -87,8 +89,7 @@ namespace Kova.ViewModel
                             }
                             catch (NotSupportedException)
                             {
-                                AlbumArtWork = null;
-                                // No image
+                                AlbumArtWork = null;  // No image
                             }
                         }
                     }
@@ -126,22 +127,37 @@ namespace Kova.ViewModel
             }
         }
 
+        public int SelectedSongIndex
+        {
+            get
+            {
+                return _selectedSongIndex;
+            }
+            set
+            {
+                _selectedSongIndex = value;
+                if (_selectedSongIndex != -1)
+                {
+                    CurrentSong = Songs[_selectedSongIndex];
+                }
+                RaisePropertyChanged(nameof(SelectedSongIndex));
+            }
+        }
+
         public Song CurrentSong
         {
             get
             {
-                if (_currentSong == null)
-                {
-                    CurrentSong = Songs[25];
-                    NAudioEngine.Instance.Stop();
-                }
                 return _currentSong;
             }
             set
             {
                 _currentSong = value;
-                Player.OpenFile(value.OriginalPath);
-                Player.Play();
+                if (_currentSong != null)
+                {
+                    Player.OpenFile(value.OriginalPath);
+                    Player.Play();
+                }
                 RaisePropertyChanged(nameof(CurrentSong));
             }
         }
@@ -249,17 +265,17 @@ namespace Kova.ViewModel
 
         private void PlayNext()
         {
-            if (Songs.IndexOf(CurrentSong) != Songs.Count - 1)
+            if (SelectedSongIndex < Songs.Count - 1)
             {
-                CurrentSong = Songs[Songs.IndexOf(CurrentSong) + 1];
+                SelectedSongIndex++;
             }
         }
 
         private void PlayPrevious()
         {
-            if (Songs.IndexOf(CurrentSong) != 0)
+            if (SelectedSongIndex > 0)
             {
-                CurrentSong = Songs[Songs.IndexOf(CurrentSong) - 1];
+                SelectedSongIndex--;
             }
         }
 
@@ -268,43 +284,55 @@ namespace Kova.ViewModel
             CurrentSong = Songs[Songs.IndexOf(CurrentSong)];
         }
 
-        private void AddMusicFolder()
+        public Task LoadMusicLibraryAsync()
         {
-            var dialog = new System.Windows.Forms.FolderBrowserDialog();
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            return Task.Run(() =>
             {
-                if (!Properties.Settings.Default.MusicFolderPath.Contains(dialog.SelectedPath))
+                if (Properties.Settings.Default.MusicFolderPath != null)
                 {
-                    Properties.Settings.Default.MusicFolderPath.Add(dialog.SelectedPath);
-                    var DirectoryMusicPathes = Directory.GetFiles(dialog.SelectedPath, "*.mp3*", SearchOption.AllDirectories);
-                    for (int i = 0; i < DirectoryMusicPathes.Length; i++)
+                    foreach (string path in Properties.Settings.Default.MusicFolderPath)
                     {
-                        Song song = new Song(DirectoryMusicPathes[i]);
-                        if (!Songs.Contains(song))
-                            Songs.Add(song);
-                    }
-                }
-            }
-        }
-
-        private void LoadMusicPath()
-        {
-            Songs = new ObservableCollection<Song>();
-            if (Properties.Settings.Default.MusicFolderPath != null)
-            {
-                foreach (string path in Properties.Settings.Default.MusicFolderPath)
-                {
-                    foreach (var item in Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories))
-                    {
-                        Song song = new Song(item);
-                        if (!Songs.Contains(song))
+                        foreach (var item in Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories))
                         {
-                            Songs.Add(song);
+                            Song song = new Song(item);
+                            if (!Songs.Contains(song))
+                            {
+                                Songs.Add(song);
+                            }
                         }
                     }
+                    App.Current.Dispatcher.Invoke((Action)(() =>
+                       {
+                           SelectedSongIndex = 25;
+                           Player.Stop();
+                       }));
                 }
-            }
+            });
+        }
+
+        public Task UpdateMusicLibraryAsync()
+        {
+            return Task.Run(() =>
+            {
+                App.Current.Dispatcher.Invoke(() =>
+                {
+                    Songs.Clear();
+                    if (Properties.Settings.Default.MusicFolderPath != null)
+                    {
+                        foreach (string path in Properties.Settings.Default.MusicFolderPath)
+                        {
+                            foreach (var item in Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories))
+                            {
+                                Song song = new Song(item);
+                                if (!Songs.Contains(song))
+                                {
+                                    Songs.Add(song);
+                                }
+                            }
+                        }
+                    }
+                });
+            });
         }
     }
 }

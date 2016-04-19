@@ -148,6 +148,7 @@
                 </ToggleButton>
             </Grid>
         </StackPanel>
+        
         <Popup IsOpen="{Binding IsVolumePopupOpened}" 
                Placement="Top" PopupAnimation="Scroll" 
                AllowsTransparency="True" 
@@ -199,7 +200,7 @@
                 Value="{Binding Player.ChannelPosition, Mode=TwoWay}" 
                 Foreground="White" 
                 HorizontalAlignment="Stretch"
-                Margin="86,45,77,0" 
+                Margin="84,0,79,3" 
                 IsSnapToTickEnabled="False"
                 Height="20"
                 VerticalAlignment="Bottom" 
@@ -224,11 +225,11 @@
                    HorizontalAlignment="Left"
                    Margin="79,18,0,0" 
                    TextWrapping="Wrap" 
-                   Text="{Binding CurrentSong.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                   Text="{Binding CurrentSong.Title, Mode=OneWay}" 
                    VerticalAlignment="Top" Width="359" Height="23" Grid.RowSpan="2"/>
         <TextBlock FontSize="15"
                    Foreground="{DynamicResource GrayBrush8}"
-                   Text="{Binding CurrentSong.Artist}" 
+                   Text="{Binding CurrentSong.Artist, Mode=OneWay}" 
                    HorizontalAlignment="Left" 
                    Margin="79,21,0,0" 
                    Grid.Row="1" 

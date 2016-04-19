@@ -173,6 +173,7 @@
     <Compile Include="Views\AllCompositions.xaml.cs">
       <DependentUpon>AllCompositions.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\FolderNameConverter.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

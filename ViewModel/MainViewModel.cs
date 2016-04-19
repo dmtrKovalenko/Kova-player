@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using MahApps.Metro.Controls.Dialogs;
 using System;
 using System.Windows.Input;
@@ -11,6 +12,7 @@ namespace Kova.ViewModel
         private readonly IDialogCoordinator _dialogCoordinator;
         private ViewModelBase _currentViewModel;
         private ViewModelLocator _VMLocator;
+        CustomDialog _customDialog = new CustomDialog() { Title = "Add music" };
 
         public RelayCommand LaunchKovaCommand { get; private set; }
         public RelayCommand<ViewModelBase> ChangeViewCommand { get; private set; }
@@ -25,6 +27,7 @@ namespace Kova.ViewModel
             ChangeViewCommand = new RelayCommand<ViewModelBase>((View) => ChangeView(View));
             LaunchKovaCommand = new RelayCommand(LaunchKova);
             ShowMessegeDialogCommand = new RelayCommand(ShowDialogAsync);
+            Messenger.Default.Register<bool>(this, UpdateLibrary);
         }
 
         public ViewModelBase CurrentViewModel
@@ -42,14 +45,22 @@ namespace Kova.ViewModel
 
         private async void ShowDialogAsync()
         {
-            var customDialog = new CustomDialog() { Title = "Add music" };
             var addMusicDialog = new AddMusicDialogViewModel(instance =>
             {
-                _dialogCoordinator.HideMetroDialogAsync(this, customDialog);
+                _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
             }, _dialogCoordinator);
 
-            customDialog.Content = new Views.AddMusicDialog() { DataContext = addMusicDialog };
-            await _dialogCoordinator.ShowMetroDialogAsync(this, customDialog);
+            _customDialog.Content = new Views.AddMusicDialog() { DataContext = addMusicDialog };
+            await _dialogCoordinator.ShowMetroDialogAsync(this, _customDialog);
+        }
+
+        private async void UpdateLibrary(bool isLibraryUpdate)
+        {
+            if (isLibraryUpdate)
+            {
+               await _VMLocator.Player.UpdateMusicLibraryAsync();
+            }
+            await _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
         }
 
         private void ChangeView(ViewModelBase other)

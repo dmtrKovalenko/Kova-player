@@ -364,6 +364,10 @@ namespace Kova.NAudioCore
         {
             get
             {
+                if (_waveOutDevice == null)
+                {
+                    return 0;
+                }
                 return _waveOutDevice.Volume;
             }
             set

@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kova.Views"    
-                xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
-                     Dialog:DialogParticipation.Register="{Binding}"
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             Dialog:DialogParticipation.Register="{Binding}"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:properties="clr-namespace:Kova.Properties"
              mc:Ignorable="d"   
@@ -17,6 +17,7 @@
             <Setter Property="TitleFontSize" Value="11" />
             <Setter Property="Width" Value="185" />
         </Style>
+        <local:FolderNameConverter x:Key="FolderNameConverter"></local:FolderNameConverter>
     </UserControl.Resources>
     <Grid HorizontalAlignment="Left">
         <TextBlock 
@@ -31,7 +32,7 @@
                 <CompositeCollection>
                     <Controls:Tile 
         				Style="{StaticResource SmallTileStyle}"
-        				Command="{Binding Player.AddMusicFolderCommand, Source={StaticResource Locator}}">
+        				Command="{Binding AddMusicFolderCommand, Mode=OneWay}">
                         <Grid Margin="0" Width="180" Height="50">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -39,7 +40,8 @@
                             </Grid.RowDefinitions>
                             <Ellipse Margin="72,4,66,6"
                                      StrokeThickness="3"
-                                     Stroke="White" Grid.RowSpan="2"/>
+                                     Stroke="White" 
+                                     Grid.RowSpan="2"/>
                             <Rectangle  
                             	VerticalAlignment="Center"
                             	Width="24"
@@ -66,18 +68,21 @@
                         <Controls:Tile x:Name="Tile"
                                HorizontalContentAlignment="Left"
                                BorderBrush="White"
-                               Title="Music" 
+                               Title="{Binding ElementName=path, Path=Text, ValidatesOnExceptions=True, Converter={StaticResource FolderNameConverter}}" 
                                Command="{Binding DataContext.RemoveCommand, ElementName=MusicFoldersList}"
                                CommandParameter="{Binding}"
-                               TitleFontSize="12" 
+                               TitleFontSize="13" 
                                Style="{StaticResource SmallTileStyle}" >
                             <Grid>
-                                <TextBlock 
+                                <TextBlock x:Name="path"
                                        Text="{Binding}"
-                                       Margin="8,0,0,0"
+                                       Width="145"
+                                       MaxHeight="30"
+                                       Margin="8,-2,30,0"
+                                       VerticalAlignment="Top"
                                        TextAlignment="Left"
                                        HorizontalAlignment="Left"
-                                       FontSize="13"></TextBlock>
+                                       FontSize="14"></TextBlock>
                                 <Rectangle Width="14" 
                                            Margin="166,0,0,0"
                                            VerticalAlignment="Top"
@@ -94,10 +99,12 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-
         <Button Content="Close"
+                    VerticalAlignment="Bottom"
         			Command="{Binding CloseCommand}"
-        			Margin="0,158,15,8" HorizontalAlignment="Right" Width="71" RenderTransformOrigin="0.5,0.5" />
-
+        			Margin="0,0,15,8" 
+                    HorizontalAlignment="Right" 
+                    Width="71" 
+                    Height="31" />
     </Grid>
 </UserControl>
