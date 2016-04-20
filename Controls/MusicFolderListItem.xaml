@@ -4,15 +4,45 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Kova.Controls"
-             mc:Ignorable="d"   >
-    <WrapPanel>
-        <TextBlock FontSize="15"
-                   VerticalAlignment="Center"
-                   TextAlignment="Center"
-                   Text="{Binding}"/>
-        <Button  
-                Width="20" Height="22"
-                VerticalAlignment="Center"
-                Grid.Column="1"  />
-    </WrapPanel>
+               xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             mc:Ignorable="d"  d:designHeight ="50" d:DesignWidth ="185" >
+
+    <UserControl.Resources>
+        <Style x:Key="SmallTileStyle" TargetType="Controls:Tile">
+            <Setter Property="Height" Value="50" />
+            <Setter Property="TitleFontSize" Value="11" />
+            <Setter Property="Width" Value="185" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Controls:Tile x:Name="Tile"
+                               HorizontalContentAlignment="Left"
+                               BorderBrush="White"
+                               Title="dvdsvdsdsvsdssfddsvdsvsdvdsv" 
+                               TiltFactor="2"
+                               Command="{Binding DataContext.RemoveCommand, ElementName=MusicFoldersList}"
+                               CommandParameter="{Binding}"
+                               TitleFontSize="10" 
+                               Style="{StaticResource SmallTileStyle}" Margin="0,3" Width="Auto" >
+            <Grid>
+                <TextBlock x:Name="path"
+                                       Text="psdfldplsdp[lds[pflsd[pflsd[pfl"
+                                       Width="154"
+                                       MaxHeight="30"
+                                       Margin="7,0,0,21"
+                                       TextAlignment="Left"
+                                       HorizontalAlignment="Left"
+                                       FontSize="14"></TextBlock>
+                <Rectangle Width="14" 
+                                           Margin="166,0,0,0"
+                                           VerticalAlignment="Top"
+                	              		   Height="14"
+            			                   Fill="White" >
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_close}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Grid>
+        </Controls:Tile>
+    </Grid>
 </UserControl>
