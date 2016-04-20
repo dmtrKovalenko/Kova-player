@@ -28,7 +28,7 @@ namespace Kova.ViewModel
             SelectedAccentColor = AccentColors[Properties.Settings.Default.SelectedAccentIndex];
             SelectedTheme = AppThemes[Properties.Settings.Default.SelectedThemeIndex];
         }
-
+ 
         public List<AccentColorMenuData> AccentColors
         {
             get { return _accentColors; }

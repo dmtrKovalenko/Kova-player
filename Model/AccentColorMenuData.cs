@@ -1,8 +1,4 @@
-﻿using GalaSoft.MvvmLight.Command;
-using System.Windows.Media;
-using System.Windows.Input;
-using MahApps.Metro;
-using System.Windows;
+﻿using System.Windows.Media;
 
 namespace Kova.Model
 {

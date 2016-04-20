@@ -30,12 +30,9 @@ namespace Kova.NAudioCore
         private string _pendingWaveformPath;
         private float[] _fullLevelData;
 
-        #region Constants
         private const int waveformCompressedPointCount = 2000;
         private const int repeatThreshold = 200;
-        #endregion
 
-        #region Singleton Pattern
         public static NAudioEngine Instance
         {
             get
@@ -45,7 +42,7 @@ namespace Kova.NAudioCore
                 return _instance;
             }
         }
-        #endregion
+
         private NAudioEngine()
         {
             _positionTimer.Interval = TimeSpan.FromMilliseconds(25);
@@ -55,7 +52,7 @@ namespace Kova.NAudioCore
             _waveformGenerateWorker.RunWorkerCompleted += waveformGenerateWorker_RunWorkerCompleted;
             _waveformGenerateWorker.WorkerSupportsCancellation = true;
         }
-        #region IDisposable
+
         public void Dispose()
         {
             Dispose(true);
@@ -73,9 +70,8 @@ namespace Kova.NAudioCore
                 _disposed = true;
             }
         }
-        #endregion
 
-        #region ISpectrumPlayer
+        //Spectrum analyzer
         public bool GetFFTData(float[] fftDataBuffer)
         {
             _aggregator.GetFFTResults(fftDataBuffer);
@@ -91,10 +87,6 @@ namespace Kova.NAudioCore
                 maxFrequency = 22050; //44.1 kHz 
             return (int)((frequency / maxFrequency) * (_fftDataSize / 2));
         }
-        #endregion
-
-        #region IWaveformPlayer
-
 
         public double ChannelLength
         {
@@ -124,9 +116,7 @@ namespace Kova.NAudioCore
                     _waveOutDevice.Stop();
             }
         }
-        #endregion
 
-        #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void NotifyPropertyChanged(String info)
@@ -136,9 +126,7 @@ namespace Kova.NAudioCore
                 PropertyChanged(this, new PropertyChangedEventArgs(info));
             }
         }
-        #endregion
 
-        #region Waveform Generation
         private class WaveformGenerationParams
         {
             public WaveformGenerationParams(int points, string path)
@@ -197,6 +185,8 @@ namespace Kova.NAudioCore
             {
                 waveMaxPointIndexes.Add((int)Math.Round(waveformLength * ((double)i / (double)waveformParams.Points), 0));
             }
+
+            //read FFT data 
             int readCount = 0;
             while (currentPointIndex * 2 < waveformParams.Points)
             {
@@ -238,9 +228,8 @@ namespace Kova.NAudioCore
             }));
             waveformInputStream.Close();
         }
-        #endregion
 
-        #region Private Utility Methods
+        // Utility methodes
         private void StopAndCloseStream()
         {
             if (_waveOutDevice != null)
@@ -265,9 +254,7 @@ namespace Kova.NAudioCore
                 _waveOutDevice = null;
             }
         }
-        #endregion
 
-        #region Public Methods
         public void Stop()
         {
             if (_waveOutDevice != null)
@@ -345,9 +332,7 @@ namespace Kova.NAudioCore
             if (ChannelPosition == ChannelLength) 
                NotifyPropertyChanged("PlaybackStopped");
         }
-        #endregion
 
-        #region Public Properties
         public WaveStream ActiveStream
         {
             get { return _activeStream; }
@@ -360,6 +345,8 @@ namespace Kova.NAudioCore
             }
         }
 
+        //using volume of waveOutDevice for constantly size of channel position 
+        //and respectively constant drawing size for spectrum analyzer
         public float Volume
         {
             get
@@ -425,9 +412,7 @@ namespace Kova.NAudioCore
                 _positionTimer.IsEnabled = value;
             }
         }
-        #endregion
 
-        #region Event Handlers
         private void inputStream_Sample(object sender, SampleEventArgs e)
         {
             _aggregator.Add(e.Left, e.Right);
@@ -444,6 +429,5 @@ namespace Kova.NAudioCore
             ChannelPosition = ((double)ActiveStream.Position / (double)ActiveStream.Length) * 100;
             _inChannelTimerUpdate = false;
         }
-        #endregion
     }
 }

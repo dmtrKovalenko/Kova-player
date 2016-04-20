@@ -17,10 +17,12 @@ namespace Kova.NAudioCore.Visualisation
             _opacityMask = new LinearGradientBrush();
             _opacityMask.StartPoint = new Point(0, 0);
             _opacityMask.EndPoint = new Point(0, 1);
+
             _opacityMask.GradientStops.Add(new GradientStop(Colors.Black, 0));
             _opacityMask.GradientStops.Add(new GradientStop(Colors.Black, 0.5));
             _opacityMask.GradientStops.Add(new GradientStop(Colors.Transparent, 0.8));
             _opacityMask.GradientStops.Add(new GradientStop(Colors.Transparent, 1));
+
             _reflection = new VisualBrush();
             _reflection.AlignmentY = AlignmentY.Bottom;
             _reflection.Stretch = Stretch.None;

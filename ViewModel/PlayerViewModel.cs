@@ -303,7 +303,7 @@ namespace Kova.ViewModel
                     }
                     App.Current.Dispatcher.Invoke((Action)(() =>
                        {
-                           SelectedSongIndex = 25;
+                       //    SelectedSongIndex = 25;
                            Player.Stop();
                        }));
                 }

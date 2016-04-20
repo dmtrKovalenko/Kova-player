@@ -157,15 +157,12 @@
     <Compile Include="NAudioCore\Visualisation\ReflectionControl.cs" />
     <Compile Include="NAudioCore\Visualisation\UIHelper.cs" />
     <Compile Include="Model\Song.cs" />
-    <Compile Include="Playlist.cs" />
+    <Compile Include="Managment\Playlist.cs" />
     <Compile Include="ViewModel\AddMusicDialogViewModel.cs" />
     <Compile Include="ViewModel\PlayerViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
     <Compile Include="Views\AddMusicDialog.xaml.cs">
       <DependentUpon>AddMusicDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Albums.xaml.cs">
-      <DependentUpon>Albums.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\AllCompositions.xaml.cs">
       <DependentUpon>AllCompositions.xaml</DependentUpon>
@@ -209,10 +206,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\AddMusicDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Albums.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -286,9 +279,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Design\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
   </ItemGroup>
