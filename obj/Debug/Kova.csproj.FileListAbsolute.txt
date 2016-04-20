@@ -123,3 +123,6 @@ D:\Proj\Kova\obj\Debug\Views\AddMusicDialog.g.cs
 D:\Proj\Kova\obj\Debug\Views\AddMusicDialog.baml
 D:\Proj\Kova\obj\Debug\Controls\MusicFolderListItem.g.cs
 D:\Proj\Kova\obj\Debug\Controls\MusicFolderListItem.baml
+C:\Users\diant\Documents\GitHub\Kova-player\bin\Debug\Kova.exe.config
+C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Kova.exe
+C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Kova.pdb
