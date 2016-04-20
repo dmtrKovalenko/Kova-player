@@ -58,6 +58,7 @@
                             ScaleX="{Binding ElementName=mainWindow, Path=ScaleValue}"
                             ScaleY="{Binding ElementName=mainWindow, Path=ScaleValue}" />
         </Grid.LayoutTransform>
+        
         <ContentPresenter Content="{Binding CurrentViewModel}" />
     </Grid>
 </Controls:MetroWindow>

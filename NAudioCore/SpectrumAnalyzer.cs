@@ -16,7 +16,6 @@ namespace Kova.NAudioCore
     [TemplatePart(Name = "PART_SpectrumCanvas", Type = typeof(Canvas))]
     public class SpectrumAnalyzer : Control
     {
-        #region Fields
         private readonly DispatcherTimer _animationTimer;
         private Canvas _spectrumCanvas;
         private ISpectrumPlayer _soundPlayer;
@@ -32,19 +31,14 @@ namespace Kova.NAudioCore
         private int _minimumFrequencyIndex;
         private int[] _barIndexMax;
         private int[] _barLogScaleIndexMax;
-        #endregion
 
-        #region Constants
         private const int scaleFactorLinear = 9;
         private const int scaleFactorSqr = 2;
         private const double minDBValue = -90;
         private const double maxDBValue = 0;
         private const double dbScale = (maxDBValue - minDBValue);
         private const int defaultUpdateInterval = 15;
-        #endregion
 
-        #region Dependency Properties
-        #region MaximumFrequency
         /// <summary>
         /// Identifies the <see cref="MaximumFrequency" /> dependency property. 
         /// </summary>
@@ -106,9 +100,7 @@ namespace Kova.NAudioCore
                 SetValue(MaximumFrequencyProperty, value);
             }
         }
-        #endregion
 
-        #region Minimum Frequency
         /// <summary>
         /// Identifies the <see cref="MinimumFrequency" /> dependency property. 
         /// </summary>
@@ -170,9 +162,6 @@ namespace Kova.NAudioCore
             }
         }
 
-        #endregion
-
-        #region BarCount
         /// <summary>
         /// Identifies the <see cref="BarCount" /> dependency property. 
         /// </summary>
@@ -233,9 +222,7 @@ namespace Kova.NAudioCore
                 SetValue(BarCountProperty, value);
             }
         }
-        #endregion
 
-        #region BarSpacing
         /// <summary>
         /// Identifies the <see cref="BarSpacing" /> dependency property. 
         /// </summary>
@@ -294,9 +281,7 @@ namespace Kova.NAudioCore
                 SetValue(BarSpacingProperty, value);
             }
         }
-        #endregion
 
-        #region PeakFallDelay
         /// <summary>
         /// Identifies the <see cref="PeakFallDelay" /> dependency property. 
         /// </summary>
@@ -348,7 +333,8 @@ namespace Kova.NAudioCore
         [Category("Common")]
         public int PeakFallDelay
         {
-            // IMPORTANT: To maintain parity between setting a property in XAML and procedural code, do not touch the getter and setter inside this dependency property!
+            // IMPORTANT: To maintain parity between setting a property in XAML and procedural code,
+            // do not touch the get and set inside this dependency property!
             get
             {
                 return (int)GetValue(PeakFallDelayProperty);
@@ -358,9 +344,7 @@ namespace Kova.NAudioCore
                 SetValue(PeakFallDelayProperty, value);
             }
         }
-        #endregion
 
-        #region IsFrequencyScaleLinear
         /// <summary>
         /// Identifies the <see cref="IsFrequencyScaleLinear" /> dependency property. 
         /// </summary>
@@ -423,9 +407,7 @@ namespace Kova.NAudioCore
                 SetValue(IsFrequencyScaleLinearProperty, value);
             }
         }
-        #endregion
 
-        #region BarHeightScaling
         /// <summary>
         /// Identifies the <see cref="BarHeightScaling" /> dependency property. 
         /// </summary>
@@ -483,9 +465,7 @@ namespace Kova.NAudioCore
                 SetValue(BarHeightScalingProperty, value);
             }
         }
-        #endregion
 
-        #region AveragePeaks
         /// <summary>
         /// Identifies the <see cref="AveragePeaks" /> dependency property. 
         /// </summary>
@@ -545,9 +525,7 @@ namespace Kova.NAudioCore
                 SetValue(AveragePeaksProperty, value);
             }
         }
-        #endregion
 
-        #region BarStyle
         /// <summary>
         /// Identifies the <see cref="BarStyle" /> dependency property. 
         /// </summary>
@@ -604,9 +582,7 @@ namespace Kova.NAudioCore
                 SetValue(BarStyleProperty, value);
             }
         }
-        #endregion
 
-        #region PeakStyle
         /// <summary>
         /// Identifies the <see cref="PeakStyle" /> dependency property. 
         /// </summary>
@@ -665,9 +641,7 @@ namespace Kova.NAudioCore
                 SetValue(PeakStyleProperty, value);
             }
         }
-        #endregion
-
-        #region ActualBarWidth
+    
         /// <summary>
         /// Identifies the <see cref="ActualBarWidth" /> dependency property. 
         /// </summary>
@@ -724,9 +698,7 @@ namespace Kova.NAudioCore
                 SetValue(ActualBarWidthProperty, value);
             }
         }
-        #endregion
 
-        #region RefreshRate
         /// <summary>
         /// Identifies the <see cref="RefreshInterval" /> dependency property. 
         /// </summary>
@@ -788,9 +760,7 @@ namespace Kova.NAudioCore
                 SetValue(RefreshIntervalProperty, value);
             }
         }
-        #endregion
 
-        #region FFTComplexity
         /// <summary>
         /// Identifies the <see cref="FFTComplexity" /> dependency property. 
         /// </summary>
@@ -849,11 +819,7 @@ namespace Kova.NAudioCore
                 SetValue(FFTComplexityProperty, value);
             }
         }
-        #endregion
 
-        #endregion
-
-        #region Template Overrides
         /// <summary>
         /// When overridden in a derived class, is invoked whenever application code
         /// or internal processes call System.Windows.FrameworkElement.ApplyTemplate().
@@ -876,9 +842,7 @@ namespace Kova.NAudioCore
             if (_spectrumCanvas != null)
                 _spectrumCanvas.SizeChanged -= spectrumCanvas_SizeChanged;
         }
-        #endregion
 
-        #region Constructors
         static SpectrumAnalyzer()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(SpectrumAnalyzer), new FrameworkPropertyMetadata(typeof(SpectrumAnalyzer)));
@@ -895,9 +859,7 @@ namespace Kova.NAudioCore
             };
             _animationTimer.Tick += animationTimer_Tick;
         }
-        #endregion
 
-        #region Public Methods
         /// <summary>
         /// Register a sound player from which the spectrum analyzer
         /// can get the necessary playback data.
@@ -910,9 +872,7 @@ namespace Kova.NAudioCore
             UpdateBarLayout();
             _animationTimer.Start();
         }
-        #endregion
 
-        #region Event Overrides
         /// <summary>
         /// When overridden in a derived class, participates in rendering operations that are directed by the layout system. 
         /// The rendering instructions for this element are not used directly when this method is invoked, and are 
@@ -936,9 +896,7 @@ namespace Kova.NAudioCore
             UpdateBarLayout();
             UpdateSpectrum();
         }
-        #endregion
 
-        #region Private Drawing Methods
         private void UpdateSpectrum()
         {
             if (_soundPlayer == null || _spectrumCanvas == null || _spectrumCanvas.RenderSize.Width < 1 || _spectrumCanvas.RenderSize.Height < 1)
@@ -949,7 +907,6 @@ namespace Kova.NAudioCore
 
             UpdateSpectrumShapes();
         }
-
 
         private void UpdateSpectrumShapes()
         {
@@ -1100,9 +1057,7 @@ namespace Kova.NAudioCore
 
             ActualBarWidth = _barWidth;
         }
-        #endregion
 
-        #region Event Handlers
         private void soundPlayer_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -1123,24 +1078,13 @@ namespace Kova.NAudioCore
         {
             UpdateBarLayout();
         }
-        #endregion
 
         public enum BarHeightScalingStyles
-        {
-            /// <summary>
-            /// A decibel scale. Formula: 20 * Log10(FFTValue). Total bar height
-            /// is scaled from -90 to 0 dB.
-            /// </summary>
+        {    
             Decibel,
 
-            /// <summary>
-            /// A non-linear squareroot scale. Formula: Sqrt(FFTValue) * 2 * BarHeight.
-            /// </summary>
             Sqrt,
 
-            /// <summary>
-            /// A linear scale. Formula: 9 * FFTValue * BarHeight.
-            /// </summary>
             Linear
         }
 

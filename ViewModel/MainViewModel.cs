@@ -2,8 +2,6 @@
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using MahApps.Metro.Controls.Dialogs;
-using System;
-using System.Windows.Input;
 
 namespace Kova.ViewModel
 {
@@ -45,10 +43,7 @@ namespace Kova.ViewModel
 
         private async void ShowDialogAsync()
         {
-            var addMusicDialog = new AddMusicDialogViewModel(instance =>
-            {
-                _dialogCoordinator.HideMetroDialogAsync(this, _customDialog);
-            }, _dialogCoordinator);
+            var addMusicDialog = new AddMusicDialogViewModel(_dialogCoordinator);
 
             _customDialog.Content = new Views.AddMusicDialog() { DataContext = addMusicDialog };
             await _dialogCoordinator.ShowMetroDialogAsync(this, _customDialog);

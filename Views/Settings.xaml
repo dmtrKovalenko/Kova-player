@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              d:DesignHeight="500.072" d:DesignWidth="783">
-    <Grid >
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="14*"/>
             <ColumnDefinition Width="247*"/>
@@ -16,7 +16,11 @@
             <RowDefinition Height="12*"/>
             <RowDefinition Height="113*"/>
         </Grid.RowDefinitions>
-        <Controls:MetroAnimatedSingleRowTabControl x:Name="MainTabControl" TabStripPlacement="Left" HorizontalAlignment="Left" Width="118" Margin="2,41,0,0" Grid.Column="1" Grid.RowSpan="2">
+        <Controls:MetroAnimatedSingleRowTabControl x:Name="MainTabControl" 
+                                                   TabStripPlacement="Left" 
+                                                   HorizontalAlignment="Left" 
+                                                   Width="118" Margin="2,41,0,0" 
+                                                   Grid.Column="1" Grid.RowSpan="2">
 
             <TabItem Controls:ControlsHelper.HeaderFontSize="20" Header="Appearance">
                 <local:SettingsAppearance  DataContext="{Binding}" Margin="4,33,-606,78"/>
@@ -36,6 +40,7 @@
                 </Rectangle.OpacityMask>
             </Rectangle>
         </Button>
+        
         <TextBlock x:Name="textBlock" FontSize="21"
                    HorizontalAlignment="Left" 
                    Margin="10,13,0,0" TextWrapping="Wrap" 

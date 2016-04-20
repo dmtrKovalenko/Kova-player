@@ -14,7 +14,7 @@ namespace Kova.Views
         {
             InitializeComponent();
 
-            spectrumAnalyzer1.RegisterSoundPlayer(NAudioEngine.Instance);
+            spectrumAnalyzer.RegisterSoundPlayer(NAudioEngine.Instance);
         }
     }
 }

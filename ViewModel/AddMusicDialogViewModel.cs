@@ -15,12 +15,10 @@ namespace Kova.ViewModel
         public RelayCommand<string> RemoveCommand { get; private set; }
         public RelayCommand AddMusicFolderCommand { get; private set; }
 
-        private Action<AddMusicDialogViewModel> _closeHandler;
         private bool _isLibraryUpdated; 
 
-        public AddMusicDialogViewModel(Action<AddMusicDialogViewModel> closeHandler, IDialogCoordinator dialogCoordinator)
+        public AddMusicDialogViewModel(IDialogCoordinator dialogCoordinator)
         {
-            _closeHandler = closeHandler;
             _dialogCoordinator = dialogCoordinator;
 
             AddMusicFolderCommand = new RelayCommand(AddMusicFolder);

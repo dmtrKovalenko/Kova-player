@@ -8,7 +8,8 @@
              xmlns:Visualise="clr-namespace:Kova.NAudioCore.Visualisation"
              xmlns:Pages ="clr-namespace:Kova.Views"
              xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             mc:Ignorable="d" d:DesignWidth="774" d:DesignHeight="390.288">
+             mc:Ignorable="d" d:DesignWidth="774" 
+             d:DesignHeight="390.288">
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
@@ -22,9 +23,8 @@
                 <ColumnDefinition Width="411*"/>
             </Grid.ColumnDefinitions>
 
-
             <Visualise:ReflectionControl Grid.Column="1" Margin="87,6,0,-4" Grid.RowSpan="3" Grid.ColumnSpan="2" Width="541" Height="388">
-                <Core:SpectrumAnalyzer x:Name="spectrumAnalyzer1"
+                <Core:SpectrumAnalyzer x:Name="spectrumAnalyzer"
                                      AveragePeaks="False" BarCount="34"
                                      MinimumFrequency="20"                         
                                      MaximumFrequency="20000"
@@ -42,20 +42,20 @@
                 </svl:AlbumArtDisplay>
             </Visualise:ReflectionControl>
 
-        <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
+            <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
                  Command="{Binding ShowPlaybackQueueCommand}"
-                 Height="43" VerticalAlignment="Top" 
+                 Height="43" Width="43"
+                 VerticalAlignment="Top" 
                  HorizontalAlignment="Right" 
-                 Width="43" Grid.Column="2">
-            <Rectangle Width="19" Margin="2"
+                 Grid.Column="2">
+                <Rectangle Width="19" Margin="2"
                                Height="20"
                                Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_music}" />
-                </Rectangle.OpacityMask>
-            </Rectangle>
-        </Button>
-
+                    <Rectangle.OpacityMask>
+                        <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_music}" />
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Button>
         </Grid>
     </Grid>
 </UserControl>

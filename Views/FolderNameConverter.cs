@@ -13,7 +13,7 @@ namespace Kova.Views
             DirectoryInfo folder = new DirectoryInfo((string)value);
             if (folder.Name.Length>28)
             {
-                return folder.Name.Substring(0, 28);
+                return folder.Name.Substring(0, 28); //Correct view by the title property of the tile
             }
             else
             {

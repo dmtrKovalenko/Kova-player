@@ -7,7 +7,7 @@ using NAudio.Dsp;
 
 namespace Kova.NAudioCore 
 {
-    public class Aggregator
+    public class Aggregator  //logic of Fft Data analyzing 
     {
         private float _volumeLeftMaxValue;
         private float _volumeLeftMinValue;
