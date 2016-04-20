@@ -1,0 +1,59 @@
+﻿<UserControl x:Class="Kova.Views.MainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Kova.Views"
+             mc:Ignorable="d" 
+             xmlns:Dialog="clr-namespace:MahApps.Metro.Controls.Dialogs;assembly=MahApps.Metro"
+             Dialog:DialogParticipation.Register="{Binding}"
+             xmlns:svl="clr-namespace:WPFSoundVisualizationLib;assembly=WPFSoundVisualizationLib"
+             d:DesignHeight="527.072" d:DesignWidth="783.978"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
+             xmlns:Views ="clr-namespace:Kova.Views"
+             xmlns:vm="clr-namespace:Kova.ViewModel"
+             xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" >
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="436*"/>
+            <RowDefinition Height="91*"/>
+        </Grid.RowDefinitions>
+        <Controls:MetroAnimatedSingleRowTabControl x:Name="MainTabControl" Grid.RowSpan="2">
+            <TabItem Header="NowPlaying" RenderTransformOrigin="0.573,1.39" Height="44" Width="155">
+                <Views:NowPlaying DataContext="{Binding}" Margin="0,0,1,91" />
+            </TabItem>
+            <TabItem x:Name="AllCompositions" Header="All compositions" >
+                <Views:AllCompositions DataContext="{Binding}" Margin="3,-3,-3,64" RenderTransformOrigin="0.5,0.5" />
+            </TabItem>
+            <TabItem Header="Albums" RenderTransformOrigin="0.573,1.39" Height="44" Width="103">
+                <Views:Albums DataContext="{Binding}" Margin="0,0,0,97" />
+            </TabItem>
+            <TabItem Header="Artisits" RenderTransformOrigin="0.573,1.39" Height="44" Width="93">
+                <Views:Albums DataContext="{Binding}" Margin="0,0,1,97" />
+            </TabItem>
+        </Controls:MetroAnimatedSingleRowTabControl>
+
+        <Controls:Flyout AnimateOpacity="True"
+                         Theme="Adapt"
+                         IsOpen="{Binding IsPlaybackQueueOpened}" 
+                         CloseButtonIsCancel="True"
+                         Header="Playback queue"
+                         Position="Right" Width="319">
+
+            <ListBox  Margin="7,-7,0,0" Background="Transparent"
+                      BorderThickness="0" FontSize="14"
+                      ItemsSource="{Binding Songs, Mode=OneWay}"
+                      SelectedIndex="{Binding SelectedSongIndex, Mode=TwoWay}"
+                      Grid.Column="1">
+            </ListBox>
+        </Controls:Flyout>
+        
+        <Views:MediaControl
+            Grid.Row="1" 
+            Height="90"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"/>
+    </Grid>
+</UserControl>

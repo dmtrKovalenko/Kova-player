@@ -1,0 +1,7 @@
+D:\Proj\Kova\Kova.Tests\bin\Debug\Kova.Tests.dll
+D:\Proj\Kova\Kova.Tests\bin\Debug\Kova.Tests.pdb
+D:\Proj\Kova\Kova.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+D:\Proj\Kova\Kova.Tests\bin\Debug\ru\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+D:\Proj\Kova\Kova.Tests\obj\Debug\Kova.Tests.csprojResolveAssemblyReference.cache
+D:\Proj\Kova\Kova.Tests\obj\Debug\Kova.Tests.dll
+D:\Proj\Kova\Kova.Tests\obj\Debug\Kova.Tests.pdb
