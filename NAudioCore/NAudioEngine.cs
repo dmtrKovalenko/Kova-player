@@ -31,7 +31,6 @@ namespace Kova.NAudioCore
         private float[] _fullLevelData;
 
         private const int waveformCompressedPointCount = 2000;
-        private const int repeatThreshold = 200;
 
         public static NAudioEngine Instance
         {

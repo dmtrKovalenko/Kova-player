@@ -288,35 +288,8 @@ namespace Kova.ViewModel
         {
             return Task.Run(() =>
             {
-                if (Properties.Settings.Default.MusicFolderPath != null)
+                App.Current.Dispatcher.Invoke((Action)(() =>
                 {
-                    foreach (string path in Properties.Settings.Default.MusicFolderPath)
-                    {
-                        foreach (var item in Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories))
-                        {
-                            Song song = new Song(item);
-                            if (!Songs.Contains(song))
-                            {
-                                Songs.Add(song);
-                            }
-                        }
-                    }
-                    App.Current.Dispatcher.Invoke((Action)(() =>
-                       {
-                       //    SelectedSongIndex = 25;
-                           Player.Stop();
-                       }));
-                }
-            });
-        }
-
-        public Task UpdateMusicLibraryAsync()
-        {
-            return Task.Run(() =>
-            {
-                App.Current.Dispatcher.Invoke(() =>
-                {
-                    Songs.Clear();
                     if (Properties.Settings.Default.MusicFolderPath != null)
                     {
                         foreach (string path in Properties.Settings.Default.MusicFolderPath)
@@ -330,9 +303,37 @@ namespace Kova.ViewModel
                                 }
                             }
                         }
+
+                        //    SelectedSongIndex = 25;
+                        Player.Stop();
                     }
-                });
+                }));
             });
         }
+
+    public Task UpdateMusicLibraryAsync()
+    {
+        return Task.Run(() =>
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                Songs.Clear();
+                if (Properties.Settings.Default.MusicFolderPath != null)
+                {
+                    foreach (string path in Properties.Settings.Default.MusicFolderPath)
+                    {
+                        foreach (var item in Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories))
+                        {
+                            Song song = new Song(item);
+                            if (!Songs.Contains(song))
+                            {
+                                Songs.Add(song);
+                            }
+                        }
+                    }
+                }
+            });
+        });
     }
+}
 }

@@ -160,7 +160,6 @@ C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Resources\Icons.baml
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\MainWindow.g.cs
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Resources\Icons.g.cs
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Views\AddMusicDialog.g.cs
-C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Views\Albums.g.cs
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Views\AllCompositions.g.cs
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Views\MainPage.g.cs
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Views\MediaControl.g.cs
@@ -175,7 +174,6 @@ C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\App.baml
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\MainWindow.baml
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\NAudioCore\Visualisation\ExpressionLight.baml
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Views\AddMusicDialog.baml
-C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Views\Albums.baml
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Views\AllCompositions.baml
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Views\MainPage.baml
 C:\Users\diant\Documents\GitHub\Kova-player\obj\Debug\Views\MediaControl.baml

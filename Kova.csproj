@@ -279,18 +279,17 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\WindowsIcons-license.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="logo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Entypo-license.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
