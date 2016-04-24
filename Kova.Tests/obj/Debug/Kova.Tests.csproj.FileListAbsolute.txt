@@ -5,3 +5,10 @@ D:\Proj\Kova\Kova.Tests\bin\Debug\ru\Microsoft.VisualStudio.QualityTools.UnitTes
 D:\Proj\Kova\Kova.Tests\obj\Debug\Kova.Tests.csprojResolveAssemblyReference.cache
 D:\Proj\Kova\Kova.Tests\obj\Debug\Kova.Tests.dll
 D:\Proj\Kova\Kova.Tests\obj\Debug\Kova.Tests.pdb
+C:\Users\diant\Documents\GitHub\Kova-player\Kova.Tests\bin\Debug\Kova.Tests.dll
+C:\Users\diant\Documents\GitHub\Kova-player\Kova.Tests\bin\Debug\Kova.Tests.pdb
+C:\Users\diant\Documents\GitHub\Kova-player\Kova.Tests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\diant\Documents\GitHub\Kova-player\Kova.Tests\bin\Debug\ru\Microsoft.VisualStudio.QualityTools.UnitTestFramework.resources.dll
+C:\Users\diant\Documents\GitHub\Kova-player\Kova.Tests\obj\Debug\Kova.Tests.csprojResolveAssemblyReference.cache
+C:\Users\diant\Documents\GitHub\Kova-player\Kova.Tests\obj\Debug\Kova.Tests.dll
+C:\Users\diant\Documents\GitHub\Kova-player\Kova.Tests\obj\Debug\Kova.Tests.pdb
