@@ -153,11 +153,15 @@ namespace Kova.ViewModel
             set
             {
                 _currentSong = value;
+
                 if (_currentSong != null)
                 {
                     Player.OpenFile(value.OriginalPath);
                     Player.Play();
+
+                    this.Volume = Player.Volume;
                 }
+
                 RaisePropertyChanged(nameof(CurrentSong));
             }
         }
@@ -227,17 +231,40 @@ namespace Kova.ViewModel
             }
         }
 
+        public float Volume
+        {
+            get
+            {
+                return this.Player.Volume;
+            }
+            set
+            {
+                if (this.IsMuted)
+                {
+                    this.IsMuted = !IsMuted;
+                }
+
+                if (value == 0 && !this.IsMuted)
+                {
+                    this.Mute();
+                }
+
+                Player.Volume = value;
+                RaisePropertyChanged(nameof(Volume));
+            }
+        }
+
         private void Mute()
         {
             IsMuted = !IsMuted;
             if (IsMuted)
             {
                 _lastVolume = Player.Volume;
-                Player.Volume = 0;
+                this.Volume = 0;
             }
             else
             {
-                Player.Volume = _lastVolume;
+                this.Volume = _lastVolume;
             }
         }
 
@@ -253,13 +280,16 @@ namespace Kova.ViewModel
 
         private void Play()
         {
-            if (Player.CanPlay)
+            if (CurrentSong != null)
             {
-                Player.Play();
-            }
-            else if (Player.CanPause)
-            {
-                Player.Pause();
+                if (Player.CanPlay)
+                {
+                    Player.Play();
+                }
+                else if (Player.CanPause)
+                {
+                    Player.Pause();
+                }
             }
         }
 
@@ -288,7 +318,7 @@ namespace Kova.ViewModel
         {
             return Task.Run(() =>
             {
-                App.Current.Dispatcher.Invoke((Action)(() =>
+                App.Current.Dispatcher.Invoke(() =>
                 {
                     if (Properties.Settings.Default.MusicFolderPath != null)
                     {
@@ -304,36 +334,37 @@ namespace Kova.ViewModel
                             }
                         }
 
-                        //    SelectedSongIndex = 25;
+                        // SelectedSongIndex = 25;
                         Player.Stop();
                     }
-                }));
+                });
             });
         }
 
-    public Task UpdateMusicLibraryAsync()
-    {
-        return Task.Run(() =>
+        public Task UpdateMusicLibraryAsync()
         {
-            App.Current.Dispatcher.Invoke(() =>
+            return Task.Run(() =>
             {
-                Songs.Clear();
-                if (Properties.Settings.Default.MusicFolderPath != null)
+                App.Current.Dispatcher.Invoke(() =>
                 {
-                    foreach (string path in Properties.Settings.Default.MusicFolderPath)
+                    Songs.Clear();
+
+                    if (Properties.Settings.Default.MusicFolderPath != null)
                     {
-                        foreach (var item in Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories))
+                        foreach (string path in Properties.Settings.Default.MusicFolderPath)
                         {
-                            Song song = new Song(item);
-                            if (!Songs.Contains(song))
+                            foreach (var item in Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories))
                             {
-                                Songs.Add(song);
+                                Song song = new Song(item);
+                                if (!Songs.Contains(song))
+                                {
+                                    Songs.Add(song);
+                                }
                             }
                         }
                     }
-                }
+                });
             });
-        });
+        }
     }
-}
 }

@@ -112,19 +112,22 @@ namespace Kova.NAudioCore
             get { return _channelPosition; }
             set
             {
-                double oldValue = _channelPosition;
-                double position = Math.Max(0, Math.Min(value, ChannelLength));
+                if(_waveOutDevice != null)
+                {
+                    double oldValue = _channelPosition;
+                    double position = Math.Max(0, Math.Min(value, ChannelLength));
 
-                if (!_inChannelTimerUpdate && ActiveStream != null)
-                    ActiveStream.Position = (long)((position / 100) * ActiveStream.Length);
+                    if (!_inChannelTimerUpdate && ActiveStream != null)
+                        ActiveStream.Position = (long)((position / 100) * ActiveStream.Length);
 
-                _channelPosition = position;
+                    _channelPosition = position;
 
-                if (oldValue != _channelPosition)
-                    NotifyPropertyChanged("ChannelPosition");
+                    if (oldValue != _channelPosition)
+                        NotifyPropertyChanged("ChannelPosition");
 
-                if (ChannelPosition == ChannelLength)
-                    _waveOutDevice.Stop();
+                    if (ChannelPosition == ChannelLength)
+                        _waveOutDevice.Stop();
+                }
             }
         }
 
@@ -383,8 +386,11 @@ namespace Kova.NAudioCore
             }
             set
             {
-                _waveOutDevice.Volume = value;
-                NotifyPropertyChanged(nameof(Volume));
+                if(_waveOutDevice != null)
+                {
+                    _waveOutDevice.Volume = value;
+                    NotifyPropertyChanged(nameof(Volume));
+                }
             }
         }
 
