@@ -149,15 +149,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Model\AccentColorMenuData.cs" />
+    <Compile Include="Models\AccentColorMenuData.cs" />
     <Compile Include="NAudioCore\Aggregator.cs" />
     <Compile Include="NAudioCore\ISpectrumPlayer.cs" />
     <Compile Include="NAudioCore\NAudioEngine.cs" />
     <Compile Include="NAudioCore\SpectrumAnalyzer.cs" />
     <Compile Include="NAudioCore\Visualisation\ReflectionControl.cs" />
     <Compile Include="NAudioCore\Visualisation\UIHelper.cs" />
-    <Compile Include="Model\Song.cs" />
-    <Compile Include="Managment\Playlist.cs" />
+    <Compile Include="Models\Song.cs" />
     <Compile Include="ViewModel\AddMusicDialogViewModel.cs" />
     <Compile Include="ViewModel\PlayerViewModel.cs" />
     <Compile Include="ViewModel\SettingsViewModel.cs" />
