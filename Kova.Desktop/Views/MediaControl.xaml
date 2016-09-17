@@ -44,8 +44,8 @@
             		    Margin="34,24,178,13"
             		    Command="{Binding PlayPreviousCommand}">
                     <Rectangle Width="18" Margin="0,0,0,0" 
-            			Height="14"
-            			Fill="White" >
+            			       Height="14"
+            			       Fill="White" >  
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_rewind_variant}" />
                         </Rectangle.OpacityMask>
@@ -158,7 +158,9 @@
                PlacementTarget="{Binding ElementName=VolumeButton}" 
                Grid.ColumnSpan="2" Margin="0,0,205,0">
 
-            <Border BorderBrush="White" BorderThickness="1.2">
+            <Border BorderBrush="White"
+                    BorderThickness="1.2"
+                    CornerRadius="2">
                 <Grid HorizontalAlignment="Center"
                   VerticalAlignment="Center" 
                   Background="Transparent" 
@@ -197,7 +199,8 @@
                             VerticalAlignment="Top"
                             Height="11" Width="Auto" >
                             <Slider.Resources>
-                                <SolidColorBrush x:Key="SliderThumbBackground" Color="White" />
+                            <SolidColorBrush x:Key="SliderSelectionBackground" Color="{DynamicResource BlackBrush}" />
+                                <SolidColorBrush x:Key="SliderThumbBackground" Color="#fff" />
                             </Slider.Resources>
                     </Slider>
                 </Grid>

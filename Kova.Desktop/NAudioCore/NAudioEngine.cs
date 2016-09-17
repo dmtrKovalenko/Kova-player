@@ -179,7 +179,7 @@ namespace Kova.NAudioCore
         private void waveformGenerateWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             WaveformGenerationParams waveformParams = e.Argument as WaveformGenerationParams;
-            Mp3FileReader waveformMp3Stream = new Mp3FileReader(waveformParams.Path);
+            AudioFileReader waveformMp3Stream = new AudioFileReader(waveformParams.Path);
             WaveChannel32 waveformInputStream = new WaveChannel32(waveformMp3Stream);
             waveformInputStream.Sample += waveStream_Sample;
 

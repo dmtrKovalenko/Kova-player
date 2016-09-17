@@ -15,22 +15,36 @@
             <ColumnDefinition Width="122*"/>
         </Grid.ColumnDefinitions>
         <ListView x:Name="Composititons" Margin="0,10,33,30"
-                          BorderThickness="0" FontSize="13"
-                          ItemsSource="{Binding Songs, Mode=OneWay}"
-                          SelectedIndex="{Binding SelectedSongIndex, Mode=TwoWay}"
-                          Style="{StaticResource VirtualisedMetroListView}" Grid.Column="1">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding Artist}" Header="artist" />
-                    <GridViewColumn DisplayMemberBinding="{Binding Title}"  Header="name"/>
-                    <GridViewColumn DisplayMemberBinding="{Binding Genre}" Header="genre"/>
-                </GridView>
-            </ListView.View>
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                  BorderThickness="0" FontSize="15"
+                  ItemsSource="{Binding Songs, Mode=OneWay}"
+                  SelectedIndex="{Binding SelectedSongIndex, Mode=TwoWay}"
+                  Style="{StaticResource VirtualisedMetroListView}" Grid.Column="1">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal" Margin="0 1 0 0"  Cursor="Hand">
+                        <TextBlock Margin="7 0 0 0" Grid.Column="2">
+                            <TextBlock.Inlines>
+                                <Run Foreground="{DynamicResource AccentColorBrush}" Text="{Binding Artist}" />
+                                <Run Text=" - " />
+                                <Run Text="{Binding Title}" />
+                            </TextBlock.Inlines>
+                        </TextBlock>
+                        <Rectangle  Width="18" Margin="6,0,0,2"
+            			    Height="14" Fill="{DynamicResource AccentColorBrush}" >
+                            <Rectangle.OpacityMask>
+                                <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_nfc}" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <!--ToDo Change highlight color of the list view.-->
         </ListView>
         <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
                  Command="{Binding Main.ShowMessegeDialogCommand, Source={StaticResource Locator}}" 
                  Height="40" VerticalAlignment="Top" 
-                 HorizontalAlignment="Left" Width="40">
+                 HorizontalAlignment="Left" Width="40" Margin="0,6,0,0">
             <Rectangle Width="22"
                        Height="22"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">

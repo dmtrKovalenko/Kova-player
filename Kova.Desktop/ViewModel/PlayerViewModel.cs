@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using MahApps.Metro.Controls.Dialogs;
 using GalaSoft.MvvmLight.Messaging;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Kova.ViewModel
 {
@@ -239,14 +240,13 @@ namespace Kova.ViewModel
             }
             set
             {
-                if (this.IsMuted)
-                {
-                    this.IsMuted = !IsMuted;
-                }
-
                 if (value == 0 && !this.IsMuted)
                 {
                     this.Mute();
+                }
+                else if (value != 0 && this.IsMuted)
+                {
+                    this.IsMuted = false;
                 }
 
                 Player.Volume = value;
@@ -324,7 +324,8 @@ namespace Kova.ViewModel
                     {
                         foreach (string path in Properties.Settings.Default.MusicFolderPath)
                         {
-                            foreach (var item in Directory.GetFiles(path, "*.mp3*", SearchOption.AllDirectories))
+                            foreach (var item in Directory.EnumerateFiles(path, "*", SearchOption.AllDirectories)
+                                                    .Where(s => s.EndsWith(".mp3") || s.EndsWith(".flac"))) 
                             {
                                 Song song = new Song(item);
                                 if (!Songs.Contains(song))

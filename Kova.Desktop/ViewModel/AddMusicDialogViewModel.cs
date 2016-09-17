@@ -58,6 +58,7 @@ namespace Kova.ViewModel
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
             if (result == System.Windows.Forms.DialogResult.OK)
             {
                 if (!Properties.Settings.Default.MusicFolderPath.Contains(dialog.SelectedPath))
@@ -65,6 +66,7 @@ namespace Kova.ViewModel
                     Properties.Settings.Default.MusicFolderPath.Add(dialog.SelectedPath);
                 }
             }
+
             _isLibraryUpdated = true;
         }
 
