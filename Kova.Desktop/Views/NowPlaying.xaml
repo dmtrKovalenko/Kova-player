@@ -42,7 +42,7 @@
                 </svl:AlbumArtDisplay>
             </Visualise:ReflectionControl>
 
-            <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
+            <Button Style="{DynamicResource MetroCircleButtonStyle}" 
                  Command="{Binding ShowPlaybackQueueCommand}"
                  Height="43" Width="43"
                  VerticalAlignment="Top" 
