@@ -14,37 +14,122 @@
             <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="122*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="Composititons" Margin="0,10,33,30"
+        <ListView x:Name="Composititons" Margin="4,10,33,30"
                   ScrollViewer.VerticalScrollBarVisibility="Hidden"
                   BorderThickness="0" FontSize="15"
                   ItemsSource="{Binding Songs, Mode=OneWay}"
                   SelectedIndex="{Binding SelectedSongIndex, Mode=TwoWay}"
-                  Style="{StaticResource VirtualisedMetroListView}" Grid.Column="1">
+                  Style="{StaticResource VirtualisedMetroListView}" 
+                  Grid.Column="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal" Margin="0 1 0 0"  Cursor="Hand">
-                        <TextBlock Margin="7 0 0 0" Grid.Column="2">
+                        <TextBlock Margin="5 0 0 0" Grid.Column="2">
                             <TextBlock.Inlines>
                                 <Run Foreground="{DynamicResource AccentColorBrush}" Text="{Binding Artist}" />
                                 <Run Text=" - " />
                                 <Run Text="{Binding Title}" />
                             </TextBlock.Inlines>
                         </TextBlock>
-                        <Rectangle  Width="18" Margin="6,0,0,2"
+                        <Rectangle  Width="18" Margin="6,2,0,2"
             			    Height="14" Fill="{DynamicResource AccentColorBrush}" >
                             <Rectangle.OpacityMask>
                                 <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_nfc}" />
                             </Rectangle.OpacityMask>
+                            <Rectangle.Style>
+                                <Style TargetType="{x:Type Rectangle}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource
+                                                Mode=FindAncestor,
+                                                AncestorType={x:Type ListBoxItem}},
+                                                Path=IsSelected}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Rectangle.Style>
                         </Rectangle>
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
             <!--ToDo Change highlight color of the list view.-->
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal" />
+                                            <VisualState x:Name="MouseOver">
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="fillColor" Storyboard.TargetProperty="Opacity" Duration="0" To=".35"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Disabled">
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="contentPresenter" Storyboard.TargetProperty="Opacity" Duration="0" To=".55" />
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                        <VisualStateGroup x:Name="SelectionStates">
+                                            <VisualState x:Name="Unselected" />
+                                            <VisualState x:Name="Selected">
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="fillColor2" Storyboard.TargetProperty="Opacity" Duration="0" To=".75"/>
+                                                </Storyboard>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                        <VisualStateGroup x:Name="FocusStates">
+                                            <VisualState x:Name="Focused">
+                                                <Storyboard>
+                                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="Visibility" Duration="0">
+                                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                                            <DiscreteObjectKeyFrame.Value>
+                                                                <Visibility>Visible</Visibility>
+                                                            </DiscreteObjectKeyFrame.Value>
+                                                        </DiscreteObjectKeyFrame>
+                                                    </ObjectAnimationUsingKeyFrames>
+                                                </Storyboard>
+                                            </VisualState>
+                                            <VisualState x:Name="Unfocused"/>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <Rectangle x:Name="fillColor"
+                                               Opacity="0" IsHitTestVisible="False" 
+                                               Fill="{DynamicResource AccentColorBrush3}"                                          
+                                               RadiusX="1" RadiusY="1"/>
+                                    
+                                    <Rectangle x:Name="fillColor2"
+                                               Opacity="0" IsHitTestVisible="False" 
+                                               Fill="{DynamicResource AccentColorBrush3}" 
+                                               RadiusX="1" RadiusY="1"/>
+                                    
+                                    <ContentPresenter
+                                        x:Name="contentPresenter"
+                                        Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
+                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        Margin="{TemplateBinding Padding}"/>
+                                    
+                                    <Rectangle x:Name="FocusVisualElement" 
+                                               Stroke="Transparent" 
+                                               StrokeThickness="1" 
+                                               Visibility="Collapsed" 
+                                               RadiusX="1" RadiusY="1" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
         </ListView>
         <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
                  Command="{Binding Main.ShowMessegeDialogCommand, Source={StaticResource Locator}}" 
                  Height="40" VerticalAlignment="Top" 
-                 HorizontalAlignment="Left" Width="40" Margin="0,6,0,0">
+                 HorizontalAlignment="Left" Width="40">
             <Rectangle Width="22"
                        Height="22"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">

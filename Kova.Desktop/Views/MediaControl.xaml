@@ -23,16 +23,18 @@
 
     <Grid Background="{DynamicResource AccentColorBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="20*"/>
-            <RowDefinition Height="61*"/>
+            <RowDefinition Height="11*"/>
+            <RowDefinition Height="79*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="508*"/>
+            <ColumnDefinition Width="69*"/>
+            <ColumnDefinition Width="299*"/>
+            <ColumnDefinition Width="140*"/>
             <ColumnDefinition Width="275*"/>
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right"
-            Margin="0,-7,0,10" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            Margin="0,-7,0,10" Grid.RowSpan="2" Grid.Column="3" Width="262">
             <Grid Width="262">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -45,7 +47,7 @@
             		    Command="{Binding PlayPreviousCommand}">
                     <Rectangle Width="18" Margin="0,0,0,0" 
             			       Height="14"
-            			       Fill="White" >  
+            			       Fill="White" >
                         <Rectangle.OpacityMask>
                             <VisualBrush Stretch="Fill" Visual="{DynamicResource appbar_control_rewind_variant}" />
                         </Rectangle.OpacityMask>
@@ -156,7 +158,7 @@
                VerticalOffset="0"
                HorizontalOffset="0"
                PlacementTarget="{Binding ElementName=VolumeButton}" 
-               Grid.ColumnSpan="2" Margin="0,0,205,0">
+               Grid.ColumnSpan="4" Margin="0,0,205,0">
 
             <Border BorderBrush="White"
                     BorderThickness="1.2"
@@ -198,10 +200,10 @@
                             SmallChange="1"
                             VerticalAlignment="Top"
                             Height="11" Width="Auto" >
-                            <Slider.Resources>
+                        <Slider.Resources>
                             <SolidColorBrush x:Key="SliderSelectionBackground" Color="{DynamicResource BlackBrush}" />
-                                <SolidColorBrush x:Key="SliderThumbBackground" Color="#fff" />
-                            </Slider.Resources>
+                            <SolidColorBrush x:Key="SliderThumbBackground" Color="#fff" />
+                        </Slider.Resources>
                     </Slider>
                 </Grid>
             </Border>
@@ -211,11 +213,11 @@
                 Value="{Binding Player.ChannelPosition, Mode=TwoWay}" 
                 Foreground="White" 
                 HorizontalAlignment="Stretch"
-                Margin="84,0,79,3" 
+                Margin="7,0,79,3" 
                 IsSnapToTickEnabled="False"
                 Height="20"
                 VerticalAlignment="Bottom" 
-                Grid.ColumnSpan="2" Grid.Row="1" >
+                Grid.ColumnSpan="3" Grid.Row="1" Grid.Column="1" >
             <Slider.Resources>
                 <ResourceDictionary>
                     <ResourceDictionary.MergedDictionaries>
@@ -226,32 +228,33 @@
             </Slider.Resources>
         </Slider>
 
-        <svl:AlbumArtDisplay Margin="18,17,438,28"
+        <svl:AlbumArtDisplay Margin="8,5,0,26"
                              HorizontalAlignment="Left"
-                             AlbumArtImage="{Binding AlbumArtWork}"
-                             Grid.RowSpan="2"/>
+                             AlbumArtImage="{Binding AlbumArtWork}" Width="51" Grid.Row="1"/>
 
         <TextBlock FontSize="17"
                    Foreground="{DynamicResource ValidationTextBrush}"
-                   HorizontalAlignment="Left"
-                   Margin="79,18,0,0" 
+                   HorizontalAlignment="Stretch"
+                   Margin="0,5,7,0" TextAlignment="Left"
                    TextWrapping="Wrap" 
                    Text="{Binding CurrentSong.Title, Mode=OneWay}" 
-                   VerticalAlignment="Top" Width="359" Height="23" Grid.RowSpan="2"/>
+                   VerticalAlignment="Top" 
+                   Height="23" 
+                   Grid.Column="1" Grid.Row="1"/>
         <TextBlock FontSize="15"
                    Foreground="{DynamicResource GrayBrush8}"
                    Text="{Binding CurrentSong.Artist, Mode=OneWay}" 
-                   HorizontalAlignment="Left" 
-                   Margin="79,21,0,0" 
+                   HorizontalAlignment="Stretch" 
+                   Margin="0,32,7,0" TextAlignment="Left"
                    Grid.Row="1" 
                    TextWrapping="Wrap" 
                    VerticalAlignment="Top" 
-                   Height="19" Width="351"/>
+                   Height="19" Grid.Column="1"/>
 
         <TextBlock x:Name="CurrentTimeText" FontSize="16" 
                    Text="{Binding CurrentTime}" 
                    HorizontalAlignment="Left"  
-                   Margin="18,42,0,0" Grid.Row="1"
+                   Margin="8,53,0,0" Grid.Row="1"
                    Foreground="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
                    TextWrapping="Wrap" 
                    VerticalAlignment="Top" Width="61" Height="21"/>
@@ -259,9 +262,9 @@
         <TextBlock x:Name="TotalTimeText" FontSize="16"
                    Text="{Binding Player.ActiveStream.TotalTime}" 
                    HorizontalAlignment="Right"  
-                   Margin="0,42,10,0" Grid.Row="1"
+                   Margin="0,53,10,0" Grid.Row="1"
                    Foreground="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
                    TextWrapping="Wrap" 
-                   VerticalAlignment="Top" Width="60" Height="21" Grid.Column="1"/>
+                   VerticalAlignment="Top" Width="60" Height="21" Grid.Column="3"/>
     </Grid>
 </UserControl>
