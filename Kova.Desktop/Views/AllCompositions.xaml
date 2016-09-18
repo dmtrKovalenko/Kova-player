@@ -53,8 +53,8 @@
                     </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <!--ToDo Change highlight color of the list view.-->
-            <ListBox.ItemContainerStyle>
+
+            <ListView.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="Template">
                         <Setter.Value>
@@ -124,8 +124,9 @@
                         </Setter.Value>
                     </Setter>
                 </Style>
-            </ListBox.ItemContainerStyle>
+            </ListView.ItemContainerStyle>
         </ListView>
+        
         <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
                  Command="{Binding Main.ShowMessegeDialogCommand, Source={StaticResource Locator}}" 
                  Height="40" VerticalAlignment="Top" 

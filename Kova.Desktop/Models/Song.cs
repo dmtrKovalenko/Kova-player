@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Kova
 {
@@ -19,29 +20,13 @@ namespace Kova
             if (path == null)
                 throw new ArgumentNullException("path");
 
-            this.OriginalPath = path;
             var audioFile = TagLib.File.Create(this.OriginalPath);
 
+            this.OriginalPath = path;
             this.Album = audioFile.Tag.Album;
             this.Genre = audioFile.Tag.FirstGenre;
-            if (audioFile.Tag.FirstPerformer != null)
-            {
-                this.Artist = audioFile.Tag.FirstPerformer;
-            }
-            else
-            {
-                this.Artist = "Unknown Artist";
-            }
- 
-            if (audioFile.Tag.Title != null)
-            {
-                this.Title = audioFile.Tag.Title;
-            }
-            else
-            {
-                this.Title = System.IO.Path.GetFileNameWithoutExtension(path);
-            }
-          
+            this.Artist = audioFile.Tag.FirstPerformer ?? "Unknown Artist";
+            this.Title = audioFile.Tag.Title ?? Path.GetFileNameWithoutExtension(path);
         }
 
         public bool Equals(Song other)
@@ -51,7 +36,7 @@ namespace Kova
 
         public override string ToString()
         {
-            return String.Format("{0} - {1}", this.Artist, this.Title);
+            return $"{this.Artist} - {this.Title}";
         }
     }
 }
