@@ -34,7 +34,10 @@
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal" 
                     HorizontalAlignment="Right"
-            Margin="0,-7,0,10" Grid.RowSpan="2" Grid.Column="3" Width="262">
+                    Margin="0,-7,0,10" 
+                    Grid.RowSpan="2" Grid.Column="3"
+                    Width="262">
+            
             <Grid Width="262">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>

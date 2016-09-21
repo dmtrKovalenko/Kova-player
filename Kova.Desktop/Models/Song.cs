@@ -20,7 +20,7 @@ namespace Kova
             if (path == null)
                 throw new ArgumentNullException("path");
 
-            var audioFile = TagLib.File.Create(this.OriginalPath);
+            var audioFile = TagLib.File.Create(path);
 
             this.OriginalPath = path;
             this.Album = audioFile.Tag.Album;

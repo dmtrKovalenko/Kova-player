@@ -14,7 +14,7 @@
             <ColumnDefinition Width="7*"/>
             <ColumnDefinition Width="122*"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="Composititons" Margin="4,10,33,30"
+        <ListView x:Name="Composititons" Margin="0,7,37,33"
                   ScrollViewer.VerticalScrollBarVisibility="Hidden"
                   BorderThickness="0" FontSize="15"
                   ItemsSource="{Binding Songs, Mode=OneWay}"
@@ -23,7 +23,7 @@
                   Grid.Column="1">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <StackPanel Orientation="Horizontal" Margin="0 1 0 0"  Cursor="Hand">
+                    <DockPanel Margin="0 1 0 0"  Cursor="Hand">
                         <TextBlock Margin="5 0 0 0" Grid.Column="2">
                             <TextBlock.Inlines>
                                 <Run Foreground="{DynamicResource AccentColorBrush}" Text="{Binding Artist}" />
@@ -31,6 +31,7 @@
                                 <Run Text="{Binding Title}" />
                             </TextBlock.Inlines>
                         </TextBlock>
+
                         <Rectangle  Width="18" Margin="6,2,0,2"
             			    Height="14" Fill="{DynamicResource AccentColorBrush}" >
                             <Rectangle.OpacityMask>
@@ -50,7 +51,7 @@
                                 </Style>
                             </Rectangle.Style>
                         </Rectangle>
-                    </StackPanel>
+                    </DockPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
 
@@ -101,19 +102,19 @@
                                                Opacity="0" IsHitTestVisible="False" 
                                                Fill="{DynamicResource AccentColorBrush3}"                                          
                                                RadiusX="1" RadiusY="1"/>
-                                    
+
                                     <Rectangle x:Name="fillColor2"
                                                Opacity="0" IsHitTestVisible="False" 
                                                Fill="{DynamicResource AccentColorBrush3}" 
                                                RadiusX="1" RadiusY="1"/>
-                                    
+
                                     <ContentPresenter
                                         x:Name="contentPresenter"
                                         Content="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}"
                                         ContentTemplate="{TemplateBinding ContentTemplate}"
                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                         Margin="{TemplateBinding Padding}"/>
-                                    
+
                                     <Rectangle x:Name="FocusVisualElement" 
                                                Stroke="Transparent" 
                                                StrokeThickness="1" 
@@ -126,11 +127,11 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        
+
         <Button  Style="{DynamicResource MetroCircleButtonStyle}" 
                  Command="{Binding Main.ShowMessegeDialogCommand, Source={StaticResource Locator}}" 
                  Height="40" VerticalAlignment="Top" 
-                 HorizontalAlignment="Left" Width="40">
+                 HorizontalAlignment="Left" Width="40" Margin="2,3,0,0">
             <Rectangle Width="22"
                        Height="22"
                        Fill="{Binding Path=Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Button}}}">
